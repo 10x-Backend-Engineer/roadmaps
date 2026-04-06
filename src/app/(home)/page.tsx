@@ -22,12 +22,18 @@ export default function HomePage() {
         </p>
 
         <div className="flex gap-4 mt-6">
-          <button className="border border-white px-5 py-2 rounded-lg hover:bg-white hover:text-black transition">
+          <Link
+            href="/docs"
+            className="border border-white px-5 py-2 rounded-lg hover:bg-white hover:text-black transition"
+          >
             Browse all roadmaps →
-          </button>
-          <button className="border border-gray-500 px-5 py-2 rounded-lg hover:border-white transition">
+          </Link>
+          <Link
+            href="https://github.com/10x-Backend-Engineer/roadmaps"
+            className="border border-gray-500 px-5 py-2 rounded-lg hover:border-white transition"
+          >
             Contribute
-          </button>
+          </Link>
         </div>
       </section>
 
@@ -43,12 +49,19 @@ export default function HomePage() {
         </p>
 
         <div className="flex gap-4">
-          <button className="border border-white px-5 py-2 rounded-lg hover:bg-white hover:text-black transition">
+          <Link
+            href="https://github.com/10x-Backend-Engineer/roadmaps"
+            className="border border-white px-5 py-2 rounded-lg hover:bg-white hover:text-black transition"
+          >
             Star on GitHub
-          </button>
-          <button className="border border-white px-5 py-2 rounded-lg hover:bg-white hover:text-black transition">
+          </Link>
+          <Link
+            href="https://backend-engineering-curriculum.vercel.app/"
+            target="_blank"
+            className="border border-white px-5 py-2 rounded-lg hover:bg-white hover:text-black transition"
+          >
             Start learning →
-          </button>
+          </Link>
         </div>
       </section>
     </main>
