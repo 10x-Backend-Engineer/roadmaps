@@ -1,0 +1,252 @@
+---
+title: AWS Developer Roadmap
+description: AWS Cloud roadmap
+---
+
+This roadmap is inspired by [roadmap.sh](https://roadmap.sh/aws) and AWS best practices.  
+It’s a **6–12 month learning plan** to become proficient in **AWS Cloud Development**, covering core services, infrastructure, deployment, and monitoring.
+
+---
+
+## 1. 🐧 Linux & Networking Basics
+
+**Learn:**
+
+- Linux commands, SSH, file permissions
+- Basics of TCP/IP, DNS, firewalls
+- Secure Shell (SSH) and remote administration
+
+**Mini-projects:**
+
+- Launch and connect to an EC2 instance via SSH
+- Configure Nginx on Linux VM
+- Practice file and process management
+
+---
+
+## 2. 🔐 IAM (Identity & Access Management)
+
+**Learn:**
+
+- Users, groups, roles, and policies
+- MFA, least privilege principle
+- AWS Organizations and SSO
+
+**Mini-projects:**
+
+- Create IAM users with limited permissions
+- Implement role-based access for S3 and EC2
+- Secure account with MFA
+
+---
+
+## 3. 💻 EC2 (Compute)
+
+**Learn:**
+
+- Launch EC2 instances (Linux/Windows)
+- AMI, security groups, key pairs
+- Auto Scaling Groups (ASG) and Elastic Load Balancer (ELB)
+
+**Mini-projects:**
+
+- Host a web app on EC2
+- Configure auto-scaling and load balancing
+- Snapshot + backup strategy
+
+---
+
+## 4. 🗃️ S3 (Storage)
+
+**Learn:**
+
+- Buckets, versioning, lifecycle management
+- Static website hosting
+- Object permissions and encryption
+
+**Mini-projects:**
+
+- Host a static portfolio site on S3
+- Configure lifecycle rules for old files
+- Upload files using AWS SDK
+
+---
+
+## 5. 🌐 VPC & Networking
+
+**Learn:**
+
+- Subnets, routing tables, NAT, gateways
+- Security groups vs NACLs
+- Peering, Transit Gateway, PrivateLink
+
+**Mini-projects:**
+
+- Create a custom VPC with private/public subnets
+- Deploy EC2 inside private subnet via bastion host
+- Connect two VPCs via peering
+
+---
+
+## 6. 🗄️ Databases (RDS / DynamoDB)
+
+**Learn:**
+
+- RDS (PostgreSQL, MySQL), snapshots, read replicas
+- DynamoDB (NoSQL), partition keys, indexes
+- Performance tuning and backups
+
+**Mini-projects:**
+
+- Create an RDS instance and connect an app
+- Store JSON data in DynamoDB
+- Implement caching with ElastiCache (Redis)
+
+---
+
+## 7. 📦 Containers (ECS / EKS)
+
+**Learn:**
+
+- Docker + containerization basics
+- ECS (Fargate, EC2 launch types)
+- EKS (Kubernetes on AWS)
+
+**Mini-projects:**
+
+- Deploy a containerized app using ECS
+- Migrate an EC2-based app to ECS Fargate
+- Create an EKS cluster and deploy microservices
+
+---
+
+## 8. ⚡ Serverless (Lambda)
+
+**Learn:**
+
+- Event-driven architecture
+- Lambda triggers: API Gateway, S3, DynamoDB Streams
+- Step Functions, SNS, SQS integration
+
+**Mini-projects:**
+
+- Build an API using Lambda + API Gateway
+- Automate image resizing with S3 triggers
+- Workflow orchestration with Step Functions
+
+---
+
+## 9. 🧱 Infrastructure as Code (IaC)
+
+**Learn:**
+
+- CloudFormation templates and stacks
+- Terraform basics (HCL, state management)
+- AWS CDK (in TypeScript/Python)
+
+**Mini-projects:**
+
+- Deploy EC2 + S3 via CloudFormation
+- Use Terraform to create VPC + ECS cluster
+- CI/CD pipeline with IaC deployment
+
+---
+
+## 10. 📊 Monitoring, Logging & Cost Optimization
+
+**Learn:**
+
+- CloudWatch metrics, alarms, dashboards
+- CloudTrail for auditing
+- Cost Explorer and budgets
+
+**Mini-projects:**
+
+- Monitor EC2 CPU and send alerts
+- Enable CloudTrail for IAM actions
+- Create a budget alert with SNS notifications
+
+---
+
+## 11. 📂 Final Projects & Portfolio
+
+**Beginner:**
+
+- Static portfolio site on S3 + CloudFront
+- Simple REST API on EC2
+
+**Intermediate:**
+
+- Serverless notes API with Lambda + DynamoDB
+- Dockerized app with ECS + RDS
+
+**Advanced:**
+
+- Full microservice system (EKS / Fargate)
+- CI/CD pipeline (GitHub Actions + Terraform)
+- Cost-optimized monitoring dashboard
+
+---
+
+## 12. 🧰 Tools & Resources
+
+- **Compute:** EC2, Lambda, ECS, EKS
+- **Storage:** S3, EBS, EFS
+- **Databases:** RDS, DynamoDB, ElastiCache
+- **Networking:** VPC, CloudFront, Route53
+- **Security:** IAM, KMS, Secrets Manager
+- **IaC:** CloudFormation, Terraform, CDK
+- **Monitoring:** CloudWatch, CloudTrail, X-Ray
+- **DevOps:** AWS CLI, SAM, CodePipeline, CodeBuild
+
+---
+
+## 13. ✅ Skills Checklist
+
+- [ ] Confident with Linux, SSH, and networking
+- [ ] Manage IAM users, roles, and policies securely
+- [ ] Deploy scalable EC2 and S3 infrastructure
+- [ ] Design secure VPC networks
+- [ ] Work with RDS and DynamoDB
+- [ ] Deploy Docker containers using ECS or EKS
+- [ ] Build event-driven systems with Lambda
+- [ ] Automate infrastructure using IaC tools
+- [ ] Monitor and optimize cloud costs
+- [ ] Build and deploy a production-grade AWS project
+
+---
+
+## 📚 Official Resources
+
+- [AWS Training & Certification](https://aws.amazon.com/training/)
+- [AWS Documentation](https://docs.aws.amazon.com/)
+- [AWS Free Tier](https://aws.amazon.com/free/)
+- [AWS Well-Architected Framework](https://aws.amazon.com/architecture/well-architected/)
+- [Terraform Docs](https://developer.hashicorp.com/terraform/docs)
+- [CloudFormation Docs](https://docs.aws.amazon.com/cloudformation/)
+- **Free Training:** [AWS Skill Builder](https://explore.skillbuilder.aws/)
+- **Hands-On Labs:** [Qwiklabs](https://www.qwiklabs.com/)
+- **Certifications:**
+  - AWS Certified Cloud Practitioner
+  - AWS Certified Solutions Architect – Associate
+  - AWS Certified DevOps Engineer – Professional
+- **Community:** r/aws, AWS re:Invent videos, AWS blogs
+
+---
+
+## 💡 Recommended Projects
+
+These are **portfolio-ready mini-projects** to consolidate your AWS skills:
+
+| Level           | Project              | AWS Services                            |
+| --------------- | -------------------- | --------------------------------------- |
+| 🟢 Beginner     | Static Website       | S3, CloudFront                          |
+| 🟡 Intermediate | Serverless Notes API | Lambda, API Gateway, DynamoDB           |
+| 🔵 Advanced     | Microservice System  | EKS, RDS, SQS, CloudWatch               |
+| 🟣 DevOps       | CI/CD Pipeline       | CodePipeline, Terraform, GitHub Actions |
+
+---
+
+> _“Master AWS one service at a time. Combine them into real projects, and you’ll understand the cloud better than any certification.”_
+
+---
