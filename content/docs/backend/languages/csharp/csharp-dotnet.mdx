@@ -1,0 +1,221 @@
+---
+title: C# - .NET Roadmap
+description: Backend Developer Roadmap — C# / .NET Edition
+---
+
+This roadmap is inspired by [roadmap.sh/backend](https://roadmap.sh/backend) and fully tailored for **C# + .NET**.  
+It is structured for a **6–12 month learning plan**, with skills, mini-projects, and recommended stack.
+
+---
+
+## 1. 🌐 Web & Internet Fundamentals
+
+- DNS, HTTP/HTTPS, client–server model, status codes
+- REST vs GraphQL vs gRPC
+- WebSockets, SSE, long polling for real-time apps
+
+**Mini-projects:**
+
+- Create a simple HTTP server using `HttpListener`
+- Implement a raw JSON API without frameworks
+
+---
+
+## 2. 🟦 C# Basics
+
+- Types, variables, classes, structs, enums
+- Interfaces, inheritance, delegates, events
+- Collections, LINQ, async/await
+
+**Mini-projects:**
+
+- CLI calculator
+- Convert a small JavaScript project to C# console
+- Mini console game or task manager
+
+---
+
+## 3. 🏗️ .NET & Frameworks
+
+- ASP.NET Core Web API (Minimal APIs, MVC)
+- Middleware, routing, filters
+- gRPC and SignalR for real-time communication
+
+**Mini-projects:**
+
+- REST API CRUD
+- GraphQL API with HotChocolate
+- Task manager API
+- Real-time chat backend with SignalR
+
+---
+
+## 4. 🗄️ Databases & ORM
+
+- SQL Server / PostgreSQL / MySQL
+- NoSQL: MongoDB, Redis
+- ORMs: EF Core, Dapper, MongoDB C# driver
+- Queries, joins, indexes, transactions
+
+**Mini-projects:**
+
+- Todo API CRUD with EF Core + PostgreSQL
+- Blog API with MongoDB
+- Add Redis caching to an API
+
+---
+
+## 5. 🔒 Authentication & Security
+
+- JWT, OAuth2, Google login
+- Password hashing (`BCrypt`, `PasswordHasher<T>`)
+- Security headers, CORS, HTTPS
+- Input validation (FluentValidation)
+
+**Mini-projects:**
+
+- JWT auth API
+- Google OAuth login
+- Secure API with validation and password hashing
+
+---
+
+## 6. 🧪 Testing & Code Quality
+
+- Unit tests: xUnit / NUnit, Moq
+- Integration tests: TestServer
+- E2E tests: Playwright / Selenium
+- Code quality: StyleCop, Roslyn Analyzers
+
+**Mini-projects:**
+
+- Unit tests for Blog API
+- Integration tests for auth system
+- Automate API testing with Playwright
+
+---
+
+## 7. 🚀 Deployment & DevOps
+
+- Configuration: `appsettings.json`, environment variables
+- Docker + docker-compose for API + DB
+- CI/CD: GitHub Actions / Azure DevOps
+- Reverse proxy: Nginx / IIS
+
+**Mini-projects:**
+
+- Dockerize an ASP.NET Core API + PostgreSQL
+- Deploy on Azure / Railway
+- Configure Nginx as reverse proxy
+
+---
+
+## 8. 📊 Observability & Performance
+
+- Logging: Serilog, NLog
+- Monitoring: Application Insights, Prometheus + Grafana
+- Metrics: response time, errors
+- Performance: async, memory pooling, caching
+
+**Mini-projects:**
+
+- Add Serilog logging
+- Add monitoring + metrics
+- Optimize API performance
+
+---
+
+## 9. 🏛️ System Design & Architecture
+
+- Monolith vs Microservices
+- Event-driven architecture: RabbitMQ, Kafka
+- CQRS + DDD with Mediatr
+- API Gateway, Rate limiting
+
+**Mini-projects:**
+
+- Microservices for orders + notifications
+- gRPC microservice
+- Implement CQRS in an API
+- Add API Gateway + throttling
+
+---
+
+## 10. 📂 Final Projects (Portfolio)
+
+**Beginner:**
+
+- URL shortener
+- Weather API wrapper
+
+**Intermediate:**
+
+- E-commerce API: products, cart, orders, auth
+- Real-time chat backend with SignalR + Redis
+
+**Advanced:**
+
+- SaaS backend: subscriptions, roles, payments (Stripe API)
+- Job queue system with Hangfire + Redis
+
+---
+
+## 11. ✅ Stack & Tools
+
+- **Language:** C# 11 / .NET 8
+- **Web Framework:** ASP.NET Core 8, Minimal APIs, MVC
+- **ORM / DB:** EF Core, Dapper, MongoDB Driver
+- **Auth / Security:** JWT, OAuth2, ASP.NET Core Identity, BCrypt, FluentValidation
+- **Realtime:** SignalR
+- **Testing:** xUnit, NUnit, Moq, Playwright/Selenium
+- **Deployment:** Docker, docker-compose, Azure, GitHub Actions
+- **Logging / Monitoring:** Serilog, Application Insights, Prometheus + Grafana
+- **Message Queue:** RabbitMQ, Kafka
+- **Job Queue:** Hangfire
+
+---
+
+## 12. ✅ Skills Checklist
+
+- [ ] Master web fundamentals & HTTP
+- [ ] Master C# and asynchronous programming
+- [ ] Build REST APIs with ASP.NET Core
+- [ ] Implement JWT and OAuth2 authentication
+- [ ] Connect to SQL & NoSQL databases
+- [ ] Add logging, monitoring, and caching
+- [ ] Write unit, integration, and E2E tests
+- [ ] Deploy using Docker and CI/CD
+- [ ] Design microservices and event-driven architecture
+- [ ] Build portfolio projects: Beginner → Advanced
+
+---
+
+**Official Resources:**
+
+- [.NET Docs](https://learn.microsoft.com/dotnet/)
+- [ASP.NET Core Docs](https://learn.microsoft.com/aspnet/core/)
+- [Entity Framework Core](https://learn.microsoft.com/ef/core/)
+- [SignalR Docs](https://learn.microsoft.com/aspnet/core/signalr/)
+- [xUnit Docs](https://xunit.net/)
+- [Docker Docs](https://docs.docker.com/)
+
+## 💡 Recommended Projects
+
+These are **portfolio-ready mini-projects** to consolidate your skills:
+
+- **HTTP & C# Basics:**
+  - CLI calculator, To-do console app, mini quiz game
+- **REST APIs:**
+  - Notes API, Blog API, Task Manager API
+- **Realtime / WebSockets:**
+  - Chat server, live notifications, collaborative document editor
+- **Database Integration:**
+  - Todo app with EF Core + PostgreSQL, blog with MongoDB
+- **Authentication:**
+  - JWT login API, OAuth login with Google, secure session handling
+- **DevOps / Deployment:**
+  - Dockerized API + DB, deploy on Azure / Railway, CI/CD pipeline
+- **Advanced / Full-stack:**
+  - E-commerce backend, SaaS subscription system, job queue + notifications
+
+---

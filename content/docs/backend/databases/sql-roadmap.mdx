@@ -1,0 +1,246 @@
+---
+title: SQL Roadmap
+description: SQL Developer Roadmap — Backend Specialization
+---
+
+This roadmap is tailored for **backend developers** who want to master **SQL fundamentals, performance optimization, and real-world database design** for production systems. It covers **PostgreSQL** and **MySQL**, with light ORM usage (Prisma/TypeORM) near the end.
+
+---
+
+## 🧱 1. Foundations of SQL
+
+### 🎯 Goals
+
+Understand what SQL is, how databases work, and how to perform essential CRUD operations.
+
+### 📚 Learn
+
+- What is SQL? (vs NoSQL)
+- PostgreSQL vs MySQL — key differences
+- SQL syntax & structure
+- SELECT, INSERT, UPDATE, DELETE
+- WHERE, ORDER BY, LIMIT, OFFSET
+- DISTINCT, BETWEEN, IN, LIKE
+- Basic functions (COUNT, AVG, MAX, MIN, SUM)
+- Aliases & comments
+
+### 🧩 Practice
+
+```sql
+SELECT name, email FROM users WHERE active = true ORDER BY created_at DESC;
+```
+
+### 🧠 Mini Projects
+
+- Simple **User Database** — CRUD operations on a `users` table.
+- **Library Management DB** — manage books, borrowers, and loans.
+
+---
+
+## 🧩 2. Intermediate SQL — Relationships & Joins
+
+### 📚 Learn
+
+- Database keys (Primary, Foreign, Composite)
+- One-to-One, One-to-Many, Many-to-Many
+- INNER JOIN, LEFT JOIN, RIGHT JOIN, FULL JOIN
+- UNION, INTERSECT, EXCEPT
+- Subqueries & Nested SELECT
+- Aggregation & GROUP BY + HAVING
+
+### 🧠 Example Query
+
+```sql
+SELECT d.name AS department, COUNT(e.id) AS employee_count
+FROM departments d
+JOIN employees e ON d.id = e.department_id
+GROUP BY d.name
+HAVING COUNT(e.id) > 5;
+```
+
+### 🧩 Mini Projects
+
+- **Blog DB** — users, posts, comments
+- **E-commerce DB** — customers, products, orders, order_items
+
+---
+
+## ⚙️ 3. Advanced SQL — Functions, Views & Procedures
+
+### 📚 Learn
+
+- Views (materialized & regular)
+- Stored Procedures & Functions
+- Triggers & Events
+- Transactions (COMMIT, ROLLBACK, SAVEPOINT)
+- CTEs (Common Table Expressions)
+- Window Functions (ROW_NUMBER, RANK, DENSE_RANK)
+- Error handling in SQL
+
+### 🧠 Example
+
+```sql
+CREATE OR REPLACE FUNCTION update_user_activity()
+RETURNS TRIGGER AS $$
+BEGIN
+  UPDATE users SET last_active = NOW() WHERE id = NEW.user_id;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+```
+
+### 🧩 Mini Projects
+
+- **Banking DB** — simulate deposits, transfers, and logs using transactions.
+- **Analytics Dashboard DB** — use window functions to generate leaderboards.
+
+---
+
+## 🚀 4. Database Design & Normalization
+
+### 📚 Learn
+
+- ER Diagrams (Entity-Relationship models)
+- Database normalization (1NF → 3NF, BCNF)
+- Referential Integrity
+- Cascading deletes & updates
+- Data Types & Constraints
+- Indexing basics (B-Tree, Hash, GIN, BRIN)
+
+### 🧱 Example
+
+```sql
+CREATE TABLE orders (
+  id SERIAL PRIMARY KEY,
+  customer_id INT REFERENCES customers(id) ON DELETE CASCADE,
+  total NUMERIC(10,2) NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+### 🧩 Mini Projects
+
+- **School Management DB** — teachers, students, courses, enrollments.
+- **Inventory System** — products, suppliers, stock, transactions.
+
+---
+
+## ⚡ 5. Performance & Optimization
+
+### 📚 Learn
+
+- Indexing strategies & EXPLAIN ANALYZE
+- Query optimization & caching
+- Batch inserts & bulk updates
+- Partitioning large tables
+- Connection pooling (PgBouncer / MySQL Pool)
+- VACUUM & ANALYZE (Postgres)
+- Handling deadlocks & slow queries
+
+### 🧠 Example
+
+```sql
+EXPLAIN ANALYZE
+SELECT * FROM orders WHERE total > 1000;
+```
+
+### 🧩 Mini Projects
+
+- **Performance Benchmark** — compare queries with and without indexes.
+- **Log Monitor** — analyze query logs and detect slow queries.
+
+---
+
+## 🧰 6. ORMs & Integration with Backend
+
+### 📚 Learn
+
+- What is an ORM and when to use one
+- Prisma (Node.js) — schema.prisma basics
+- TypeORM / Sequelize quick start
+- Migrations, seeding & schema sync
+- Raw SQL vs ORM Queries
+
+### 🧠 Example (Prisma)
+
+```ts
+const users = await prisma.user.findMany({
+  where: { active: true },
+  include: { posts: true },
+});
+```
+
+### 🧩 Mini Projects
+
+- **Next.js + Prisma + PostgreSQL** — basic blog API.
+- **Express + TypeORM + MySQL** — order management API.
+
+---
+
+## 🧱 7. Advanced Topics — Production & Scaling
+
+### 📚 Learn
+
+- Database migrations & version control
+- Backups & restore (pg_dump, mysqldump)
+- Replication, Sharding & Failover
+- Security (roles, grants, SSL connections)
+- Using Docker for local databases
+- Cloud services (RDS, Supabase, PlanetScale)
+
+### 🧩 Mini Projects
+
+- **Production-ready DB Setup** — Dockerized PostgreSQL with migrations.
+- **Monitoring Dashboard** — visualize DB metrics (CPU, query time, etc.).
+
+---
+
+## 🧠 Portfolio Project Ideas
+
+- **E-commerce Backend** (products, users, orders, payments)
+- **Learning Management System (LMS)** — courses, quizzes, progress tracking
+- **Banking API** — account balances, transfers, and transactions
+- **Analytics API** — leaderboards, KPIs, and dashboards
+- **Social Network Backend** — users, follows, posts, likes
+
+---
+
+## 📁 Suggested Repository Structure
+
+```
+sql-backend-roadmap/
+├── 01-fundamentals/
+│   ├── users.sql
+│   ├── library.sql
+├── 02-joins-and-relationships/
+│   ├── blog.sql
+│   ├── ecommerce.sql
+├── 03-advanced-sql/
+│   ├── banking.sql
+│   ├── analytics.sql
+├── 04-design-and-normalization/
+│   ├── school_management.sql
+│   ├── inventory.sql
+├── 05-optimization/
+│   ├── benchmarks.sql
+│   ├── query_analysis.sql
+├── 06-orms/
+│   ├── prisma-example/
+│   ├── typeorm-example/
+├── 07-production/
+│   ├── docker-compose.yml
+│   ├── migrations/
+│   ├── monitoring/
+└── README.md
+```
+
+---
+
+## 🧭 Next Steps
+
+1. Master SQL fundamentals in both PostgreSQL & MySQL.
+2. Build real schemas and test queries daily.
+3. Integrate SQL into your backend projects.
+4. Optimize, index, and scale like a pro.
+
+🎯 **Goal:** Become a backend engineer who writes efficient, scalable, and production-ready SQL.
