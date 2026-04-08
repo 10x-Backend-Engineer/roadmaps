@@ -1,0 +1,161 @@
+---
+title: System Design Roadmap
+description: Complete system design path
+---
+
+It provides a structured journey — from **foundational knowledge** to **advanced distributed system design** — focused on scalability, resilience, and performance.
+
+---
+
+## 1. The Foundations
+
+> "You can’t scale what you don’t understand."
+
+### 🎯 Goal
+
+Understand how data flows in and out of a system — the basic building blocks before scaling.
+
+### 🧩 Topics
+
+- **Networking & HTTP**
+  - Learn how data moves: requests, responses, latency, and throughput.
+  - Understand HTTP methods, headers, cookies, caching, and RESTful design.
+
+- **Databases & Storage**
+  - Learn relational vs non-relational trade-offs.
+  - Master indexing, normalization (up to BCNF), and ACID transactions.
+
+- **Caching**
+  - What to cache, when to invalidate, and how TTL & eviction policies affect performance.
+
+- **Load Balancing & Reverse Proxies**
+  - Distribute requests, maintain session consistency, and avoid single points of failure.
+
+- **APIs & Communication**
+  - REST, gRPC, and GraphQL — know when to use each and their trade-offs.
+
+---
+
+## 2. The Mechanics
+
+> "Now you’re building systems, not just services."
+
+### 🎯 Goal
+
+Build systems that survive real-world conditions — **latency**, **failures**, and **concurrency**.
+
+### 🧩 Topics
+
+- **Scalability Patterns**
+  - Vertical vs horizontal scaling, sharding, partitioning strategies.
+
+- **Asynchronous Communication**
+  - Use message queues (Kafka, RabbitMQ, MQTT) to decouple services.
+
+- **Data Consistency & Transactions**
+  - Apply distributed transaction patterns: SAGA, 2PC, Outbox, CDC.
+
+- **Observability**
+  - Logging, tracing (OpenTelemetry, Sentry), and meaningful metrics.
+
+- **Availability & Reliability**
+  - Understand SLAs, SLIs, and SLOs.
+  - Design for **graceful degradation**, not blind uptime.
+
+- **Security & Authentication**
+  - TLS, JWTs, OAuth2, rate limiting, and least-privilege access.
+
+---
+
+## 3. Advanced Concepts
+
+> "You’re no longer asking _how to build it_, but _how it behaves under stress._"
+
+### 🎯 Goal
+
+Design systems that **adapt, recover, and scale predictably** as complexity grows.
+
+### 🧩 Topics
+
+- **Distributed Systems Theory**
+  - CAP, PACELC, idempotency, and eventual consistency.
+  - Understand when each trade-off is acceptable.
+
+- **Event-Driven Architectures**
+  - Fully decoupled systems using events as the source of truth.
+
+- **Data Modeling at Scale**
+  - Polyglot persistence, schema evolution, analytical pipelines.
+
+- **System Evolution**
+  - Blue-green deployments, feature flags, and graceful migrations.
+
+- **Performance Optimization**
+  - Identify bottlenecks: database, cache, network, serialization, I/O.
+
+- **Resilience Engineering**
+  - Circuit breakers, retries with backoff, chaos testing, and bulkheads.
+
+---
+
+## 4. Mini-Projects & Practice
+
+### 🧱 Foundation Projects
+
+- Build a simple HTTP server.
+- Create REST & gRPC APIs with rate limiting.
+- Implement Redis caching for a blog API.
+
+### ⚙️ Mechanics Projects
+
+- Design a scalable message queue (using Kafka or RabbitMQ).
+- Implement distributed transactions (Outbox or SAGA pattern).
+- Add observability with OpenTelemetry + Grafana dashboards.
+
+### 🚀 Advanced Projects
+
+- Build an event-driven order processing system.
+- Design a microservice-based e-commerce backend.
+- Implement blue-green deployments with feature flags.
+- Run chaos experiments to test resilience.
+
+---
+
+## 5. Recommended Resources
+
+### 📘 Books
+
+- _Designing Data-Intensive Applications_ — Martin Kleppmann
+- _Site Reliability Engineering_ — Google SRE Team
+- _The Art of Scalability_ — Abbott & Fisher
+
+### Courses
+
+- [System Design Primer](https://github.com/donnemartin/system-design-primer)
+- [Grokking the System Design Interview](https://www.educative.io/courses/grokking-the-system-design-interview)
+- [Coursera – Cloud Computing Specialization](https://www.coursera.org/specializations/cloud-computing)
+
+### Tools & Frameworks
+
+- **Monitoring:** Prometheus, Grafana, OpenTelemetry
+- **Messaging:** Kafka, RabbitMQ
+- **Caching:** Redis, Memcached
+- **Resilience:** Hystrix, Resilience4j
+- **Testing:** k6, Locust, Chaos Mesh
+
+---
+
+## 6. Skills Checklist
+
+- [ ] Understand how HTTP, caching, and load balancing work
+- [ ] Master data modeling and database trade-offs
+- [ ] Build scalable REST/gRPC APIs
+- [ ] Implement asynchronous messaging and queues
+- [ ] Apply distributed transaction patterns
+- [ ] Design for high availability and graceful degradation
+- [ ] Add observability and meaningful monitoring
+- [ ] Apply security best practices (TLS, OAuth2, JWTs)
+- [ ] Optimize performance and identify bottlenecks
+- [ ] Build resilient systems using chaos engineering and retries
+
+---
