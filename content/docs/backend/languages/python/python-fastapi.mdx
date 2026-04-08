@@ -1,0 +1,293 @@
+---
+title: Python - FastAPI
+description: Backend Developer Roadmap — Python / FastAPI Edition
+---
+
+This roadmap is inspired by **roadmap.sh/backend** and tailored for **Python + FastAPI**.
+It follows a **6–12 month structured learning path**, including skills, concepts, and project ideas.
+
+---
+
+## 1. Web & Internet Fundamentals
+
+Before touching Python or FastAPI, understand:
+
+- HTTP / HTTPS
+- Requests / Responses
+- Status codes
+- REST principles
+- JSON, serialization
+- DNS, SSL basics
+- WebSockets (optional)
+
+### Mini-Projects
+
+- Build and inspect raw HTTP requests using `curl`
+- Create a simple reverse proxy with Nginx
+
+---
+
+## 2. Python Basics
+
+Master core Python before going backend:
+
+### Core Concepts
+
+- Variables, functions, loops, conditionals
+- Lists, tuples, sets, dictionaries
+- OOP: classes, inheritance, polymorphism
+- Exceptions & error handling
+- Modules & packages
+- Virtual environments (`venv`, `pip`)
+- Type hints (`typing`)
+- Dataclasses
+- Async / await fundamentals
+
+### Mini-Projects
+
+- CLI app (to-do list, calculator, expense tracker)
+- Async script using `asyncio`
+
+---
+
+## 3. FastAPI Fundamentals
+
+FastAPI is modern, async-first, and very fast.
+
+### Core Features
+
+- Creating routes & path operations
+- Request/Response models
+- Pydantic validation
+- Query, path, body parameters
+- Dependency injection system
+- Background tasks
+- Middleware
+- Static files
+- File uploads
+- WebSockets
+
+### Required Tools
+
+- **Uvicorn** (ASGI server)
+- **Gunicorn** (Linux deploys)
+
+### Mini-Projects
+
+- CRUD API for notes or tasks
+- Authentication-free blogging API
+
+---
+
+## 4. Databases & ORM
+
+Learn at least one relational + one NoSQL database.
+
+### SQL Databases
+
+- PostgreSQL (recommended)
+- MySQL / MariaDB
+- SQLite (local dev)
+
+### NoSQL Databases
+
+- MongoDB
+- Redis (cache, messages, rate limiting)
+
+### ORM / ODM
+
+- **SQLModel** (FastAPI-friendly)
+- **SQLAlchemy** (industry standard)
+- **Tortoise ORM** (async)
+- **MongoEngine** / Motor (MongoDB)
+
+### Mini-Projects
+
+- API with SQLModel + PostgreSQL
+- URL shortener with Redis
+
+---
+
+## 5. Authentication & Security
+
+### Learn
+
+- OAuth2 & JWT with FastAPI
+- Password hashing (Passlib, bcrypt)
+- CORS
+- Rate limiting
+- CSRF (if templating)
+- API keys
+- RBAC (roles & permissions)
+
+### Mini-Projects
+
+- Auth microservice (JWT refresh tokens)
+- User management API
+
+---
+
+## 6. Testing & Code Quality
+
+### Testing Tools
+
+- pytest (standard)
+- pytest-asyncio
+- HTTPX for API tests
+- Coverage
+
+### Code Quality
+
+- Ruff (linting)
+- Black (formatting)
+- Mypy (typing)
+- Pre-commit hooks
+
+### Mini-Projects
+
+- Create a fully tested CRUD API
+- Write integration tests for routes
+
+---
+
+## 7. Deployment & DevOps
+
+### Containers
+
+- Docker
+- Docker Compose
+
+### Deployment Options
+
+- AWS EC2 / ECS / Lambda
+- Azure App Service
+- Railway / Render
+- Fly.io (easy FastAPI deploy)
+- Kubernetes (advanced)
+
+### CI/CD
+
+- GitHub Actions
+- GitLab CI
+- Docker registry pipelines
+
+### Mini-Projects
+
+- Deploy FastAPI + PostgreSQL using Docker
+- CI pipeline that runs tests & redeploys
+
+---
+
+## 8. Observability & Performance
+
+### Monitoring
+
+- Logging (structlog, loguru)
+- Metrics (Prometheus)
+- Tracing (OpenTelemetry)
+
+### Performance
+
+- async best practices
+- connection pooling
+- caching (Redis)
+- background workers (Celery / RQ / Huey)
+
+### Mini-Projects
+
+- Implement caching for API endpoints
+- Add observability with OpenTelemetry
+
+---
+
+## 9. Architecture & System Design
+
+### Backend Architecture
+
+- Clean Architecture
+- Hexagonal Architecture
+- Repository pattern
+- DDD (optional)
+
+### System Design
+
+- Load balancing
+- Message queues (RabbitMQ, Kafka)
+- Event-driven architecture
+- Scaling & horizontal sharding
+
+### Mini-Projects
+
+- Event-driven service using Redis streams
+- Service-to-service communication demo
+
+---
+
+## 10. Final Portfolio Projects
+
+Choose 2–4 major projects:
+
+### Project Ideas
+
+- **Full E-Commerce API** (auth, products, orders, payments)
+- **AI-powered app using FastAPI + OpenAI API**
+- **Microservices project** with RabbitMQ/Kafka
+- **Real-time chat API using WebSockets**
+- **SaaS app backend** with Stripe billing
+- **Task Manager with Celery + Redis + FastAPI**
+
+Make sure each project includes:
+
+- Authentication
+- Database migrations
+- Docker setup
+- Tests
+- Documentation (Swagger)
+- Deployment
+
+---
+
+## 11. Recommended Resources
+
+### Books
+
+- Fluent Python (Luciano Ramalho)
+- Python Cookbook
+- SQLAlchemy in Action
+
+### Courses
+
+- FastAPI – _Full Course_ by Sebastián Ramírez
+- Udemy — _FastAPI + SQLModel_
+- TalkPython courses
+
+### YouTube Channels
+
+- Sebastián Ramírez (FastAPI creator)
+- ArjanCodes (architecture)
+- Tech With Tim
+- Patrick Loeber
+- CodeWithTom
+
+---
+
+## 12. Recommended Tooling
+
+- VS Code or PyCharm
+- Postman / Insomnia
+- PgAdmin / TablePlus
+- Docker Desktop
+- RedisInsight
+
+---
+
+## 13. Cloud Platforms to Learn
+
+Choose _one_ and master it:
+
+- AWS (best for backend careers)
+- Azure (great with Python & enterprise)
+- GCP (modern + ML friendly)
+- DigitalOcean / Vultr (simple)
+
+---

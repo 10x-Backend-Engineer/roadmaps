@@ -1,0 +1,247 @@
+---
+title: NoSQL Roadmap
+description: NoSQL Developer Roadmap — Backend Specialization
+---
+
+This roadmap is based on [roadmap.sh/backend](https://roadmap.sh/backend) but fully tailored for **NoSQL databases (MongoDB + Redis)** used in **backend development**.
+
+---
+
+## 1. 🧩 NoSQL Fundamentals
+
+- Difference between **SQL vs NoSQL**
+- Types of NoSQL databases: Document, Key-Value, Column, Graph
+- **When to use NoSQL** (flexibility, scalability, caching)
+- **CAP Theorem** (Consistency, Availability, Partition Tolerance)
+- **BASE vs ACID** transactions
+- Document structure (JSON, BSON) and data modeling basics
+
+**Mini-projects:**
+
+- Design a JSON schema for a social media app (posts, comments, users)
+- Implement a key-value cache simulator in Node.js using JS Maps
+
+---
+
+## 2. 🍃 MongoDB Fundamentals
+
+- CRUD operations (`insertOne`, `find`, `updateOne`, `deleteOne`)
+- Filtering, projection, sorting, pagination
+- Embedded vs referenced documents
+- Schema design patterns (1-to-1, 1-to-many, many-to-many)
+- Mongo Shell & MongoDB Compass
+- Indexing and performance basics
+
+**Mini-projects:**
+
+- Build a user management API using MongoDB + Express + TypeScript
+- Create a blog API with posts, users, and comments collection
+
+---
+
+## 3. 🧱 MongoDB Advanced Concepts
+
+- **Aggregation Framework** (pipelines, `$match`, `$group`, `$project`)
+- **Indexes** (single field, compound, text, geospatial)
+- **Transactions** and multi-document operations
+- **Change Streams** for real-time updates
+- **Sharding & Replication** for scaling and redundancy
+- **Atlas**: managed cloud database basics
+
+**Mini-projects:**
+
+- Analytics API using aggregation pipeline (post stats, top users)
+- Real-time notifications using Change Streams
+- Deploy MongoDB cluster on Atlas
+
+---
+
+## 4. 🔴 Redis Fundamentals
+
+- What is Redis and why use it
+- Data types: Strings, Lists, Sets, Hashes, Sorted Sets
+- **Caching strategies** (write-through, lazy loading, TTL)
+- **Pub/Sub** for real-time communication
+- Redis CLI basics and memory persistence
+
+**Mini-projects:**
+
+- API rate limiter using Redis
+- Chat backend with Redis Pub/Sub
+- Cache layer for a REST API
+
+---
+
+## 5. ⚡ Advanced Redis + Integration with Node.js
+
+- Redis Streams for event-driven systems
+- RedisJSON and RedisSearch modules
+- Using `ioredis` or `redis` npm client
+- Session storage (`connect-redis` middleware)
+- Distributed locks and queues (BullMQ)
+
+**Mini-projects:**
+
+- Task queue system using BullMQ + Redis
+- Distributed session storage for multi-instance API
+
+---
+
+## 6. 🗃️ Data Modeling & Architecture
+
+- Designing schemas for scalable document-based apps
+- Avoiding anti-patterns: deep nesting, large arrays
+- Referencing vs embedding tradeoffs
+- Caching + database hybrid strategies (Redis + Mongo)
+- Event-driven architecture with MongoDB + Redis Streams
+
+**Mini-projects:**
+
+- E-commerce cart system (MongoDB for products, Redis for cart caching)
+- Analytics microservice using MongoDB + Redis hybrid storage
+
+---
+
+## 7. 🧩 Security & Backup
+
+- MongoDB roles and authentication
+- Redis security (passwords, TLS)
+- Database backups (mongodump/mongorestore)
+- Encryption and data-at-rest considerations
+- Audit logging and monitoring
+
+**Mini-projects:**
+
+- Implement role-based access control (RBAC) in MongoDB
+- Automate daily backup scripts
+
+---
+
+## 8. 🚀 Deployment & Performance
+
+- Deploy MongoDB & Redis using Docker Compose
+- Monitoring with Prometheus + Grafana
+- Query optimization and indexing strategy
+- Load testing (k6, artillery)
+- Scaling reads/writes (replica sets, caching)
+
+**Mini-projects:**
+
+- Dockerized backend with MongoDB + Redis
+- Performance test and index optimization report
+
+---
+
+## 9. 🧪 Testing & Integration
+
+- Mocking MongoDB with `mongodb-memory-server`
+- Integration testing with Jest + Supertest
+- Simulating Redis in tests (mock-redis)
+- Seeding test data for CI/CD
+
+**Mini-projects:**
+
+- Write integration tests for CRUD + cache endpoints
+- CI/CD pipeline with MongoDB + Redis containers
+
+---
+
+## 10. 🏁 Final Projects (Portfolio-Ready)
+
+- **Beginner**:
+  - Notes API (MongoDB + Express)
+  - Redis-based rate limiter
+
+- **Intermediate**:
+  - E-commerce API (MongoDB + Redis caching)
+  - Real-time chat backend with Redis Pub/Sub
+
+- **Advanced**:
+  - SaaS analytics backend (MongoDB aggregations + Redis queues)
+  - Event-driven system with MongoDB Change Streams + Redis Streams
+
+---
+
+## ⚙️ Optional ORM / ODM Layer
+
+- **Mongoose** (for MongoDB)
+  - Schema definition, validation, middleware
+  - Query population, virtuals, lean queries
+
+- **Prisma** (MongoDB connector)
+  - Type-safe queries and schema migrations
+
+- Integration examples with NestJS + TypeScript
+
+**Mini-projects:**
+
+- API using Mongoose models + validation
+- Refactor MongoDB API using Prisma adapter
+
+---
+
+## 📁 Repo Folder Structure (NoSQL Focused)
+
+```bash
+nosql-backend-roadmap/
+├── README.md                # This roadmap
+├── notes/                   # Notes & learning docs
+│   ├── mongodb.md
+│   ├── redis.md
+│   ├── modeling.md
+│   ├── security.md
+│   └── deployment.md
+├── fundamentals/
+│   ├── json-schema-design/
+│   └── key-value-cache-js/
+├── mongodb/
+│   ├── user-management-api/
+│   ├── blog-api/
+│   ├── analytics-api/
+│   └── realtime-notifications/
+├── redis/
+│   ├── api-rate-limiter/
+│   ├── chat-pubsub/
+│   └── redis-cache-layer/
+├── hybrid/
+│   ├── ecommerce-cart-system/
+│   └── analytics-microservice/
+├── security/
+│   ├── rbac-mongodb/
+│   └── backup-scripts/
+├── deployment/
+│   ├── docker-compose-setup/
+│   ├── monitoring-stack/
+│   └── load-testing/
+├── orm-odm/
+│   ├── mongoose-api/
+│   └── prisma-mongo-api/
+├── testing/
+│   ├── integration-tests/
+│   └── mock-redis-tests/
+└── projects/
+    ├── beginner/
+    │   ├── notes-api/
+    │   └── redis-rate-limiter/
+    ├── intermediate/
+    │   ├── ecommerce-api-nosql/
+    │   └── chat-backend-redis/
+    └── advanced/
+        ├── saas-analytics-nosql/
+        └── event-driven-system/
+```
+
+---
+
+## ✅ Checklist for Completion
+
+- 1️⃣ Understand NoSQL fundamentals & CAP theorem
+- 2️⃣ Master MongoDB CRUD, aggregation, and schema design
+- 3️⃣ Use Redis for caching, queues, and Pub/Sub
+- 4️⃣ Implement hybrid MongoDB + Redis architecture
+- 5️⃣ Secure and back up NoSQL databases
+- 6️⃣ Dockerize and deploy MongoDB & Redis
+- 7️⃣ Write integration tests with mock databases
+- 8️⃣ Use ORM/ODM tools (Mongoose, Prisma) effectively
+- 9️⃣ Optimize queries and index usage
+- 🔟 Complete at least 3 portfolio-ready backend projects

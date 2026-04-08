@@ -1,0 +1,12 @@
+{
+  "title": "Databases",
+  "pages": [
+    "index",
+    "sql-roadmap",
+    "nosql-roadmap",
+    "redis",
+    "postgresql",
+    "mysql",
+    "mongodb"
+  ]
+}

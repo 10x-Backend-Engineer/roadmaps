@@ -1,5 +1,5 @@
 {
   "title": "Programming Languages",
   "icon": "SquareCode",
-  "pages": ["index"]
+  "pages": ["index", "learn-go"]
 }

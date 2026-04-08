@@ -1,5 +1,10 @@
 {
   "title": "Core Computer Science",
   "icon": "Computer",
-  "pages": ["index"]
+  "pages": [
+    "index",
+    "dsa-roadmap",
+    "system-design-roadmap",
+    "dsa-system-design-roadmap"
+  ]
 }
