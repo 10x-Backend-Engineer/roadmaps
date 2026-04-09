@@ -1,0 +1,1678 @@
+---
+title: Learn Java
+description: A comprehensive Java course.
+---
+
+Welcome to the comprehensive Java course. Java is a versatile, object-oriented programming language.
+
+# Table of contents
+
+- **Getting Started**
+  - [What is Java?](#what-is-java)
+  - [Why learn Java?](#why-learn-java)
+  - [Installation and Setup](#installation-and-setup)
+
+- **Chapter I**
+  - [Hello World](#hello-world)
+  - [Variables and Data Types](#variables-and-data-types)
+  - [Operators](#operators)
+  - [Flow Control](#flow-control)
+  - [Methods](#methods)
+  - [Strings](#strings)
+
+- **Chapter II**
+  - [Arrays](#arrays)
+  - [ArrayList](#arraylist)
+  - [LinkedList](#linkedlist)
+  - [HashMap](#hashmap)
+  - [HashSet](#hashset)
+
+- **Chapter III**
+  - [Classes and Objects](#classes-and-objects)
+  - [Inheritance](#inheritance)
+  - [Interfaces](#interfaces)
+  - [Abstract Classes](#abstract-classes)
+  - [Records](#records)
+  - [Enums](#enums)
+
+- **Chapter IV**
+  - [Exception Handling](#exception-handling)
+  - [File Handling](#file-handling)
+  - [Lambda Expressions](#lambda-expressions)
+  - [Streams API](#streams-api)
+  - [Optional](#optional)
+
+- **Chapter V**
+  - [Generics](#generics)
+  - [Annotations](#annotations)
+  - [Multithreading](#multithreading)
+  - [Modules](#modules)
+
+- **Appendix**
+  - [Next Steps](#next-steps)
+  - [References](#references)
+
+# What is Java?
+
+Java is a high-level, class-based, object-oriented programming language designed to have as few implementation dependencies as possible.
+
+## Key Characteristics
+
+- **Platform Independent**: "Write Once, Run Anywhere"
+- **Object-Oriented**: Everything is an object
+- **Strongly Typed**: Compile-time type checking
+- **Garbage Collection**: Automatic memory management
+- **Multithreaded**: Built-in support for concurrent programming
+- **Secure**: No pointer arithmetic
+
+# Why learn Java?
+
+## 1. Enterprise Applications
+
+Java is the language of choice for enterprise software.
+
+## 2. Android Development
+
+Java and Kotlin are primary languages for Android.
+
+## 3. Web Applications
+
+Spring framework powers millions of applications.
+
+## 4. Big Data
+
+Hadoop and Spark are built with Java.
+
+## 5. Career Opportunities
+
+High demand in job market.
+
+# Installation and Setup
+
+## JDK Installation
+
+Download from [oracle.com](https://oracle.com/java) or use [Adoptium](https://adoptium.net):
+
+```bash
+java --version
+javac --version
+```
+
+## IDE Options
+
+- **IntelliJ IDEA** - Most popular
+- **Eclipse** - Feature-rich
+- **VS Code** - Lightweight with extensions
+- **NetBeans** - Free and open source
+
+## Creating a Project
+
+```bash
+mkdir MyProject && cd MyProject
+mkdir -p src/main/java/com/example
+```
+
+## Running Java
+
+```bash
+javac MyClass.java
+java MyClass
+```
+
+## Maven/Gradle
+
+```xml
+<!-- pom.xml (Maven) -->
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.12.0</version>
+</dependency>
+```
+
+# Hello World
+
+```java
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}
+```
+
+Modern Java (14+) multiline strings:
+
+```java
+String message = """
+    This is a
+    multiline
+    string
+    """;
+```
+
+# Variables and Data Types
+
+## Primitive Types
+
+```java
+// Integers
+byte b = 127;              // 8-bit
+short s = 32767;          // 16-bit
+int i = 2147483647;       // 32-bit
+long l = 9223372036854775807L;  // 64-bit
+
+// Floating point
+float f = 3.14f;          // 32-bit (suffix f)
+double d = 3.14159;       // 64-bit
+
+// Characters
+char c = 'A';
+
+// Booleans
+boolean flag = true;
+```
+
+## Reference Types
+
+```java
+String name = "John";
+Integer wrapped = 42;
+Object obj = new Object();
+```
+
+## Type Inference (var)
+
+```java
+var name = "John";        // Compiler infers String
+var age = 30;             // Compiler infers int
+var list = new ArrayList<String>();
+```
+
+## Constants
+
+```java
+final double PI = 3.14159;
+final int MAX_SIZE = 100;
+```
+
+## Default Values
+
+```java
+int i = 0;                // 0
+boolean b = false;        // false
+char c = '\u0000';        // null character
+double d = 0.0;           // 0.0
+String s = null;          // null
+```
+
+# Operators
+
+## Arithmetic
+
+```java
+int a = 10, b = 3;
+
+System.out.println(a + b);   // 13
+System.out.println(a - b);   // 7
+System.out.println(a * b);   // 30
+System.out.println(a / b);   // 3 (integer division)
+System.out.println(a % b);    // 1 (modulus)
+```
+
+## Comparison
+
+```java
+System.out.println(5 == 5);   // true
+System.out.println(5 != 3);   // true
+System.out.println(5 > 3);    // true
+System.out.println(5 >= 5);   // true
+System.out.println(5 < 3);    // false
+System.out.println(5 <= 5);   // true
+```
+
+## Logical
+
+```java
+System.out.println(true && false);  // false
+System.out.println(true || false);  // true
+System.out.println(!true);          // false
+```
+
+## Bitwise
+
+```java
+System.out.println(5 & 3);   // 1
+System.out.println(5 | 3);   // 7
+System.out.println(5 ^ 3);   // 6
+System.out.println(~5);      // -6
+System.out.println(4 << 1);  // 8
+System.out.println(4 >> 1);  // 2
+System.out.println(4 >>> 1); // 2
+```
+
+## Ternary
+
+```java
+int age = 20;
+String status = age >= 18 ? "Adult" : "Minor";
+```
+
+# Flow Control
+
+## If/Else
+
+```java
+int score = 85;
+
+if (score >= 90) {
+    System.out.println("A grade");
+} else if (score >= 80) {
+    System.out.println("B grade");
+} else if (score >= 70) {
+    System.out.println("C grade");
+} else {
+    System.out.println("Need improvement");
+}
+```
+
+## Switch
+
+```java
+String day = "Monday";
+
+switch (day) {
+    case "Monday":
+    case "Tuesday":
+    case "Wednesday":
+    case "Thursday":
+    case "Friday":
+        System.out.println("Weekday");
+        break;
+    case "Saturday":
+    case "Sunday":
+        System.out.println("Weekend");
+        break;
+    default:
+        System.out.println("Invalid day");
+}
+```
+
+## Switch Expression (Java 14+)
+
+```java
+String result = switch (day) {
+    case "Saturday", "Sunday" -> "Weekend";
+    case "Monday" -> "Start of work week";
+    default -> "Weekday";
+};
+```
+
+## For Loop
+
+```java
+for (int i = 0; i < 5; i++) {
+    System.out.println(i);
+}
+
+// Enhanced for loop
+String[] fruits = {"Apple", "Banana", "Cherry"};
+for (String fruit : fruits) {
+    System.out.println(fruit);
+}
+```
+
+## While Loop
+
+```java
+int count = 0;
+while (count < 5) {
+    System.out.println(count);
+    count++;
+}
+
+// Do-while
+int i = 0;
+do {
+    System.out.println(i);
+    i++;
+} while (i < 5);
+```
+
+## Loop Control
+
+```java
+for (int i = 0; i < 10; i++) {
+    if (i == 5)
+        break;       // Exit loop
+    if (i == 2)
+        continue;    // Skip iteration
+    System.out.println(i);
+}
+```
+
+# Methods
+
+## Basic Method
+
+```java
+public static String greet(String name) {
+    return "Hello, " + name + "!";
+}
+```
+
+## Parameters
+
+```java
+// Variable arguments
+public static int sum(int... numbers) {
+    int total = 0;
+    for (int n : numbers) {
+        total += n;
+    }
+    return total;
+}
+
+// Method overloading
+public static int add(int a, int b) {
+    return a + b;
+}
+
+public static double add(double a, double b) {
+    return a + b;
+}
+```
+
+## Return Types
+
+```java
+public static boolean isEven(int n) {
+    return n % 2 == 0;
+}
+
+public static void printMessage(String msg) {
+    System.out.println(msg);
+}
+```
+
+## Recursion
+
+```java
+public static int factorial(int n) {
+    if (n <= 1) return 1;
+    return n * factorial(n - 1);
+}
+```
+
+## Static vs Instance
+
+```java
+public class MathHelper {
+    public static int add(int a, int b) {  // Static
+        return a + b;
+    }
+
+    public int multiply(int a, int b) {    // Instance
+        return a * b;
+    }
+}
+
+// Usage
+int sum = MathHelper.add(1, 2);
+MathHelper helper = new MathHelper();
+int product = helper.multiply(3, 4);
+```
+
+# Strings
+
+## Creating Strings
+
+```java
+String s1 = "Hello";
+String s2 = new String("Hello");
+String s3 = """
+    Multi-line
+    string
+    """;
+```
+
+## String Methods
+
+```java
+String s = "  Hello, World!  ";
+
+s.trim()                 // "Hello, World!"
+s.strip()                // "Hello, World!" (Unicode aware)
+s.toUpperCase()          // "  HELLO, WORLD!  "
+s.toLowerCase()          // "  hello, world!  "
+s.replace("World", "Java")
+s.replaceAll("\\s+", " ") // Regex replace
+s.split(",")             // ["  Hello", " World!  "]
+s.contains("Hello")       // true
+s.startsWith("  H")      // true
+s.endsWith("!  ")        // true
+s.indexOf("World")       // 9
+s.substring(2, 7)       // "Hello"
+s.charAt(0)              // ' '
+s.length()               // 16
+```
+
+## StringBuilder
+
+```java
+StringBuilder sb = new StringBuilder();
+
+sb.append("Hello");
+sb.append(" World");
+sb.insert(5, " there");
+sb.delete(5, 11);
+sb.replace(0, 5, "Hi");
+sb.reverse();
+sb.setLength(0);
+
+String result = sb.toString();
+```
+
+## String Formatting
+
+```java
+String name = "John";
+int age = 30;
+
+// printf
+System.out.printf("Name: %s, Age: %d%n", name, age);
+
+// formatted
+String s = String.format("Name: %s, Age: %d", name, age);
+
+// Text blocks (Java 15+)
+String json = """
+    {
+        "name": "John",
+        "age": 30
+    }
+    """;
+```
+
+## String Pool
+
+```java
+String s1 = "Hello";        // Uses string pool
+String s2 = "Hello";        // Same reference
+String s3 = new String("Hello");  // New object
+
+System.out.println(s1 == s2);   // true
+System.out.println(s1 == s3);   // false
+System.out.println(s1.equals(s3));  // true
+```
+
+# Arrays
+
+## Creating Arrays
+
+```java
+int[] numbers = {1, 2, 3, 4, 5};
+int[] zeros = new int[5];      // All zeros
+String[] names = new String[]{"John", "Jane"};
+
+// Multi-dimensional
+int[][] matrix = {
+    {1, 2, 3},
+    {4, 5, 6}
+};
+
+int[][][] cube = new int[2][3][4];
+```
+
+## Array Methods
+
+```java
+int[] arr = {5, 2, 8, 1, 9};
+
+Arrays.sort(arr);
+Arrays.sort(arr, 1, 4);  // Partial sort
+Arrays.fill(arr, 0);      // Fill all
+Arrays.copyOf(arr, 10);   // Copy with new size
+Arrays.equals(arr1, arr2);
+Arrays.binarySearch(arr, 5);
+
+int idx = Arrays.binarySearch(arr, 5);
+```
+
+## Arrays Utility
+
+```java
+import java.util.Arrays;
+
+String[] names = {"Charlie", "Alice", "Bob"};
+Arrays.sort(names);
+Arrays.sort(names, Collections.reverseOrder());
+
+int[][] matrix = new int[3][4];
+Arrays.fill(matrix, 0);
+```
+
+# ArrayList
+
+## Creating ArrayList
+
+```java
+import java.util.ArrayList;
+
+ArrayList<String> list = new ArrayList<>();
+ArrayList<String> list2 = new ArrayList<>(20);
+ArrayList<String> list3 = new ArrayList<>(Arrays.asList("A", "B", "C"));
+```
+
+## ArrayList Methods
+
+```java
+ArrayList<String> list = new ArrayList<>();
+
+list.add("Apple");        // Add to end
+list.add(0, "Banana");    // Insert at index
+list.addAll(Arrays.asList("Cherry", "Date"));
+
+list.set(0, "Blueberry"); // Update
+String first = list.get(0);
+list.remove(0);           // Remove at index
+list.remove("Apple");     // Remove by value
+list.clear();             // Remove all
+
+boolean exists = list.contains("Date");
+int idx = list.indexOf("Cherry");
+int size = list.size();
+boolean empty = list.isEmpty();
+
+list.sort(Comparator.naturalOrder());
+list.sort(Comparator.reverseOrder());
+```
+
+## Converting
+
+```java
+ArrayList<String> list = new ArrayList<>(Arrays.asList("A", "B", "C"));
+
+// To array
+String[] arr = list.toArray(new String[0]);
+String[] arr2 = list.toArray(String[]::new);
+
+// To collection
+List<String> list2 = new ArrayList<>(list);
+```
+
+# LinkedList
+
+## Creating LinkedList
+
+```java
+import java.util.LinkedList;
+
+LinkedList<String> list = new LinkedList<>();
+LinkedList<Integer> numbers = new LinkedList<>();
+```
+
+## LinkedList Methods
+
+```java
+LinkedList<String> list = new LinkedList<>();
+
+list.add("First");
+list.addFirst("Start");
+list.addLast("End");
+list.offer("Offered");     // Add at end
+list.push("Pushed");       // Add at front
+
+String first = list.getFirst();
+String last = list.getLast();
+String removed = list.removeFirst();
+String polled = list.poll();       // Remove and return null if empty
+String peeked = list.peek();        // View without removing
+```
+
+## ArrayList vs LinkedList
+
+```java
+// ArrayList - Fast random access, slow insertions/removals
+ArrayList<String> arrayList = new ArrayList<>();
+
+// LinkedList - Fast insertions/removals, slow random access
+LinkedList<String> linkedList = new LinkedList<>();
+```
+
+# HashMap
+
+## Creating HashMap
+
+```java
+import java.util.HashMap;
+
+HashMap<String, Integer> map = new HashMap<>();
+HashMap<String, Integer> map2 = new HashMap<>(16, 0.75f);
+HashMap<String, Integer> map3 = new HashMap<>(Map.of("A", 1, "B", 2));
+```
+
+## HashMap Methods
+
+```java
+HashMap<String, Integer> map = new HashMap<>();
+
+map.put("One", 1);
+map.putIfAbsent("Two", 2);
+map.putAll(Map.of("Three", 3, "Four", 4));
+
+Integer value = map.get("One");
+Integer valueOrDefault = map.getOrDefault("Five", 0);
+
+map.remove("One");
+map.clear();
+
+boolean exists = map.containsKey("Two");
+boolean hasValue = map.containsValue(2);
+int size = map.size();
+boolean empty = map.isEmpty();
+
+map.replace("Two", 2, 3);  // Conditional replace
+```
+
+## Iterating
+
+```java
+HashMap<String, Integer> map = new HashMap<>();
+map.put("A", 1);
+map.put("B", 2);
+
+// Keys
+for (String key : map.keySet()) {
+    System.out.println(key);
+}
+
+// Values
+for (Integer val : map.values()) {
+    System.out.println(val);
+}
+
+// Entries
+for (Map.Entry<String, Integer> entry : map.entrySet()) {
+    System.out.println(entry.getKey() + ": " + entry.getValue());
+}
+
+// Lambda
+map.forEach((k, v) -> System.out.println(k + ": " + v));
+```
+
+# HashSet
+
+## Creating HashSet
+
+```java
+import java.util.HashSet;
+
+HashSet<String> set = new HashSet<>();
+HashSet<Integer> numbers = new HashSet<>(Arrays.asList(1, 2, 3));
+```
+
+## HashSet Methods
+
+```java
+HashSet<String> set = new HashSet<>();
+
+set.add("Apple");
+set.addAll(Arrays.asList("Banana", "Cherry"));
+set.remove("Apple");
+set.clear();
+
+boolean exists = set.contains("Banana");
+int size = set.size();
+boolean empty = set.isEmpty();
+```
+
+## Set Operations
+
+```java
+HashSet<Integer> a = new HashSet<>(Arrays.asList(1, 2, 3, 4));
+HashSet<Integer> b = new HashSet<>(Arrays.asList(3, 4, 5, 6));
+
+a.addAll(b);              // Union
+a.retainAll(b);           // Intersection
+a.removeAll(b);           // Difference
+
+// New sets
+Set<Integer> union = new HashSet<>(a);
+union.addAll(b);
+
+Set<Integer> intersection = new HashSet<>(a);
+intersection.retainAll(b);
+
+Set<Integer> difference = new HashSet<>(a);
+difference.removeAll(b);
+```
+
+# Classes and Objects
+
+## Basic Class
+
+```java
+public class Person {
+    // Fields
+    private String name;
+    private int age;
+
+    // Constructor
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    // Getters and Setters
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public int getAge() { return age; }
+    public void setAge(int age) { this.age = age; }
+
+    // Method
+    public String greet() {
+        return "Hello, I'm " + name;
+    }
+
+    // toString
+    @Override
+    public String toString() {
+        return "Person{name='" + name + "', age=" + age + "}";
+    }
+}
+
+// Usage
+Person p = new Person("John", 30);
+p.greet();
+```
+
+## Records (Java 16+)
+
+```java
+public record Person(String name, int age) {
+    // Auto-generates:
+    // - All fields
+    // - Canonical constructor
+    // - toString, equals, hashCode
+    // - getter methods (name(), age())
+
+    // Custom compact constructor
+    public Person {
+        if (age < 0) throw new IllegalArgumentException();
+    }
+}
+
+// Usage
+Person p = new Person("John", 30);
+p.name();  // "John"
+p.age();   // 30
+```
+
+## Encapsulation
+
+```java
+public class BankAccount {
+    private double balance;
+
+    public double getBalance() { return balance; }
+
+    public void deposit(double amount) {
+        if (amount > 0) balance += amount;
+    }
+
+    public boolean withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            return true;
+        }
+        return false;
+    }
+}
+```
+
+## Static Members
+
+```java
+public class MathUtils {
+    public static final double PI = 3.14159;
+
+    public static int add(int a, int b) {
+        return a + b;
+    }
+
+    static {
+        // Static initializer
+    }
+}
+
+// Usage
+int sum = MathUtils.add(1, 2);
+double pi = MathUtils.PI;
+```
+
+## Nested Classes
+
+```java
+public class Outer {
+    private String outerField = "Outer";
+
+    public class Inner {
+        private String innerField = "Inner";
+
+        public void display() {
+            System.out.println(outerField);  // Can access outer
+        }
+    }
+
+    public static class StaticNested {
+        // Cannot access outer instance
+    }
+}
+```
+
+# Inheritance
+
+## Basic Inheritance
+
+```java
+public class Animal {
+    protected String name;
+
+    public Animal(String name) {
+        this.name = name;
+    }
+
+    public void speak() {
+        System.out.println("...");
+    }
+}
+
+public class Dog extends Animal {
+    private String breed;
+
+    public Dog(String name, String breed) {
+        super(name);  // Call parent constructor
+        this.breed = breed;
+    }
+
+    @Override
+    public void speak() {
+        System.out.println("Woof!");
+    }
+}
+```
+
+## super Keyword
+
+```java
+public class Child extends Parent {
+    public Child() {
+        super();           // Call parent constructor
+    }
+
+    public void method() {
+        super.parentMethod();  // Call parent method
+    }
+}
+```
+
+## Method Overriding
+
+```java
+public class Parent {
+    public void display() { }
+}
+
+public class Child extends Parent {
+    @Override
+    public void display() { }  // Must have same signature
+
+    @Override
+    public final void fixed() { }  // Cannot override
+}
+```
+
+## Sealed Classes (Java 17+)
+
+```java
+public sealed class Shape permits Circle, Rectangle, Square {
+}
+
+public final class Circle extends Shape { }
+public sealed class Rectangle extends Shape permits ColoredRectangle { }
+public non-sealed class Square extends Shape { }
+```
+
+# Interfaces
+
+## Basic Interface
+
+```java
+public interface Drawable {
+    void draw();  // Abstract method
+
+    // Java 8+: Default method
+    default void print() {
+        System.out.println("Printing...");
+    }
+
+    // Java 8+: Static method
+    static void reset() {
+        System.out.println("Reset");
+    }
+}
+```
+
+## Implementing Interface
+
+```java
+public class Circle implements Drawable {
+    @Override
+    public void draw() {
+        System.out.println("Drawing circle");
+    }
+}
+
+// Multiple interfaces
+public class Button implements Clickable, Focusable {
+    @Override
+    public void click() { }
+
+    @Override
+    public void focus() { }
+}
+```
+
+## Functional Interface
+
+```java
+@FunctionalInterface
+public interface Converter<T, R> {
+    R convert(T input);
+
+    // Can have default methods
+    default void log(String msg) {
+        System.out.println(msg);
+    }
+}
+
+// Usage with lambda
+Converter<String, Integer> converter = Integer::parseInt;
+```
+
+## Interface Inheritance
+
+```java
+public interface A {
+    void methodA();
+}
+
+public interface B extends A {
+    void methodB();
+}
+```
+
+# Abstract Classes
+
+## Basic Abstract Class
+
+```java
+public abstract class Shape {
+    protected String color;
+
+    public Shape(String color) {
+        this.color = color;
+    }
+
+    // Abstract method - must be implemented
+    public abstract double getArea();
+
+    // Concrete method
+    public String getColor() {
+        return color;
+    }
+}
+
+public class Circle extends Shape {
+    private double radius;
+
+    public Circle(String color, double radius) {
+        super(color);
+        this.radius = radius;
+    }
+
+    @Override
+    public double getArea() {
+        return Math.PI * radius * radius;
+    }
+}
+```
+
+## Abstract vs Interface
+
+```java
+// Use abstract class when:
+// - Sharing code/state between related classes
+// - Need constructors
+// - Non-static fields
+
+// Use interface when:
+// - Define capabilities/contracts
+// - Multiple inheritance needed
+// - Lambda expressions (functional interfaces)
+```
+
+# Records
+
+## Basic Record
+
+```java
+public record Person(String name, int age) { }
+
+// Auto-generates:
+// - private final fields
+// - Canonical constructor
+// - toString(), equals(), hashCode()
+// - name(), age() getter methods
+
+Person p = new Person("John", 30);
+p.name();  // "John"
+p.age();   // 30
+```
+
+## Record with Validation
+
+```java
+public record Person(String name, int age) {
+    public Person {
+        if (age < 0) throw new IllegalArgumentException();
+        name = name.strip();
+    }
+}
+```
+
+## Record with Methods
+
+```java
+public record Range(int start, int end) {
+    public Range {
+        if (start > end) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public int getSize() {
+        return end - start;
+    }
+
+    public boolean contains(int value) {
+        return value >= start && value <= end;
+    }
+}
+```
+
+# Enums
+
+## Basic Enum
+
+```java
+public enum Day {
+    MONDAY,
+    TUESDAY,
+    WEDNESDAY,
+    THURSDAY,
+    FRIDAY,
+    SATURDAY,
+    SUNDAY
+}
+
+// Usage
+Day today = Day.MONDAY;
+String name = today.name();
+int ordinal = today.ordinal();
+```
+
+## Enum with Values
+
+```java
+public enum Status {
+    SUCCESS(200, "Success"),
+    ERROR(500, "Error"),
+    NOT_FOUND(404, "Not Found");
+
+    private final int code;
+    private final String message;
+
+    Status(int code, String message) {
+        this.code = code;
+        this.message = message;
+    }
+
+    public int getCode() { return code; }
+    public String getMessage() { return message; }
+
+    public static Status fromCode(int code) {
+        for (Status s : values()) {
+            if (s.code == code) return s;
+        }
+        return null;
+    }
+}
+```
+
+## Enum Methods
+
+```java
+enum Season {
+    SPRING, SUMMER, AUTUMN, WINTER;
+
+    public boolean isWarm() {
+        return this == SUMMER || this == SPRING;
+    }
+}
+```
+
+# Exception Handling
+
+## Try/Catch/Finally
+
+```java
+try {
+    int result = 10 / 0;
+} catch (ArithmeticException e) {
+    System.out.println("Cannot divide by zero: " + e.getMessage());
+} catch (Exception e) {
+    System.out.println("Error: " + e);
+} finally {
+    System.out.println("Always executes");
+}
+```
+
+## Try with Resources (Java 7+)
+
+```java
+try (FileReader reader = new FileReader("file.txt");
+     BufferedReader br = new BufferedReader(reader)) {
+
+    String line;
+    while ((line = br.readLine()) != null) {
+        System.out.println(line);
+    }
+}  // Auto-closes resources
+```
+
+## Throwing Exceptions
+
+```java
+public void validateAge(int age) throws IllegalArgumentException {
+    if (age < 0) {
+        throw new IllegalArgumentException("Age cannot be negative");
+    }
+}
+```
+
+## Custom Exceptions
+
+```java
+public class ValidationException extends Exception {
+    private final String field;
+
+    public ValidationException(String field, String message) {
+        super(message);
+        this.field = field;
+    }
+
+    public String getField() { return field; }
+}
+```
+
+## Exception Hierarchy
+
+```
+Throwable
+├── Error (system errors)
+│   ├── OutOfMemoryError
+│   └── StackOverflowError
+└── Exception
+    ├── RuntimeException (unchecked)
+    │   ├── NullPointerException
+    │   ├── IllegalArgumentException
+    │   └── IndexOutOfBoundsException
+    └── IOException, SQLException (checked)
+```
+
+# File Handling
+
+## Reading Files
+
+```java
+import java.nio.file.*;
+import java.io.*;
+
+try (BufferedReader reader = Files.newBufferedReader(Paths.get("file.txt"))) {
+    String line;
+    while ((line = reader.readLine()) != null) {
+        System.out.println(line);
+    }
+}
+```
+
+## Writing Files
+
+```java
+import java.nio.file.*;
+
+String content = "Hello, World!";
+Files.writeString(Paths.get("output.txt"), content);
+
+List<String> lines = Arrays.asList("Line 1", "Line 2");
+Files.write(Paths.get("output.txt"), lines);
+```
+
+## File Operations
+
+```java
+Path path = Paths.get("document.pdf");
+
+boolean exists = Files.exists(path);
+boolean isFile = Files.isRegularFile(path);
+boolean isDir = Files.isDirectory(path);
+
+long size = Files.size(path);
+FileTime created = Files.getAttribute(path, "creationTime");
+FileTime modified = Files.getLastModifiedTime(path);
+
+Files.copy(from, to);
+Files.move(from, to);
+Files.delete(path);
+Files.createDirectory(path);
+Files.walk(path).forEach(System.out::println);
+```
+
+# Lambda Expressions
+
+## Basic Syntax
+
+```java
+// Traditional
+Comparator<String> comp = new Comparator<>() {
+    @Override
+    public int compare(String a, String b) {
+        return a.compareTo(b);
+    }
+};
+
+// Lambda
+Comparator<String> comp = (a, b) -> a.compareTo(b);
+
+// Single parameter, can omit parentheses
+Function<String, Integer> parser = s -> Integer.parseInt(s);
+
+// Block body
+Function<String, Integer> parser = s -> {
+    int result = Integer.parseInt(s);
+    return result;
+};
+```
+
+## Method Reference
+
+```java
+// Static method
+Function<String, Integer> parser = Integer::parseInt;
+
+// Instance method
+String str = "hello";
+Supplier<Integer> len = str::length;
+
+// Arbitrary instance method
+Function<String, String> upper = String::toUpperCase;
+
+// Constructor
+Supplier<ArrayList<String>> listFactory = ArrayList::new;
+Function<Integer, String[]> arrayFactory = String[]::new;
+```
+
+## Common Functional Interfaces
+
+```java
+Predicate<String> isEmpty = s -> s.isEmpty();
+Function<String, Integer> length = String::length;
+Consumer<String> printer = System.out::println;
+Supplier<String> supplier = () -> "default";
+UnaryOperator<String> upper = String::toUpperCase;
+BinaryOperator<Integer> add = Integer::sum;
+```
+
+# Streams API
+
+## Creating Streams
+
+```java
+import java.util.stream.*;
+
+// From collection
+list.stream();
+list.parallelStream();
+
+// From array
+Arrays.stream(array);
+
+// From values
+Stream.of("a", "b", "c");
+
+// Infinite stream
+Stream.iterate(0, n -> n + 2).limit(10);
+Stream.generate(() -> Math.random()).limit(5);
+```
+
+## Intermediate Operations
+
+```java
+List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+
+numbers.stream()
+    .filter(n -> n % 2 == 0)      // Filter
+    .map(n -> n * 2)              // Transform
+    .distinct()                    // Remove duplicates
+    .sorted()                      // Sort
+    .sorted(Comparator.reverseOrder())
+    .limit(3)                      // Take first n
+    .skip(2)                       // Skip first n
+    .peek(System.out::println)     // Debug
+```
+
+## Terminal Operations
+
+```java
+List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+
+numbers.stream()
+    .forEach(System.out::println)      // Execute for each
+    .collect(Collectors.toList())       // To collection
+    .toArray()                          // To array
+    .reduce(0, Integer::sum)            // Reduce to single value
+    .count()                             // Count elements
+    .anyMatch(n -> n > 3)                // Any match
+    .allMatch(n -> n > 0)                 // All match
+    .noneMatch(n -> n < 0)                // None match
+    .findFirst()                         // First element
+    .findAny()                           // Any element
+    .min(Comparator.naturalOrder())      // Minimum
+    .max(Comparator.naturalOrder())      // Maximum
+```
+
+## Collectors
+
+```java
+.collect(Collectors.toList())
+.collect(Collectors.toSet())
+.collect(Collectors.toMap(k, v))
+.collect(Collectors.toCollection(TreeSet::new))
+.collect(Collectors.joining(", "))
+.collect(Collectors.counting())
+.collect(Collectors.summingInt(n -> n))
+.collect(Collectors.averagingInt(n -> n))
+.collect(Collectors.groupingBy(Function.identity()))
+.collect(Collectors.partitioningBy(predicate))
+.collect(Collectors.mapping(mapper, downstream))
+```
+
+# Optional
+
+## Creating Optional
+
+```java
+Optional<String> empty = Optional.empty();
+Optional<String> of = Optional.of("value");
+Optional<String> nullable = Optional.ofNullable(null);
+```
+
+## Optional Methods
+
+```java
+Optional<String> opt = Optional.of("hello");
+
+opt.isPresent();                    // true
+opt.isEmpty();                      // false
+opt.get();                          // "hello"
+opt.orElse("default");              // "hello"
+opt.orElseGet(() -> "computed");    // Lazy default
+opt.orElseThrow();                  // Throw NoSuchElementException
+
+opt.ifPresent(System.out::println);
+opt.ifPresentOrElse(
+    System.out::println,
+    () -> System.out.println("Empty")
+);
+
+// Transform
+opt.map(String::toUpperCase);
+opt.filter(s -> s.length() > 3);
+opt.flatMap(opt -> Optional.of(opt.toLowerCase()));
+```
+
+## Optional in Streams
+
+```java
+list.stream()
+    .filter(Objects::nonNull)
+    .findFirst()
+    .orElse("default");
+```
+
+# Generics
+
+## Generic Class
+
+```java
+public class Box<T> {
+    private T content;
+
+    public void set(T content) { this.content = content; }
+    public T get() { return content; }
+}
+
+Box<Integer> intBox = new Box<>();
+intBox.set(42);
+Integer value = intBox.get();
+```
+
+## Generic Method
+
+```java
+public static <T> void printArray(T[] array) {
+    for (T element : array) {
+        System.out.println(element);
+    }
+}
+
+Integer[] nums = {1, 2, 3};
+String[] names = {"A", "B"};
+printArray(nums);
+printArray(names);
+```
+
+## Generic Constraints
+
+```java
+// Must be Comparable
+public static <T extends Comparable<T>> T max(T a, T b) {
+    return a.compareTo(b) > 0 ? a : b;
+}
+
+// Must be Number or subclass
+public static double sum(List<? extends Number> list) {
+    return list.stream()
+        .mapToDouble(Number::doubleValue)
+        .sum();
+}
+
+// Producer extends, consumer super (PECS)
+public void addAll(List<? extends E> from, List<? super E> to) {
+    to.addAll(from);
+}
+```
+
+## Wildcards
+
+```java
+List<?> anyList = new ArrayList<String>();  // Unknown
+List<? extends Number> numbers = new ArrayList<Integer>();  // Upper bound
+List<? super Integer> integers = new ArrayList<Number>();  // Lower bound
+```
+
+# Annotations
+
+## Built-in Annotations
+
+```java
+@Override           // Override from superclass/interface
+@Deprecated        // Mark as deprecated
+@SuppressWarnings  // Suppress compiler warnings
+@FunctionalInterface  // Must be single abstract method
+@SafeVarargs       // Varargs are safe
+```
+
+## Custom Annotation
+
+```java
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD, ElementType.TYPE})
+public @interface Author {
+    String name();
+    String date();
+    String version() default "1.0";
+}
+
+@Author(name = "John", date = "2024-01-01")
+public class MyClass { }
+```
+
+## Reflection with Annotations
+
+```java
+Method[] methods = MyClass.class.getMethods();
+for (Method m : methods) {
+    if (m.isAnnotationPresent(Author.class)) {
+        Author author = m.getAnnotation(Author.class);
+        System.out.println(author.name());
+    }
+}
+```
+
+# Multithreading
+
+## Creating Threads
+
+```java
+// Extend Thread
+class MyThread extends Thread {
+    @Override
+    public void run() {
+        System.out.println("Running in thread");
+    }
+}
+
+MyThread t = new MyThread();
+t.start();
+
+// Implement Runnable
+Runnable r = () -> System.out.println("Running via Runnable");
+new Thread(r).start();
+```
+
+## ExecutorService
+
+```java
+ExecutorService executor = Executors.newFixedThreadPool(4);
+
+Future<Integer> future = executor.submit(() -> {
+    // Task
+    return 42;
+});
+
+Integer result = future.get();  // Blocking
+executor.shutdown();
+```
+
+## Synchronization
+
+```java
+// Synchronized method
+public synchronized void increment() { count++; }
+
+// Synchronized block
+public void increment() {
+    synchronized (this) {
+        count++;
+    }
+}
+
+// ReentrantLock
+private final ReentrantLock lock = new ReentrantLock();
+public void increment() {
+    lock.lock();
+    try {
+        count++;
+    } finally {
+        lock.unlock();
+    }
+}
+```
+
+## CompletableFuture
+
+```java
+CompletableFuture<String> future = CompletableFuture
+    .supplyAsync(() -> "Hello")
+    .thenApply(s -> s + " World")
+    .thenApply(String::toUpperCase);
+
+String result = future.join();
+```
+
+# Modules
+
+## Module Declaration
+
+```java
+// module-info.java
+module com.example.myapp {
+    requires java.base;
+    requires transitive org.apache.commons.lang3;
+
+    exports com.example.myapp.api;
+    exports com.example.myapp.model;
+
+    opens com.example.myapp.internal to com.example.other;
+}
+```
+
+## Using Modules
+
+```java
+module com.example.myapp {
+    requires com.example.library;
+
+    uses com.example.library.Service;  // Service lookup
+}
+```
+
+# Next Steps
+
+Now that you know Java fundamentals:
+
+- Learn Spring Framework for web development
+- Explore Spring Boot for quick application setup
+- Build REST APIs with Spring MVC
+- Learn Hibernate for database operations
+- Explore microservices with Spring Cloud
+- Study design patterns
+
+# References
+
+- [Java Documentation](https://docs.oracle.com/en/java/)
+- [Baeldung](https://www.baeldung.com)
+- [Effective Java](https://www.oreilly.com/library/view/effective-java-3rd/9780134686097/)
+- [Oracle Tutorials](https://docs.oracle.com/javase/tutorial/)
