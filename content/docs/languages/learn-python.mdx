@@ -1,0 +1,1458 @@
+---
+title: Learn Python
+description: A comprehensive Python course.
+---
+
+Welcome to the comprehensive Python course. Python is a versatile, beginner-friendly programming language.
+
+# Table of contents
+
+- **Getting Started**
+  - [What is Python?](#what-is-python)
+  - [Why learn Python?](#why-learn-python)
+  - [Installation and Setup](#installation-and-setup)
+
+- **Chapter I**
+  - [Hello World](#hello-world)
+  - [Variables and Data Types](#variables-and-data-types)
+  - [Operators](#operators)
+  - [Flow Control](#flow-control)
+  - [Functions](#functions)
+  - [Strings](#strings)
+
+- **Chapter II**
+  - [Lists](#lists)
+  - [Tuples](#tuples)
+  - [Sets](#sets)
+  - [Dictionaries](#dictionaries)
+  - [Comprehensions](#comprehensions)
+
+- **Chapter III**
+  - [Classes](#classes)
+  - [Inheritance](#inheritance)
+  - [Modules](#modules)
+  - [Packages](#packages)
+  - [File Handling](#file-handling)
+
+- **Chapter IV**
+  - [Exception Handling](#exception-handling)
+  - [Decorators](#decorators)
+  - [Generators](#generators)
+  - [Context Managers](#context-managers)
+  - [Lambdas](#lambdas)
+
+- **Chapter V**
+  - [Testing](#testing)
+  - [Virtual Environments](#virtual-environments)
+  - [Common Libraries](#common-libraries)
+
+- **Appendix**
+  - [Next Steps](#next-steps)
+  - [References](#references)
+
+# What is Python?
+
+Python is a high-level, interpreted programming language known for its readability and versatility. Created by Guido van Rossum in 1991.
+
+## Key Characteristics
+
+- **Easy to Learn**: Simple syntax similar to English
+- **Interpreted**: No compilation needed
+- **Dynamically Typed**: No type declarations required
+- **Multi-paradigm**: Supports OOP, functional, and procedural programming
+- **Huge Ecosystem**: Extensive standard library and third-party packages
+
+# Why learn Python?
+
+## 1. Beginner Friendly
+
+Python's syntax is clean and easy to understand.
+
+```python
+print("Hello, World!")
+```
+
+## 2. Versatile
+
+Used in web development, data science, AI/ML, automation, and more.
+
+## 3. High Demand
+
+Python developers are in high demand across industries.
+
+## 4. Strong Community
+
+Massive ecosystem with extensive documentation and libraries.
+
+# Installation and Setup
+
+## Download
+
+Download from [python.org](https://python.org) or use a distribution like Anaconda.
+
+## Verify Installation
+
+```bash
+python --version
+python3 --version
+```
+
+## Running Python
+
+```bash
+python script.py
+python -c "print('Hello')"
+python -i  # Interactive mode
+```
+
+## IDE Setup
+
+Recommended: VS Code with Python extension, PyCharm, or Jupyter Notebook.
+
+# Hello World
+
+```python
+print("Hello, World!")
+```
+
+Variables:
+
+```python
+name = "Python"
+version = 3.12
+print(f"Welcome to {name} {version}!")
+```
+
+# Variables and Data Types
+
+## Variables
+
+```python
+name = "John"           # String
+age = 30                # Integer
+height = 5.9            # Float
+is_active = True        # Boolean
+nothing = None          # None
+```
+
+## Basic Types
+
+```python
+# Integers
+x = 42
+binary = 0b1010
+hexadecimal = 0xFF
+
+# Floats
+pi = 3.14159
+scientific = 2.5e6
+
+# Strings
+single = 'Hello'
+double = "World"
+multi = """Multiple
+lines"""
+
+# Booleans
+is_valid = True
+is_empty = False
+```
+
+## Type Checking
+
+```python
+print(type("hello"))  # <class 'str'>
+print(type(42))       # <class 'int'>
+print(type(3.14))     # <class 'float'>
+print(type(True))     # <class 'bool'>
+```
+
+## Type Conversion
+
+```python
+int("42")      # 42
+str(42)        # "42"
+float("3.14")  # 3.14
+bool(1)        # True
+bool(0)        # False
+```
+
+# Operators
+
+## Arithmetic
+
+```python
+a, b = 10, 3
+
+print(a + b)   # 13
+print(a - b)   # 7
+print(a * b)   # 30
+print(a / b)   # 3.333...
+print(a // b)  # 3 (floor division)
+print(a % b)   # 1 (modulus)
+print(a ** b)  # 1000 (exponent)
+```
+
+## Comparison
+
+```python
+print(5 == 5)   # True
+print(5 != 3)   # True
+print(5 > 3)    # True
+print(5 >= 5)   # True
+print(5 < 3)    # False
+print(5 <= 5)   # True
+```
+
+## Logical
+
+```python
+print(True and False)  # False
+print(True or False)   # True
+print(not True)        # False
+```
+
+## Bitwise
+
+```python
+print(5 & 3)   # 1 (AND)
+print(5 | 3)   # 7 (OR)
+print(5 ^ 3)   # 6 (XOR)
+print(~5)      # -6 (NOT)
+print(4 << 1)  # 8 (left shift)
+print(4 >> 1)  # 2 (right shift)
+```
+
+## Assignment
+
+```python
+x = 10
+x += 5    # 15
+x -= 3    # 12
+x *= 2    # 24
+x /= 4    # 6.0
+```
+
+# Flow Control
+
+## If/Elif/Else
+
+```python
+score = 85
+
+if score >= 90:
+    print("A grade")
+elif score >= 80:
+    print("B grade")
+elif score >= 70:
+    print("C grade")
+else:
+    print("Need improvement")
+```
+
+## Ternary Operator
+
+```python
+age = 20
+status = "adult" if age >= 18 else "minor"
+```
+
+## For Loop
+
+```python
+# Range
+for i in range(5):
+    print(i)  # 0, 1, 2, 3, 4
+
+# Sequence
+fruits = ["apple", "banana", "cherry"]
+for fruit in fruits:
+    print(fruit)
+
+# With index
+for i, fruit in enumerate(fruits):
+    print(f"{i}: {fruit}")
+```
+
+## While Loop
+
+```python
+count = 0
+while count < 5:
+    print(count)
+    count += 1
+```
+
+## Break and Continue
+
+```python
+for i in range(10):
+    if i == 5:
+        break      # Exit loop
+    if i == 2:
+        continue   # Skip iteration
+    print(i)
+```
+
+## Match (Python 3.10+)
+
+```python
+status = "success"
+
+match status:
+    case "success":
+        print("Operation succeeded")
+    case "error":
+        print("Operation failed")
+    case _:
+        print("Unknown status")
+```
+
+# Functions
+
+## Basic Function
+
+```python
+def greet(name):
+    return f"Hello, {name}!"
+
+print(greet("World"))
+```
+
+## Parameters
+
+```python
+# Default parameters
+def greet(name, greeting="Hello"):
+    return f"{greeting}, {name}!"
+
+print(greet("John"))              # Hello, John!
+print(greet("John", "Hi"))       # Hi, John!
+
+# *args
+def sum(*args):
+    total = 0
+    for num in args:
+        total += num
+    return total
+
+print(sum(1, 2, 3, 4, 5))  # 15
+
+# **kwargs
+def print_info(**kwargs):
+    for key, value in kwargs.items():
+        print(f"{key}: {value}")
+
+print_info(name="John", age=30)
+```
+
+## Return Values
+
+```python
+def divide(a, b):
+    if b == 0:
+        return None
+    return a / b
+
+# Multiple returns
+def get_stats(numbers):
+    return min(numbers), max(numbers), sum(numbers)
+
+min_val, max_val, total = get_stats([1, 2, 3, 4, 5])
+```
+
+## Lambda Functions
+
+```python
+square = lambda x: x ** 2
+print(square(5))  # 25
+
+add = lambda a, b: a + b
+print(add(3, 4))   # 7
+```
+
+## Type Hints
+
+```python
+def greet(name: str) -> str:
+    return f"Hello, {name}!"
+
+def process(items: list[int], multiplier: int = 2) -> list[int]:
+    return [x * multiplier for x in items]
+```
+
+# Strings
+
+## Creating Strings
+
+```python
+s1 = "Hello"
+s2 = 'World'
+s3 = """Multi-line
+string"""
+s4 = "Hello " + "World"
+```
+
+## String Methods
+
+```python
+s = "  Hello, World!  "
+
+s.upper()           # "  HELLO, WORLD!  "
+s.lower()           # "  hello, world!  "
+s.strip()           # "Hello, World!"
+s.replace("World", "Python")
+s.split(",")        # ["  Hello", " World!  "]
+s.find("World")     # 9
+s.count("l")       # 3
+s.startswith("  H") # True
+s.endswith("!  ")   # True
+```
+
+## String Formatting
+
+```python
+name = "John"
+age = 30
+
+# f-strings (Python 3.6+)
+print(f"My name is {name} and I'm {age}")
+
+# format()
+print("My name is {} and I'm {}".format(name, age))
+print("My name is {n} and I'm {a}".format(n=name, a=age))
+
+# % operator
+print("My name is %s" % name)
+```
+
+## Slicing
+
+```python
+s = "Hello World"
+
+s[0]         # "H"
+s[0:5]       # "Hello"
+s[6:]        # "World"
+s[-5:]       # "World"
+s[::2]       # "HloWrd" (every 2nd char)
+s[::-1]      # "dlroW olleH" (reversed)
+```
+
+# Lists
+
+## Creating Lists
+
+```python
+numbers = [1, 2, 3, 4, 5]
+mixed = [1, "hello", True, 3.14]
+nested = [[1, 2], [3, 4]]
+empty = []
+```
+
+## Accessing Elements
+
+```python
+fruits = ["apple", "banana", "cherry"]
+
+fruits[0]      # "apple"
+fruits[-1]     # "cherry"
+fruits[0:2]    # ["apple", "banana"]
+```
+
+## Modifying Lists
+
+```python
+fruits = ["apple", "banana", "cherry"]
+
+fruits.append("orange")     # Add to end
+fruits.insert(1, "mango")   # Insert at index
+fruits.extend(["grape"])    # Add multiple
+fruits.remove("banana")     # Remove by value
+fruits.pop()                # Remove and return last
+fruits.pop(0)               # Remove at index
+fruits.clear()              # Remove all
+```
+
+## List Methods
+
+```python
+numbers = [3, 1, 4, 1, 5, 9, 2, 6]
+
+len(numbers)           # 8
+sorted(numbers)        # Returns sorted copy
+numbers.sort()         # Sorts in place
+numbers.reverse()      # Reverses in place
+numbers.count(1)        # Count occurrences
+numbers.index(4)        # Find index
+numbers.copy()          # Shallow copy
+"cherry" in fruits     # Membership test
+```
+
+## List Comprehension
+
+```python
+# Basic
+squares = [x**2 for x in range(10)]
+
+# With condition
+evens = [x for x in range(10) if x % 2 == 0]
+
+# Nested
+matrix = [[i*j for j in range(3)] for i in range(3)]
+```
+
+# Tuples
+
+## Creating Tuples
+
+```python
+point = (10, 20)
+single = (42,)           # Comma required for single element
+mixed = (1, "hello", True)
+```
+
+## Accessing Elements
+
+```python
+point = (10, 20, 30)
+
+point[0]      # 10
+point[-1]     # 30
+point[0:2]    # (10, 20)
+```
+
+## Tuple Methods
+
+```python
+point = (10, 20, 30)
+
+point.count(10)     # 1
+point.index(20)     # 1
+```
+
+## Unpacking
+
+```python
+point = (10, 20, 30)
+x, y, z = point
+
+# Extended unpacking
+first, *middle, last = [1, 2, 3, 4, 5]
+# first=1, middle=[2,3,4], last=5
+```
+
+## Named Tuples
+
+```python
+from collections import namedtuple
+
+Point = namedtuple('Point', ['x', 'y'])
+p = Point(10, 20)
+print(p.x, p.y)
+```
+
+# Sets
+
+## Creating Sets
+
+```python
+numbers = {1, 2, 3, 4, 5}
+from_list = set([1, 2, 2, 3])    # {1, 2, 3}
+empty = set()                      # Note: {} creates dict
+```
+
+## Set Operations
+
+```python
+a = {1, 2, 3, 4}
+b = {3, 4, 5, 6}
+
+a.union(b)            # {1, 2, 3, 4, 5, 6}
+a.intersection(b)     # {3, 4}
+a.difference(b)       # {1, 2}
+a.symmetric_difference(b)  # {1, 2, 5, 6}
+
+# In-place
+a.update(b)
+a.intersection_update(b)
+```
+
+## Set Methods
+
+```python
+s = {1, 2, 3}
+
+s.add(4)              # Add element
+s.remove(2)          # Remove (raises error if missing)
+s.discard(10)         # Remove (no error)
+s.pop()               # Remove arbitrary element
+s.clear()             # Remove all
+
+len(s)                # 3
+2 in s                 # True
+```
+
+# Dictionaries
+
+## Creating Dictionaries
+
+```python
+person = {"name": "John", "age": 30}
+from_tuples = dict([("a", 1), ("b", 2)])
+comprehension = {x: x**2 for x in range(5)}
+```
+
+## Accessing Elements
+
+```python
+person = {"name": "John", "age": 30}
+
+person["name"]        # "John"
+person.get("name")    # "John"
+person.get("email", "not found")  # Default value
+person.keys()         # dict_keys(['name', 'age'])
+person.values()       # dict_values(['John', 30])
+person.items()        # dict_items([('name', 'John'), ...])
+```
+
+## Modifying
+
+```python
+person = {"name": "John", "age": 30}
+
+person["email"] = "john@example.com"  # Add
+person["age"] = 31                     # Update
+del person["age"]                     # Delete
+person.pop("email")                   # Remove and return
+
+# Update with another dict
+person.update({"city": "NYC", "age": 32})
+```
+
+## Dictionary Methods
+
+```python
+person = {"name": "John", "age": 30}
+
+len(person)                # 2
+person.clear()            # Remove all
+person.copy()             # Shallow copy
+person.setdefault("country", "USA")  # Set if not exists
+```
+
+## Dictionary Comprehension
+
+```python
+squares = {x: x**2 for x in range(5)}
+word_lengths = {word: len(word) for word in ["apple", "banana"]}
+```
+
+# Comprehensions
+
+## List Comprehension
+
+```python
+squares = [x**2 for x in range(10)]
+evens = [x for x in range(20) if x % 2 == 0]
+matrix = [[i*j for j in range(3)] for i in range(3)]
+```
+
+## Set Comprehension
+
+```python
+numbers = [1, 2, 2, 3, 3, 4, 5]
+unique_squares = {x**2 for x in numbers}
+```
+
+## Dictionary Comprehension
+
+```python
+words = ["apple", "banana", "cherry"]
+word_lengths = {word: len(word) for word in words}
+```
+
+## Conditional Expressions
+
+```python
+# If-else in comprehension
+[x if x > 0 else -x for x in [-1, 2, -3]]
+# [1, 2, 3]
+```
+
+# Classes
+
+## Basic Class
+
+```python
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def greet(self):
+        return f"Hello, I'm {self.name}"
+
+    def birthday(self):
+        self.age += 1
+
+person = Person("John", 30)
+print(person.greet())
+person.birthday()
+```
+
+## Instance vs Class Variables
+
+```python
+class Dog:
+    species = "Canis familiaris"  # Class variable
+
+    def __init__(self, name, breed):
+        self.name = name          # Instance variable
+        self.breed = breed
+
+d1 = Dog("Rex", "German Shepherd")
+d2 = Dog("Buddy", "Labrador")
+```
+
+## Access Modifiers
+
+```python
+class Person:
+    def __init__(self, name, age):
+        self.name = name          # Public
+        self._age = age           # Protected (convention)
+        self.__ssn = "123-45-6789"  # Private (name mangling)
+
+person = Person("John", 30)
+print(person.name)       # OK
+print(person._age)       # Works but discouraged
+print(person._Person__ssn)  # Name mangling
+```
+
+## Properties
+
+```python
+class Circle:
+    def __init__(self, radius):
+        self._radius = radius
+
+    @property
+    def radius(self):
+        return self._radius
+
+    @radius.setter
+    def radius(self, value):
+        if value < 0:
+            raise ValueError("Radius cannot be negative")
+        self._radius = value
+
+    @property
+    def area(self):
+        return 3.14159 * self._radius ** 2
+```
+
+## Class Methods and Static Methods
+
+```python
+class Math:
+    @staticmethod
+    def add(a, b):
+        return a + b
+
+    @classmethod
+    def from_string(cls, s):
+        return cls(*map(int, s.split(",")))
+
+Math.add(2, 3)              # 5
+Math.from_string("1,2,3")   # Math instance
+```
+
+# Inheritance
+
+## Basic Inheritance
+
+```python
+class Animal:
+    def __init__(self, name):
+        self.name = name
+
+    def speak(self):
+        raise NotImplementedError
+
+class Dog(Animal):
+    def speak(self):
+        return f"{self.name} says Woof!"
+
+class Cat(Animal):
+    def speak(self):
+        return f"{self.name} says Meow!"
+
+dog = Dog("Rex")
+print(dog.speak())  # Rex says Woof!
+```
+
+## Multiple Inheritance
+
+```python
+class Flyable:
+    def fly(self):
+        return "Flying!"
+
+class Swimmable:
+    def swim(self):
+        return "Swimming!"
+
+class Duck(Flyable, Swimmable):
+    pass
+
+duck = Duck()
+print(duck.fly())
+print(duck.swim())
+```
+
+## Method Resolution Order (MRO)
+
+```python
+class A:
+    def method(self):
+        return "A"
+
+class B(A):
+    def method(self):
+        return "B"
+
+class C(A):
+    def method(self):
+        return "C"
+
+class D(B, C):
+    pass
+
+print(D().method())  # B (MRO: D -> B -> C -> A)
+```
+
+## Super Function
+
+```python
+class Animal:
+    def __init__(self, name):
+        self.name = name
+
+class Dog(Animal):
+    def __init__(self, name, breed):
+        super().__init__(name)
+        self.breed = breed
+```
+
+## Abstract Classes
+
+```python
+from abc import ABC, abstractmethod
+
+class Shape(ABC):
+    @abstractmethod
+    def area(self):
+        pass
+
+    def describe(self):
+        return f"Area: {self.area()}"
+
+class Circle(Shape):
+    def __init__(self, radius):
+        self.radius = radius
+
+    def area(self):
+        return 3.14159 * self.radius ** 2
+```
+
+# Modules
+
+## Importing
+
+```python
+# Import entire module
+import math
+print(math.sqrt(16))
+
+# Import specific items
+from math import sqrt, pi
+print(sqrt(16))
+
+# Import with alias
+import numpy as np
+from datetime import datetime as dt
+
+# Import everything (not recommended)
+from math import *
+```
+
+## Creating Modules
+
+```python
+# my_module.py
+def greet(name):
+    return f"Hello, {name}!"
+
+PI = 3.14159
+
+# main.py
+from my_module import greet, PI
+print(greet("World"))
+```
+
+## Module Search Path
+
+```python
+import sys
+print(sys.path)
+```
+
+# Packages
+
+## Structure
+
+```
+my_package/
+    __init__.py
+    module1.py
+    module2.py
+    subpackage/
+        __init__.py
+        module3.py
+```
+
+## **init**.py
+
+```python
+# Expose package contents
+from .module1 import function1
+from .module2 import function2
+
+__all__ = ["function1", "function2"]
+```
+
+## Relative Imports
+
+```python
+# From subpackage/module3.py
+from . import module1        # Same package
+from .. import module2       # Parent package
+```
+
+# File Handling
+
+## Reading Files
+
+```python
+# Read entire file
+with open("file.txt", "r") as f:
+    content = f.read()
+
+# Read lines
+with open("file.txt", "r") as f:
+    lines = f.readlines()
+    # or
+    for line in f:
+        print(line)
+
+# Read all lines as list
+with open("file.txt", "r") as f:
+    lines = f.read().splitlines()
+```
+
+## Writing Files
+
+```python
+# Write (overwrites)
+with open("output.txt", "w") as f:
+    f.write("Hello, World!")
+
+# Append
+with open("output.txt", "a") as f:
+    f.write("\nNew line")
+
+# Write multiple lines
+with open("output.txt", "w") as f:
+    f.writelines(["line1\n", "line2\n"])
+```
+
+## JSON Files
+
+```python
+import json
+
+# Write JSON
+data = {"name": "John", "age": 30}
+with open("data.json", "w") as f:
+    json.dump(data, f, indent=2)
+
+# Read JSON
+with open("data.json", "r") as f:
+    data = json.load(f)
+```
+
+# Exception Handling
+
+## Basic Try/Except
+
+```python
+try:
+    result = 10 / 0
+except ZeroDivisionError:
+    print("Cannot divide by zero!")
+except Exception as e:
+    print(f"Error: {e}")
+else:
+    print("No errors occurred")
+finally:
+    print("Always executes")
+```
+
+## Raising Exceptions
+
+```python
+def validate_age(age):
+    if age < 0:
+        raise ValueError("Age cannot be negative")
+    return age
+
+try:
+    validate_age(-5)
+except ValueError as e:
+    print(e)
+```
+
+## Custom Exceptions
+
+```python
+class ValidationError(Exception):
+    def __init__(self, message, field):
+        super().__init__(message)
+        self.field = field
+
+raise ValidationError("Invalid input", "email")
+```
+
+## Exception Hierarchy
+
+```
+BaseException
+├── SystemExit
+├── KeyboardInterrupt
+└── Exception
+    ├── ValueError
+    ├── TypeError
+    ├── KeyError
+    └── ...
+```
+
+# Decorators
+
+## Basic Decorator
+
+```python
+def my_decorator(func):
+    def wrapper(*args, **kwargs):
+        print("Before function")
+        result = func(*args, **kwargs)
+        print("After function")
+        return result
+    return wrapper
+
+@my_decorator
+def say_hello(name):
+    print(f"Hello, {name}!")
+
+say_hello("World")
+```
+
+## Decorator with Arguments
+
+```python
+def repeat(times):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            for _ in range(times):
+                result = func(*args, **kwargs)
+            return result
+        return wrapper
+    return decorator
+
+@repeat(3)
+def greet():
+    print("Hello!")
+
+greet()  # Prints "Hello!" 3 times
+```
+
+## Class Decorators
+
+```python
+class CountCalls:
+    def __init__(self, func):
+        self.func = func
+        self.count = 0
+
+    def __call__(self, *args, **kwargs):
+        self.count += 1
+        print(f"Called {self.count} times")
+        return self.func(*args, **kwargs)
+
+@CountCalls
+def say_hello():
+    print("Hello!")
+```
+
+## Built-in Decorators
+
+```python
+class MyClass:
+    @property
+    def value(self):
+        return self._value
+
+    @staticmethod
+    def static_method():
+        print("Static method")
+
+    @classmethod
+    def class_method(cls):
+        print("Class method")
+```
+
+# Generators
+
+## Basic Generator
+
+```python
+def count_up_to(n):
+    count = 1
+    while count <= n:
+        yield count
+        count += 1
+
+for num in count_up_to(5):
+    print(num)  # 1, 2, 3, 4, 5
+```
+
+## Generator Expression
+
+```python
+# Like list comprehension but lazy
+squares = (x**2 for x in range(10))
+
+for sq in squares:
+    print(sq)
+```
+
+## Generator Methods
+
+```python
+def my_gen():
+    yield 1
+    yield 2
+    yield 3
+
+gen = my_gen()
+print(next(gen))  # 1
+print(next(gen))  # 2
+print(next(gen))  # 3
+# print(next(gen))  # StopIteration
+```
+
+## Infinite Generator
+
+```python
+def fibonacci():
+    a, b = 0, 1
+    while True:
+        yield a
+        a, b = b, a + b
+
+fib = fibonacci()
+print([next(fib) for _ in range(10)])
+# [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
+```
+
+# Context Managers
+
+## with Statement
+
+```python
+with open("file.txt", "r") as f:
+    content = f.read()
+# File automatically closed
+
+with open("output.txt", "w") as f:
+    f.write("Hello")
+# File automatically closed
+```
+
+## Custom Context Manager
+
+```python
+class FileManager:
+    def __init__(self, filename, mode):
+        self.filename = filename
+        self.mode = mode
+        self.file = None
+
+    def __enter__(self):
+        self.file = open(self.filename, self.mode)
+        return self.file
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if self.file:
+            self.file.close()
+        return False  # Don't suppress exceptions
+
+with FileManager("test.txt", "w") as f:
+    f.write("Hello!")
+```
+
+## contextlib
+
+```python
+from contextlib import contextmanager
+
+@contextmanager
+def timer():
+    import time
+    start = time.time()
+    yield
+    print(f"Took {time.time() - start:.2f}s")
+
+with timer():
+    # code to time
+    sum(range(1000000))
+```
+
+## suppress
+
+```python
+from contextlib import suppress
+
+with suppress(FileNotFoundError):
+    os.remove("nonexistent.txt")
+```
+
+# Lambdas
+
+## Basic Syntax
+
+```python
+square = lambda x: x ** 2
+print(square(5))  # 25
+
+add = lambda a, b: a + b
+print(add(3, 4))   # 7
+```
+
+## With Built-in Functions
+
+```python
+# map
+numbers = [1, 2, 3, 4, 5]
+squares = list(map(lambda x: x**2, numbers))
+
+# filter
+evens = list(filter(lambda x: x % 2 == 0, numbers))
+
+# reduce
+from functools import reduce
+total = reduce(lambda a, b: a + b, numbers)
+
+# sorted
+data = [{"name": "John", "age": 30}, {"name": "Jane", "age": 25}]
+sorted_data = sorted(data, key=lambda x: x["age"])
+
+# max/min
+people = [("John", 30), ("Jane", 25)]
+oldest = max(people, key=lambda x: x[1])
+```
+
+## Closure
+
+```python
+def make_multiplier(n):
+    return lambda x: x * n
+
+double = make_multiplier(2)
+triple = make_multiplier(3)
+
+print(double(5))   # 10
+print(triple(5))   # 15
+```
+
+# Testing
+
+## unittest
+
+```python
+import unittest
+
+class TestMath(unittest.TestCase):
+    def test_add(self):
+        self.assertEqual(1 + 1, 2)
+
+    def test_divide(self):
+        with self.assertRaises(ZeroDivisionError):
+            1 / 0
+
+if __name__ == "__main__":
+    unittest.main()
+```
+
+## pytest
+
+```bash
+pip install pytest
+```
+
+```python
+# test_math.py
+def add(a, b):
+    return a + b
+
+def test_add():
+    assert add(1, 1) == 2
+
+def test_add_negative():
+    assert add(-1, -1) == -2
+```
+
+```bash
+pytest test_math.py
+pytest -v  # Verbose
+pytest -k "test_add"  # Run specific tests
+```
+
+## Assertions
+
+```python
+assert x == 5, "x should be 5"
+assert list(map(lambda x: x**2, [1,2,3])) == [1, 4, 9]
+```
+
+# Virtual Environments
+
+## venv
+
+```bash
+# Create
+python -m venv myenv
+
+# Activate
+source myenv/bin/activate      # Linux/Mac
+myenv\Scripts\activate         # Windows
+
+# Deactivate
+deactivate
+
+# Install packages
+pip install requests
+
+# Freeze requirements
+pip freeze > requirements.txt
+
+# Install from requirements
+pip install -r requirements.txt
+```
+
+## pip
+
+```bash
+pip install package
+pip install package==1.2.3
+pip install "package>=1.0"
+pip uninstall package
+pip list
+pip show package
+```
+
+## poetry (optional)
+
+```bash
+pip install poetry
+poetry init
+poetry add requests
+poetry install
+poetry run python script.py
+```
+
+# Common Libraries
+
+## requests
+
+```python
+import requests
+
+response = requests.get("https://api.example.com/data")
+data = response.json()
+print(data)
+```
+
+## json
+
+```python
+import json
+
+# Parse JSON string
+data = json.loads('{"name": "John"}')
+
+# Convert to JSON string
+s = json.dumps({"name": "John"}, indent=2)
+```
+
+## datetime
+
+```python
+from datetime import datetime, timedelta
+
+now = datetime.now()
+future = now + timedelta(days=7)
+print(now.strftime("%Y-%m-%d %H:%M:%S"))
+```
+
+## os
+
+```python
+import os
+
+os.getcwd()           # Current directory
+os.listdir(".")       # List files
+os.mkdir("new_dir")   # Create directory
+os.remove("file.txt") # Delete file
+os.path.exists("file.txt")
+```
+
+## re
+
+```python
+import re
+
+pattern = r"\d{3}-\d{4}"
+text = "Call 123-4567"
+
+match = re.search(pattern, text)
+if match:
+    print(match.group())
+```
+
+# Next Steps
+
+Now that you know Python fundamentals:
+
+- Learn a web framework (Django, Flask, FastAPI)
+- Explore data science (pandas, numpy, matplotlib)
+- Learn machine learning (scikit-learn, TensorFlow)
+- Build APIs and web services
+- Practice with real projects
+
+# References
+
+- [Python Documentation](https://docs.python.org)
+- [Python Crash Course](https://ehmatthes.github.io/pcc/)
+- [Real Python](https://realpython.com)
+- [Automate the Boring Stuff](https://automatetheboringstuff.com)

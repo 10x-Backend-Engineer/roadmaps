@@ -1,0 +1,4594 @@
+---
+title: Learn JavaScript
+description: A comprehensive JavaScript course.
+---
+
+# Table of contents
+
+- **Getting Started**
+  - [What is JavaScript?](#what-is-javascript)
+  - [Why learn JavaScript?](#why-learn-javascript)
+  - [Installation and Setup](#installation-and-setup)
+
+- **Chapter I**
+  - [Hello World](#hello-world)
+  - [Variables and Data Types](#variables-and-data-types)
+  - [Operators](#operators)
+  - [Flow Control](#flow-control)
+  - [Functions](#functions)
+  - [Scope and Closures](#scope-and-closures)
+  - [Arrays](#arrays)
+  - [Objects](#objects)
+  - [Strings](#strings)
+
+- **Chapter II**
+  - [Destructuring](#destructuring)
+  - [Spread and Rest](#spread-and-rest)
+  - [Symbols](#symbols)
+  - [Iterators and Generators](#iterators-and-generators)
+  - [Promises](#promises)
+  - [Async/Await](#asyncawait)
+  - [Modules](#modules)
+  - [Classes](#classes)
+  - [Proxy and Reflect](#proxy-and-reflect)
+
+- **Chapter III**
+  - [The DOM](#the-dom)
+  - [Events](#events)
+  - [Forms](#forms)
+  - [Fetch API](#fetch-api)
+  - [Storage](#storage)
+  - [Web APIs](#web-apis)
+  - [Canvas](#canvas)
+  - [Animation](#animation)
+
+- **Chapter IV**
+  - [Node.js Introduction](#nodejs-introduction)
+  - [npm and Packages](#npm-and-packages)
+  - [File System](#file-system)
+  - [HTTP Server](#http-server)
+  - [Express.js](#expressjs)
+  - [Middleware](#middleware)
+  - [RESTful APIs](#restful-apis)
+  - [Error Handling](#error-handling)
+
+- **Chapter V**
+  - [Testing](#testing)
+  - [TypeScript Introduction](#typescript-introduction)
+  - [Build Tools](#build-tools)
+  - [Performance](#performance)
+  - [Security](#security)
+  - [Design Patterns](#design-patterns)
+
+- **Appendix**
+  - [Next Steps](#next-steps)
+  - [References](#references)
+
+Welcome to the comprehensive JavaScript course. JavaScript is the programming language of the web, and this course will take you from fundamentals to advanced concepts.
+
+# What is JavaScript?
+
+JavaScript (often abbreviated as JS) is a lightweight, interpreted, or just-in-time compiled programming language with first-class functions. It is most well-known as the scripting language for Web pages, but it is also used in many non-browser environments like Node.js, Apache CouchDB, and Adobe Acrobat.
+
+JavaScript was created in 1995 by Brendan Eich while he was working at Netscape Communications Corporation. Originally, it was designed to be a simple scripting language for adding interactivity to web pages, but it has since evolved into one of the most popular and versatile programming languages in the world.
+
+## Key Characteristics
+
+- **Multi-paradigm**: JavaScript supports object-oriented, imperative, and functional programming styles.
+- **Dynamic typing**: Variables in JavaScript are not bound to any specific type.
+- **Prototype-based**: JavaScript uses prototypes for inheritance rather than classical inheritance.
+- **First-class functions**: Functions in JavaScript are treated like any other variable.
+- **Event-driven**: JavaScript can respond to events like user clicks, page loads, and more.
+
+## JavaScript Engines
+
+All major browsers include a JavaScript engine to execute JavaScript code:
+
+- **V8**: Used by Chrome and Node.js
+- **SpiderMonkey**: Used by Firefox
+- **JavaScriptCore**: Used by Safari
+- **Chakra**: Used by older versions of Edge
+
+These engines compile JavaScript to machine code for faster execution.
+
+# Why learn JavaScript?
+
+Before we start this course, let us talk about why we should learn JavaScript.
+
+## 1. Universal Language
+
+JavaScript is the only programming language that runs natively in web browsers. It can be used for both front-end and back-end development, mobile apps, desktop applications, and even Internet of Things (IoT) devices.
+
+## 2. Huge Ecosystem
+
+The JavaScript ecosystem is massive. With npm (Node Package Manager), you have access to over a million packages that can help you build applications faster.
+
+## 3. High Demand
+
+JavaScript developers are in high demand. Whether you want to work at a startup or a large corporation, JavaScript skills are valuable in the job market.
+
+## 4. Easy to Get Started
+
+Unlike many other programming languages, JavaScript doesn't require any special installation or configuration. You can start writing JavaScript right in your browser's console.
+
+## 5. Active Community
+
+JavaScript has one of the most active developer communities. Whatever problem you're facing, there's likely an answer or solution available online.
+
+I hope this made you excited about JavaScript. Let's start this course.
+
+# Installation and Setup
+
+In this tutorial, we will install JavaScript and set up our development environment.
+
+## Browser
+
+The easiest way to run JavaScript is in your web browser. All modern browsers come with built-in JavaScript engines and developer tools.
+
+### Chrome
+
+1. Download Chrome from [google.com/chrome](https://google.com/chrome)
+2. Install and open Chrome
+3. Open Developer Tools with `Cmd+Option+I` (Mac) or `Ctrl+Shift+I` (Windows/Linux)
+4. Click on the "Console" tab
+
+### Firefox
+
+1. Download Firefox from [mozilla.org](https://mozilla.org)
+2. Install and open Firefox
+3. Open Developer Tools with `Cmd+Option+I` (Mac) or `Ctrl+Shift+I` (Windows/Linux)
+4. Click on the "Console" tab
+
+### VS Code
+
+For larger projects, we recommend using Visual Studio Code.
+
+1. Download VS Code from [code.visualstudio.com](https://code.visualstudio.com)
+2. Install the "JavaScript (ES6) code snippets" extension
+3. Install the "Prettier" extension for code formatting
+
+### Node.js
+
+For server-side JavaScript development, install Node.js.
+
+1. Download Node.js from [nodejs.org](https://nodejs.org)
+2. Install and verify with `node --version`
+
+This is it for the installation and setup of JavaScript. Let's start the course and write our first code!
+
+# Hello World
+
+Let's write our first JavaScript program.
+
+## Browser Console
+
+Open your browser's developer tools and go to the Console tab. You can type JavaScript directly:
+
+```javascript
+console.log("Hello World!");
+```
+
+Press Enter to execute. You should see "Hello World!" printed in the console.
+
+## HTML File
+
+You can also create an HTML file with embedded JavaScript:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>JavaScript Course</title>
+  </head>
+  <body>
+    <h1>Hello World</h1>
+    <script>
+      console.log("Hello World!");
+    </script>
+  </body>
+</html>
+```
+
+## Node.js
+
+If you have Node.js installed, create a file called `app.js`:
+
+```javascript
+console.log("Hello World!");
+```
+
+Run it in the terminal:
+
+```bash
+node app.js
+```
+
+Congratulations, you just wrote your first JavaScript program!
+
+# Variables and Data Types
+
+In this tutorial, we will learn about variables and the different data types that JavaScript provides.
+
+## Variables
+
+Let's start with declaring variables.
+
+### var
+
+The `var` keyword was traditionally used to declare variables in JavaScript:
+
+```javascript
+var name = "John";
+console.log(name); // John
+```
+
+### let
+
+Modern JavaScript introduced `let` for block-scoped variables:
+
+```javascript
+let age = 25;
+age = 26; // Can be reassigned
+console.log(age); // 26
+```
+
+### const
+
+The `const` keyword is used for variables that should not be reassigned:
+
+```javascript
+const PI = 3.14159;
+// PI = 3.14; // Error! Cannot reassign
+console.log(PI); // 3.14159
+```
+
+**Note**: `const` doesn't make objects or arrays immutable, just prevents reassignment of the variable.
+
+```javascript
+const person = { name: "John" };
+person.name = "Jane"; // This works!
+console.log(person); // { name: "Jane" }
+```
+
+## Data Types
+
+JavaScript has several primitive data types:
+
+### String
+
+Strings are used for text:
+
+```javascript
+let greeting = "Hello";
+let name = "World";
+let template = `Hello, ${name}!`; // Template literal
+
+console.log(greeting); // Hello
+console.log(name); // World
+console.log(template); // Hello, World!
+```
+
+### Number
+
+JavaScript uses a single number type for both integers and floating-point numbers:
+
+```javascript
+let integer = 42;
+let decimal = 3.14;
+let scientific = 2.5e6; // 2.5 million
+
+console.log(integer); // 42
+console.log(decimal); // 3.14
+console.log(scientific); // 2500000
+```
+
+Special values:
+
+```javascript
+console.log(10 / 0); // Infinity
+console.log(-10 / 0); // -Infinity
+console.log("hello" / 2); // NaN (Not a Number)
+```
+
+### Boolean
+
+Booleans represent true or false:
+
+```javascript
+let isActive = true;
+let isComplete = false;
+
+console.log(isActive); // true
+console.log(isComplete); // false
+```
+
+### Undefined
+
+A variable that has been declared but not assigned a value:
+
+```javascript
+let undefinedVar;
+console.log(undefinedVar); // undefined
+```
+
+### Null
+
+Represents an intentional absence of value:
+
+```javascript
+let empty = null;
+console.log(empty); // null
+```
+
+### Symbol
+
+Introduced in ES6, Symbols are unique and immutable identifiers:
+
+```javascript
+const id = Symbol("id");
+console.log(id); // Symbol(id)
+```
+
+### BigInt
+
+For numbers larger than Number can safely represent:
+
+```javascript
+const bigNumber = 9007199254740991n;
+console.log(bigNumber); // 9007199254740991n
+```
+
+## Type Checking
+
+Use the `typeof` operator to check types:
+
+```javascript
+console.log(typeof "hello"); // "string"
+console.log(typeof 42); // "number"
+console.log(typeof true); // "boolean"
+console.log(typeof undefined); // "undefined"
+console.log(typeof null); // "object" (historical bug)
+console.log(typeof Symbol("x")); // "symbol"
+console.log(typeof 123n); // "bigint"
+```
+
+## Type Coercion
+
+JavaScript automatically converts types in certain situations:
+
+```javascript
+console.log("5" + 3); // "53" (number converted to string)
+console.log("5" - 3); // 2 (string converted to number)
+console.log(true + 1); // 2 (true becomes 1)
+console.log(false + 1); // 1 (false becomes 0)
+```
+
+Explicit conversion:
+
+```javascript
+console.log(Number("42")); // 42
+console.log(String(42)); // "42"
+console.log(Boolean(0)); // false
+console.log(Boolean("")); // false
+console.log(Boolean("hello")); // true
+```
+
+# Operators
+
+JavaScript provides various operators for performing operations on values.
+
+## Arithmetic Operators
+
+```javascript
+let a = 10,
+  b = 3;
+
+console.log(a + b); // 13 (addition)
+console.log(a - b); // 7 (subtraction)
+console.log(a * b); // 30 (multiplication)
+console.log(a / b); // 3.333... (division)
+console.log(a % b); // 1 (modulus/remainder)
+console.log(a ** b); // 1000 (exponentiation)
+```
+
+Increment and decrement:
+
+```javascript
+let x = 5;
+console.log(++x); // 6 (pre-increment)
+console.log(x++); // 6 (post-increment, returns old value)
+console.log(--x); // 5 (pre-decrement)
+console.log(x--); // 5 (post-decrement, returns old value)
+```
+
+## Comparison Operators
+
+```javascript
+console.log(5 == "5"); // true (loose equality, type coercion)
+console.log(5 === "5"); // false (strict equality, no type coercion)
+console.log(5 != "5"); // false (loose inequality)
+console.log(5 !== "5"); // true (strict inequality)
+console.log(5 > 3); // true
+console.log(5 >= 5); // true
+console.log(5 < 3); // false
+console.log(5 <= 5); // true
+```
+
+## Logical Operators
+
+```javascript
+console.log(true && false); // false (AND)
+console.log(true || false); // true (OR)
+console.log(!true); // false (NOT)
+```
+
+Short-circuit evaluation:
+
+```javascript
+let name = null;
+let defaultName = name || "Anonymous";
+console.log(defaultName); // "Anonymous"
+
+// With && - returns first falsy value or last value
+console.log(false && "hello"); // false
+console.log(0 && "hello"); // 0
+
+// With || - returns first truthy value or last value
+console.log("hello" || "world"); // "hello"
+console.log(false || 0); // 0
+```
+
+## Assignment Operators
+
+```javascript
+let x = 10;
+
+x += 5; // x = 15
+x -= 3; // x = 12
+x *= 2; // x = 24
+x /= 4; // x = 6
+x %= 4; // x = 2
+x **= 3; // x = 8
+```
+
+## Bitwise Operators
+
+```javascript
+console.log(5 & 3); // 1 (AND)
+console.log(5 | 3); // 7 (OR)
+console.log(5 ^ 3); // 6 (XOR)
+console.log(~5); // -6 (NOT)
+console.log(4 << 1); // 8 (left shift)
+console.log(4 >> 1); // 2 (right shift)
+console.log(4 >>> 1); // 2 (unsigned right shift)
+```
+
+## Ternary Operator
+
+Shorthand for if-else:
+
+```javascript
+let age = 20;
+let status = age >= 18 ? "adult" : "minor";
+console.log(status); // "adult"
+```
+
+## Nullish Coalescing
+
+Returns right side if left is `null` or `undefined`:
+
+```javascript
+let value = null;
+let result = value ?? "default";
+console.log(result); // "default"
+
+value = 0;
+result = value ?? "default";
+console.log(result); // 0
+```
+
+## Optional Chaining
+
+Safely access nested properties:
+
+```javascript
+const user = {
+  name: "John",
+  address: {
+    city: "New York",
+  },
+};
+
+console.log(user.address?.city); // "New York"
+console.log(user.phone?.number); // undefined (no error)
+```
+
+# Flow Control
+
+Let's talk about flow control statements in JavaScript.
+
+## If/Else
+
+```javascript
+let score = 85;
+
+if (score >= 90) {
+  console.log("A grade");
+} else if (score >= 80) {
+  console.log("B grade");
+} else if (score >= 70) {
+  console.log("C grade");
+} else {
+  console.log("Need improvement");
+}
+```
+
+## Switch
+
+Useful for multiple conditions:
+
+```javascript
+let day = "Monday";
+
+switch (day) {
+  case "Monday":
+  case "Tuesday":
+  case "Wednesday":
+  case "Thursday":
+  case "Friday":
+    console.log("Weekday");
+    break;
+  case "Saturday":
+  case "Sunday":
+    console.log("Weekend");
+    break;
+  default:
+    console.log("Invalid day");
+}
+```
+
+## For Loop
+
+```javascript
+// Traditional for loop
+for (let i = 0; i < 5; i++) {
+  console.log(i);
+}
+
+// For...of (arrays)
+const fruits = ["apple", "banana", "cherry"];
+for (const fruit of fruits) {
+  console.log(fruit);
+}
+
+// For...in (objects)
+const person = { name: "John", age: 30 };
+for (const key in person) {
+  console.log(`${key}: ${person[key]}`);
+}
+```
+
+## While Loop
+
+```javascript
+let count = 0;
+
+while (count < 5) {
+  console.log(count);
+  count++;
+}
+
+// do...while (always runs at least once)
+let i = 0;
+do {
+  console.log(i);
+  i++;
+} while (i < 5);
+```
+
+## Break and Continue
+
+```javascript
+// Break - exit loop completely
+for (let i = 0; i < 10; i++) {
+  if (i === 5) break;
+  console.log(i);
+}
+
+// Continue - skip to next iteration
+for (let i = 0; i < 5; i++) {
+  if (i === 2) continue;
+  console.log(i);
+}
+```
+
+## Exception Handling
+
+```javascript
+try {
+  // Code that might throw an error
+  throw new Error("Something went wrong!");
+} catch (error) {
+  console.log("Caught error:", error.message);
+} finally {
+  console.log("Always executes");
+}
+```
+
+# Functions
+
+Functions are reusable blocks of code in JavaScript.
+
+## Function Declaration
+
+```javascript
+function greet(name) {
+  return `Hello, ${name}!`;
+}
+
+console.log(greet("World")); // Hello, World!
+```
+
+## Function Expression
+
+```javascript
+const greet = function (name) {
+  return `Hello, ${name}!`;
+};
+
+console.log(greet("World")); // Hello, World!
+```
+
+## Arrow Functions
+
+ES6 introduced a shorter syntax:
+
+```javascript
+const greet = (name) => {
+  return `Hello, ${name}!`;
+};
+
+// Even shorter for single expressions
+const greet = (name) => `Hello, ${name}!`;
+
+console.log(greet("World")); // Hello, World!
+```
+
+## Parameters
+
+### Default Parameters
+
+```javascript
+function greet(name = "Guest") {
+  return `Hello, ${name}!`;
+}
+
+console.log(greet()); // Hello, Guest!
+console.log(greet("John")); // Hello, John!
+```
+
+### Rest Parameters
+
+```javascript
+function sum(...numbers) {
+  return numbers.reduce((acc, num) => acc + num, 0);
+}
+
+console.log(sum(1, 2, 3, 4, 5)); // 15
+```
+
+## Return Values
+
+```javascript
+function add(a, b) {
+  return a + b;
+}
+
+// Functions can return functions
+function multiplier(factor) {
+  return function (number) {
+    return number * factor;
+  };
+}
+
+const double = multiplier(2);
+console.log(double(5)); // 10
+```
+
+## Higher-Order Functions
+
+Functions can accept other functions as arguments:
+
+```javascript
+function applyOperation(a, b, operation) {
+  return operation(a, b);
+}
+
+const result = applyOperation(5, 3, (x, y) => x + y);
+console.log(result); // 8
+```
+
+## IIFE (Immediately Invoked Function Expression)
+
+```javascript
+(function () {
+  console.log("Runs immediately!");
+})();
+```
+
+## Function Scope
+
+```javascript
+function outer() {
+  const outerVar = "I'm from outer";
+
+  function inner() {
+    const innerVar = "I'm from inner";
+    console.log(outerVar); // Accessible
+    console.log(innerVar); // Accessible
+  }
+
+  inner();
+  console.log(innerVar); // Error! Not accessible
+}
+
+outer();
+```
+
+# Scope and Closures
+
+Understanding scope and closures is crucial for mastering JavaScript.
+
+## Scope
+
+Scope determines where variables are accessible.
+
+### Global Scope
+
+```javascript
+const globalVar = "I'm global";
+
+function test() {
+  console.log(globalVar); // Accessible
+}
+```
+
+### Function Scope
+
+```javascript
+function test() {
+  const functionVar = "I'm function-scoped";
+  console.log(functionVar); // Accessible
+}
+
+test();
+console.log(functionVar); // Error!
+```
+
+### Block Scope
+
+```javascript
+{
+  const blockVar = "I'm block-scoped";
+  let alsoBlock = "I'm also block-scoped";
+  var notBlock = "I'm not block-scoped";
+  console.log(blockVar); // Accessible
+}
+
+console.log(blockVar); // Error!
+console.log(notBlock); // Accessible (var is not block-scoped)
+```
+
+### Lexical Scope
+
+```javascript
+function outer() {
+  const outerVar = "outer";
+
+  function inner() {
+    const innerVar = "inner";
+    console.log(outerVar); // Can access outerVar
+    console.log(innerVar); // Can access innerVar
+  }
+
+  inner();
+  console.log(innerVar); // Error!
+}
+
+outer();
+```
+
+## Closures
+
+A closure is a function that remembers its outer variables even after the outer function has finished executing.
+
+### Basic Closure
+
+```javascript
+function createCounter() {
+  let count = 0;
+
+  return function () {
+    count++;
+    return count;
+  };
+}
+
+const counter = createCounter();
+console.log(counter()); // 1
+console.log(counter()); // 2
+console.log(counter()); // 3
+```
+
+### Practical Use: Private Variables
+
+```javascript
+function createBankAccount(initialBalance) {
+  let balance = initialBalance;
+
+  return {
+    deposit: function (amount) {
+      balance += amount;
+      return balance;
+    },
+    withdraw: function (amount) {
+      if (amount <= balance) {
+        balance -= amount;
+        return balance;
+      }
+      return "Insufficient funds";
+    },
+    getBalance: function () {
+      return balance;
+    },
+  };
+}
+
+const account = createBankAccount(100);
+console.log(account.getBalance()); // 100
+account.deposit(50);
+console.log(account.getBalance()); // 150
+account.withdraw(30);
+console.log(account.getBalance()); // 120
+```
+
+### Closure in Loops
+
+```javascript
+// Problem: var doesn't create block scope
+for (var i = 0; i < 3; i++) {
+  setTimeout(() => console.log(i), 100);
+}
+// Output: 3, 3, 3 (all reference same i)
+
+// Solution 1: Use let
+for (let i = 0; i < 3; i++) {
+  setTimeout(() => console.log(i), 100);
+}
+// Output: 0, 1, 2
+
+// Solution 2: Use closure (IIFE)
+for (var i = 0; i < 3; i++) {
+  (function (index) {
+    setTimeout(() => console.log(index), 100);
+  })(i);
+}
+// Output: 0, 1, 2
+```
+
+## this Keyword
+
+The value of `this` depends on how a function is called.
+
+### Global Context
+
+```javascript
+console.log(this); // Window object (in browser)
+```
+
+### Object Method
+
+```javascript
+const person = {
+  name: "John",
+  greet: function () {
+    console.log(`Hello, I'm ${this.name}`);
+  },
+};
+
+person.greet(); // Hello, I'm John
+```
+
+### Arrow Functions
+
+Arrow functions don't have their own `this`:
+
+```javascript
+const person = {
+  name: "John",
+  greet: () => {
+    console.log(`Hello, I'm ${this.name}`);
+  },
+};
+
+person.greet(); // Hello, I'm undefined (or Window in browser)
+```
+
+### Changing Context
+
+```javascript
+const person = {
+  name: "John",
+};
+
+function greet() {
+  console.log(`Hello, I'm ${this.name}`);
+}
+
+greet.call(person); // Hello, I'm John
+greet.apply(person); // Hello, I'm John
+
+const boundGreet = greet.bind(person);
+boundGreet(); // Hello, I'm John
+```
+
+# Arrays
+
+Arrays are ordered collections of values in JavaScript.
+
+## Creating Arrays
+
+```javascript
+const numbers = [1, 2, 3, 4, 5];
+const mixed = [1, "hello", true, null, { name: "John" }];
+const sparse = [1, , 3]; // Contains empty slot
+const fromString = Array.from("hello"); // ['h', 'e', 'l', 'l', 'o']
+const withFill = Array(5).fill(0); // [0, 0, 0, 0, 0]
+```
+
+## Accessing Elements
+
+```javascript
+const arr = [1, 2, 3, 4, 5];
+
+console.log(arr[0]); // 1
+console.log(arr[arr.length - 1]); // 5
+console.log(arr[10]); // undefined
+```
+
+## Array Properties
+
+```javascript
+const arr = [1, 2, 3];
+
+console.log(arr.length); // 3
+arr.length = 5; // Changes array length
+console.log(arr); // [1, 2, 3, undefined, undefined]
+```
+
+## Array Methods
+
+### Adding/Removing Elements
+
+```javascript
+const arr = [1, 2, 3];
+
+arr.push(4); // Add to end: [1, 2, 3, 4]
+arr.pop(); // Remove from end: returns 4, array is [1, 2, 3]
+arr.unshift(0); // Add to beginning: [0, 1, 2, 3]
+arr.shift(); // Remove from beginning: returns 0, array is [1, 2, 3]
+```
+
+### Slicing and Splicing
+
+```javascript
+const arr = [1, 2, 3, 4, 5];
+
+// slice - returns portion (doesn't modify original)
+console.log(arr.slice(1, 3)); // [2, 3]
+console.log(arr.slice(-2)); // [4, 5]
+
+// splice - removes/adds elements (modifies original)
+console.log(arr.splice(1, 2, "a", "b")); // [2, 3], arr is [1, 'a', 'b', 4, 5]
+```
+
+### Searching
+
+```javascript
+const arr = [1, 2, 3, 2, 4];
+
+console.log(arr.indexOf(2)); // 1
+console.log(arr.lastIndexOf(2)); // 3
+console.log(arr.includes(3)); // true
+console.log(arr.find((x) => x > 2)); // 3
+console.log(arr.findIndex((x) => x > 2)); // 2
+```
+
+### Iteration Methods
+
+```javascript
+const numbers = [1, 2, 3, 4, 5];
+
+// forEach - execute function for each element
+numbers.forEach((num, index) => console.log(`${index}: ${num}`));
+
+// map - transform each element
+const doubled = numbers.map((x) => x * 2);
+console.log(doubled); // [2, 4, 6, 8, 10]
+
+// filter - keep elements that pass test
+const evens = numbers.filter((x) => x % 2 === 0);
+console.log(evens); // [2, 4]
+
+// reduce - accumulate values
+const sum = numbers.reduce((acc, num) => acc + num, 0);
+console.log(sum); // 15
+
+// every - all elements pass test
+console.log(numbers.every((x) => x > 0)); // true
+
+// some - at least one element passes test
+console.log(numbers.some((x) => x > 4)); // true
+```
+
+### Sorting and Reversing
+
+```javascript
+const arr = [3, 1, 4, 1, 5];
+
+console.log(arr.sort((a, b) => a - b)); // [1, 1, 3, 4, 5]
+console.log(arr.reverse()); // [5, 4, 3, 1, 1]
+```
+
+### Combining
+
+```javascript
+const arr1 = [1, 2];
+const arr2 = [3, 4];
+
+console.log(arr1.concat(arr2)); // [1, 2, 3, 4]
+console.log([...arr1, ...arr2]); // [1, 2, 3, 4]
+console.log(arr1.join("-")); // "1-2"
+```
+
+### Flattening
+
+```javascript
+const nested = [1, [2, [3, [4]]]];
+
+console.log(nested.flat()); // [1, 2, [3, [4]]]
+console.log(nested.flat(2)); // [1, 2, 3, [4]]
+console.log(nested.flat(Infinity)); // [1, 2, 3, 4]
+
+// flatMap - map then flatten
+const result = nested.flatMap((x) => (Array.isArray(x) ? x : [x]));
+console.log(result); // [1, 2, [3, [4]]]
+```
+
+## Array Iteration
+
+```javascript
+const arr = [1, 2, 3];
+
+for (const item of arr) {
+  console.log(item);
+}
+```
+
+# Objects
+
+Objects are collections of key-value pairs in JavaScript.
+
+## Creating Objects
+
+```javascript
+const person = {
+  name: "John",
+  age: 30,
+  isActive: true,
+};
+
+// Using constructor
+const obj = new Object();
+
+// Using Object.create()
+const prototype = { role: "user" };
+const user = Object.create(prototype);
+user.name = "Jane";
+```
+
+## Accessing Properties
+
+```javascript
+const person = {
+  name: "John",
+  age: 30,
+  address: {
+    city: "New York",
+  },
+};
+
+// Dot notation
+console.log(person.name); // John
+
+// Bracket notation
+console.log(person["name"]); // John
+console.log(person["address"]["city"]); // New York
+
+// Optional chaining
+console.log(person.address?.city); // New York
+console.log(person.phone?.number); // undefined
+```
+
+## Adding and Modifying
+
+```javascript
+const person = { name: "John" };
+
+person.age = 30; // Add/update
+person["city"] = "NYC"; // Add/update
+
+// Delete property
+delete person.age;
+```
+
+## Object Methods
+
+```javascript
+const person = {
+  name: "John",
+  age: 30,
+  greet() {
+    return `Hello, I'm ${this.name}`;
+  },
+};
+
+console.log(Object.keys(person)); // ['name', 'age', 'greet']
+console.log(Object.values(person)); // ['John', 30, [Function: greet]]
+console.log(Object.entries(person)); // [['name', 'John'], ['age', 30], ...]
+console.log(Object.keys(person).length); // 3
+```
+
+## Object Descriptors
+
+```javascript
+const obj = {};
+
+// Add property with descriptors
+Object.defineProperty(obj, "id", {
+  value: 1,
+  writable: false, // Cannot modify
+  enumerable: false, // Cannot iterate
+  configurable: false, // Cannot delete or redefine
+});
+
+// Get descriptors
+console.log(Object.getOwnPropertyDescriptor(obj, "id"));
+
+// Prevent modifications
+const frozen = Object.freeze({ x: 1 });
+// frozen.x = 2; // Error in strict mode
+
+const sealed = Object.seal({ x: 1 });
+// Cannot add/remove properties, but can modify
+```
+
+## Object.assign
+
+```javascript
+const target = { x: 1 };
+const source = { y: 2 };
+const result = Object.assign(target, source);
+console.log(result); // { x: 1, y: 2 }
+console.log(target); // { x: 1, y: 2 }
+```
+
+## Object Spread
+
+```javascript
+const obj1 = { x: 1, y: 2 };
+const obj2 = { ...obj1, z: 3 };
+const merged = { ...obj1, ...obj2 };
+```
+
+## this in Objects
+
+```javascript
+const person = {
+  name: "John",
+  greet() {
+    return `Hello, I'm ${this.name}`;
+  },
+  delayedGreet() {
+    setTimeout(function () {
+      console.log(this.name); // undefined (different 'this')
+    }, 100);
+  },
+  correctGreet() {
+    setTimeout(() => {
+      console.log(this.name); // John (inherits 'this')
+    }, 100);
+  },
+};
+```
+
+# Strings
+
+Strings are sequences of characters in JavaScript.
+
+## Creating Strings
+
+```javascript
+const str1 = "Hello"; // Double quotes
+const str2 = "World"; // Single quotes
+const str3 = `Hello, ${str2}!`; // Template literals
+```
+
+## String Properties and Methods
+
+### Length and Access
+
+```javascript
+const str = "Hello";
+
+console.log(str.length); // 5
+console.log(str[0]); // H
+console.log(str.charAt(1)); // e
+console.log(str.charCodeAt(0)); // 72 (Unicode)
+```
+
+### Searching
+
+```javascript
+const str = "Hello World";
+
+console.log(str.indexOf("o")); // 4
+console.log(str.lastIndexOf("o")); // 7
+console.log(str.includes("World")); // true
+console.log(str.startsWith("Hello")); // true
+console.log(str.endsWith("World")); // true
+console.log(str.search(/world/i)); // 6
+```
+
+### Extracting
+
+```javascript
+const str = "Hello World";
+
+console.log(str.slice(0, 5)); // Hello
+console.log(str.slice(6)); // World
+console.log(str.slice(-5)); // World
+console.log(str.substring(6, 11)); // World
+console.log(str.substr(6, 5)); // World (deprecated)
+```
+
+### Transforming
+
+```javascript
+const str = "Hello World";
+
+console.log(str.toUpperCase()); // HELLO WORLD
+console.log(str.toLowerCase()); // hello world
+console.log("  hello  ".trim()); // hello
+console.log("hello".padStart(10, "0")); // 0000hello
+console.log("hello".padEnd(10, "0")); // hello0000
+console.log("hello".repeat(3)); // hellohellohello
+console.log("Hello".concat(" ", "World")); // Hello World
+```
+
+### Splitting and Joining
+
+```javascript
+const str = "apple,banana,cherry";
+
+console.log(str.split(",")); // ['apple', 'banana', 'cherry']
+console.log(str.split("")); // ['a', 'p', 'p', 'l', 'e', ...]
+console.log(["a", "b", "c"].join("-")); // a-b-c
+```
+
+### Replacing
+
+```javascript
+const str = "Hello World";
+
+console.log(str.replace("World", "JavaScript")); // Hello JavaScript
+console.log(str.replace(/world/i, "JS")); // Hello JS
+console.log(str.replaceAll("o", "0")); // Hell0 W0rld
+```
+
+### Template Literals
+
+```javascript
+const name = "John";
+const age = 30;
+
+const greeting = `Hello, my name is ${name} and I am ${age} years old.`;
+const calc = `2 + 2 = ${2 + 2}`;
+const multiline = `
+    This is
+    a multiline
+    string
+`;
+```
+
+### String Comparison
+
+```javascript
+console.log("apple" < "banana"); // true
+console.log("Apple" < "apple"); // true (uppercase comes first)
+console.log("a".localeCompare("b")); // -1
+```
+
+# Destructuring
+
+Destructuring allows you to unpack values from arrays or properties from objects into distinct variables.
+
+## Array Destructuring
+
+```javascript
+const colors = ["red", "green", "blue"];
+
+const [first, second, third] = colors;
+console.log(first); // red
+console.log(second); // green
+console.log(third); // blue
+
+// Skip elements
+const [, , thirdColor] = colors;
+console.log(thirdColor); // blue
+
+// Rest pattern
+const [primary, ...rest] = colors;
+console.log(primary); // red
+console.log(rest); // ['green', 'blue']
+
+// Default values
+const [a, b, c, d = "purple"] = colors;
+console.log(d); // purple
+```
+
+## Object Destructuring
+
+```javascript
+const person = { name: "John", age: 30, city: "NYC" };
+
+const { name, age } = person;
+console.log(name); // John
+console.log(age); // 30
+
+// Rename variables
+const { name: userName, age: userAge } = person;
+
+// Default values
+const { name, country = "USA" } = person;
+
+// Nested destructuring
+const {
+  address: { city },
+} = { address: { city: "NYC" } };
+```
+
+## Function Parameters
+
+```javascript
+function greet({ name, age }) {
+  return `Hello, I'm ${name} and I'm ${age} years old`;
+}
+
+console.log(greet({ name: "John", age: 30 }));
+
+// With defaults
+function createUser({ name = "Anonymous", role = "user" } = {}) {
+  return { name, role };
+}
+```
+
+## Common Use Cases
+
+```javascript
+// Swapping variables
+let a = 1,
+  b = 2;
+[a, b] = [b, a];
+console.log(a, b); // 2, 1
+
+// Ignoring return values
+const [, , third] = [1, 2, 3];
+
+// Parsing JSON
+const {
+  name,
+  data: { value },
+} = JSON.parse('{"name":"test","data":{"value":42}}');
+```
+
+# Spread and Rest
+
+The spread and rest operators use the same syntax (`...`) but serve different purposes.
+
+## Spread Operator
+
+Expands an iterable into individual elements.
+
+### Arrays
+
+```javascript
+const arr1 = [1, 2, 3];
+const arr2 = [4, 5, 6];
+
+// Copy array
+const copy = [...arr1];
+console.log(copy); // [1, 2, 3]
+
+// Concatenate
+const merged = [...arr1, ...arr2];
+console.log(merged); // [1, 2, 3, 4, 5, 6]
+
+// Add elements
+const withNew = [...arr1, 4, 5];
+console.log(withNew); // [1, 2, 3, 4, 5]
+
+// Copy with modification
+const updated = arr1.map((x) => x * 2);
+const withSpread = [...arr1.slice(0, 1), 10, ...arr1.slice(2)];
+```
+
+### Objects
+
+```javascript
+const obj1 = { a: 1, b: 2 };
+const obj2 = { c: 3 };
+
+// Copy object
+const copy = { ...obj1 };
+console.log(copy); // { a: 1, b: 2 }
+
+// Merge objects (later properties override)
+const merged = { ...obj1, ...obj2, b: 10 };
+console.log(merged); // { a: 1, b: 10, c: 3 }
+```
+
+### Function Calls
+
+```javascript
+const nums = [1, 2, 3];
+console.log(Math.max(...nums)); // 3
+
+// Array to arguments
+console.log(console.log(...nums)); // 1 2 3
+```
+
+### Strings
+
+```javascript
+const chars = [..."hello"];
+console.log(chars); // ['h', 'e', 'l', 'l', 'o']
+```
+
+## Rest Parameters
+
+Collects remaining elements into an array.
+
+### Function Parameters
+
+```javascript
+function sum(...numbers) {
+  return numbers.reduce((acc, n) => acc + n, 0);
+}
+
+console.log(sum(1, 2, 3, 4)); // 10
+
+// First parameter + rest
+function multiply(factor, ...numbers) {
+  return numbers.map((n) => n * factor);
+}
+console.log(multiply(2, 1, 2, 3)); // [2, 4, 6]
+```
+
+### Destructuring
+
+```javascript
+const [first, ...rest] = [1, 2, 3, 4, 5];
+console.log(first); // 1
+console.log(rest); // [2, 3, 4, 5]
+
+const { name, ...others } = { name: "John", age: 30, city: "NYC" };
+console.log(name); // John
+console.log(others); // { age: 30, city: "NYC" }
+```
+
+### With Arrow Functions
+
+```javascript
+const logAll = (...args) => args.forEach((arg) => console.log(arg));
+
+// Cannot use rest in getters but can in methods
+const obj = {
+  getData(...args) {
+    return args;
+  },
+};
+```
+
+# Symbols
+
+Symbols are unique and immutable primitives introduced in ES6.
+
+## Creating Symbols
+
+```javascript
+const sym1 = Symbol();
+const sym2 = Symbol("description");
+const sym3 = Symbol("description");
+
+console.log(sym1); // Symbol()
+console.log(sym2); // Symbol(description)
+console.log(sym2 === sym3); // false (each Symbol is unique)
+```
+
+## Use Cases
+
+### Unique Property Keys
+
+```javascript
+const user = {
+  [Symbol("id")]: 1,
+  name: "John",
+};
+
+console.log(user[Symbol("id")]); // undefined (different symbol)
+console.log(Object.getOwnPropertySymbols(user)); // [Symbol(id)]
+```
+
+### Well-known Symbols
+
+```javascript
+// Symbol.iterator - custom iteration
+const customIterable = {
+  [Symbol.iterator]() {
+    let step = 0;
+    return {
+      next() {
+        step++;
+        if (step <= 3) {
+          return { value: step, done: false };
+        }
+        return { value: undefined, done: true };
+      },
+    };
+  },
+};
+
+for (const num of customIterable) {
+  console.log(num); // 1, 2, 3
+}
+
+// Symbol.toStringTag - custom toString
+class MyClass {
+  get [Symbol.toStringTag]() {
+    return "MyClass";
+  }
+}
+console.log(new MyClass().toString()); // [object MyClass]
+
+// Symbol.hasInstance - custom instanceof
+class EvenNumbers {
+  static [Symbol.hasInstance](num) {
+    return num % 2 === 0;
+  }
+}
+console.log(2 instanceof EvenNumbers); // true
+console.log(3 instanceof EvenNumbers); // false
+```
+
+### Private Properties
+
+```javascript
+const #privateMethod = Symbol("private");
+
+const obj = {
+    [#privateMethod]() {
+        return "I'm private";
+    },
+    publicMethod() {
+        return this[#privateMethod]();
+    }
+};
+
+console.log(obj.publicMethod()); // I'm private
+console.log(Object.keys(obj)); // ['publicMethod'] - private is hidden
+```
+
+## Symbol Registry
+
+```javascript
+// Global symbol registry
+const sym1 = Symbol.for("myKey");
+const sym2 = Symbol.for("myKey");
+
+console.log(sym1 === sym2); // true (same symbol)
+console.log(Symbol.keyFor(sym1)); // myKey
+```
+
+# Iterators and Generators
+
+## Iterators
+
+An iterator is an object that provides a `next()` method returning `{ value, done }`.
+
+```javascript
+const arrayIterator = [1, 2, 3][Symbol.iterator]();
+
+console.log(arrayIterator.next()); // { value: 1, done: false }
+console.log(arrayIterator.next()); // { value: 2, done: false }
+console.log(arrayIterator.next()); // { value: 3, done: false }
+console.log(arrayIterator.next()); // { value: undefined, done: true }
+```
+
+### Custom Iterator
+
+```javascript
+const range = {
+  from: 1,
+  to: 5,
+  [Symbol.iterator]() {
+    let current = this.from;
+    return {
+      next: () => {
+        if (current <= this.to) {
+          return { value: current++, done: false };
+        }
+        return { value: undefined, done: true };
+      },
+    };
+  },
+};
+
+for (const num of range) {
+  console.log(num); // 1, 2, 3, 4, 5
+}
+```
+
+## Generators
+
+Generators are functions that can pause and resume execution.
+
+### Basic Usage
+
+```javascript
+function* simpleGenerator() {
+  yield 1;
+  yield 2;
+  yield 3;
+}
+
+const gen = simpleGenerator();
+console.log(gen.next()); // { value: 1, done: false }
+console.log(gen.next()); // { value: 2, done: false }
+console.log(gen.next()); // { value: 3, done: false }
+console.log(gen.next()); // { value: undefined, done: true }
+```
+
+### Generator with Loop
+
+```javascript
+function* idGenerator() {
+  let id = 1;
+  while (true) {
+    yield id++;
+  }
+}
+
+const idGen = idGenerator();
+console.log(idGen.next().value); // 1
+console.log(idGen.next().value); // 2
+console.log(idGen.next().value); // 3
+```
+
+### Infinite Sequence
+
+```javascript
+function* fibonacci() {
+  let [a, b] = [0, 1];
+  while (true) {
+    yield a;
+    [a, b] = [b, a + b];
+  }
+}
+
+const fib = fibonacci();
+console.log([...Array(10)].map(() => fib.next().value));
+// [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
+```
+
+### Delegating Generators
+
+```javascript
+function* gen1() {
+  yield 1;
+  yield 2;
+}
+
+function* gen2() {
+  yield 3;
+  yield* gen1(); // Delegate to another generator
+  yield 4;
+}
+
+console.log([...gen2()]); // [3, 1, 2, 4]
+```
+
+### Sending Values
+
+```javascript
+function* calculator() {
+  const result = (yield "Enter first number") + (yield "Enter second number");
+  yield result;
+}
+
+const calc = calculator();
+console.log(calc.next().value); // "Enter first number"
+console.log(calc.next(5).value); // "Enter second number"
+console.log(calc.next(3).value); // 8
+```
+
+### Throwing Errors
+
+```javascript
+function* errorGenerator() {
+  try {
+    yield 1;
+    yield 2;
+  } catch (e) {
+    yield `Error: ${e}`;
+  }
+}
+
+const gen = errorGenerator();
+gen.next();
+gen.throw("Something went wrong");
+```
+
+# Promises
+
+Promises represent a value that may be available now, in the future, or never.
+
+## Creating Promises
+
+```javascript
+const promise = new Promise((resolve, reject) => {
+  // Async operation
+  setTimeout(() => {
+    const success = true;
+    if (success) {
+      resolve("Operation completed");
+    } else {
+      reject(new Error("Operation failed"));
+    }
+  }, 1000);
+});
+
+promise
+  .then((result) => console.log(result))
+  .catch((error) => console.error(error));
+```
+
+## Promise States
+
+- **Pending**: Initial state, neither fulfilled nor rejected
+- **Fulfilled**: Operation completed successfully
+- **Rejected**: Operation failed
+
+## Chaining
+
+```javascript
+fetchUser(1)
+  .then((user) => fetchUserPosts(user.id))
+  .then((posts) => filterPublished(posts))
+  .then((published) => sortByDate(published))
+  .then((sorted) => displayPosts(sorted))
+  .catch((error) => console.error(error));
+```
+
+## Promise.all
+
+Wait for all promises to resolve:
+
+```javascript
+const promises = [
+  fetch("/api/users"),
+  fetch("/api/posts"),
+  fetch("/api/comments"),
+];
+
+Promise.all(promises)
+  .then(([users, posts, comments]) => {
+    console.log("All data loaded");
+  })
+  .catch((error) => {
+    console.error("One or more requests failed");
+  });
+```
+
+## Promise.race
+
+Returns when first promise settles:
+
+```javascript
+const timeout = new Promise((_, reject) =>
+  setTimeout(() => reject(new Error("Timeout")), 5000),
+);
+
+const request = fetch("/api/data");
+
+Promise.race([request, timeout])
+  .then((data) => console.log(data))
+  .catch((error) => console.error(error));
+```
+
+## Promise.allSettled
+
+Wait for all promises to settle (regardless of outcome):
+
+```javascript
+const results = await Promise.allSettled([
+  fetch("/api/1"),
+  fetch("/api/2"),
+  fetch("/api/3"),
+]);
+
+results.forEach((result, index) => {
+  if (result.status === "fulfilled") {
+    console.log(`Request ${index}: Success`);
+  } else {
+    console.log(`Request ${index}: Failed - ${result.reason}`);
+  }
+});
+```
+
+## Promise.any
+
+Returns when any promise fulfills:
+
+```javascript
+const promises = [
+  fetch("/api/1").then(() => 1),
+  fetch("/api/2").then(() => 2),
+  fetch("/api/3").then(() => 3),
+];
+
+Promise.any(promises)
+  .then((result) => console.log(result))
+  .catch((error) => console.error(error));
+```
+
+## Converting Callback to Promise
+
+```javascript
+// Using Promise constructor
+function promisify(callbackApi) {
+  return (...args) =>
+    new Promise((resolve, reject) => {
+      callbackApi(...args, (error, result) => {
+        if (error) reject(error);
+        else resolve(result);
+      });
+    });
+}
+
+// Modern: util.promisify (Node.js)
+const { promisify } = require("util");
+const readFile = promisify(fs.readFile);
+```
+
+# Async/Await
+
+Async/await provides cleaner syntax for working with promises.
+
+## Basic Syntax
+
+```javascript
+async function fetchData() {
+  try {
+    const response = await fetch("/api/data");
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+```
+
+## Async Functions
+
+```javascript
+// Function declaration
+async function getData() {
+  return "data";
+}
+
+// Arrow function
+const getData = async () => "data";
+
+// Method
+const obj = {
+  async getData() {
+    return "data";
+  },
+};
+```
+
+## await Keyword
+
+```javascript
+// Must be inside async function
+async function example() {
+  const result = await somePromise();
+  console.log(result);
+}
+```
+
+## Error Handling
+
+```javascript
+async function fetchUser(id) {
+  try {
+    const response = await fetch(`/api/users/${id}`);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
+    }
+
+    const user = await response.json();
+    return user;
+  } catch (error) {
+    console.error("Failed to fetch user:", error);
+    throw error; // Re-throw if needed
+  } finally {
+    console.log("Cleanup");
+  }
+}
+```
+
+## Parallel Execution
+
+```javascript
+async function fetchAll() {
+  // Sequential (slow)
+  const user = await fetchUser(1);
+  const posts = await fetchPosts();
+
+  // Parallel (fast)
+  const [user, posts] = await Promise.all([fetchUser(1), fetchPosts()]);
+
+  return { user, posts };
+}
+```
+
+## Common Patterns
+
+### Sequential Await (when order matters)
+
+```javascript
+async function processSteps() {
+  const result1 = await step1();
+  const result2 = await step2(result1);
+  const result3 = await step3(result2);
+  return result3;
+}
+```
+
+### Concurrent with Individual Error Handling
+
+```javascript
+async function fetchWithFallback(urls) {
+  const results = await Promise.allSettled(urls.map((url) => fetch(url)));
+
+  return results.filter((r) => r.status === "fulfilled").map((r) => r.value);
+}
+```
+
+### Retry Logic
+
+```javascript
+async function fetchWithRetry(url, retries = 3) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      return await fetch(url);
+    } catch (error) {
+      if (i === retries - 1) throw error;
+      await new Promise((r) => setTimeout(r, 1000 * (i + 1)));
+    }
+  }
+}
+```
+
+# Modules
+
+Modules help organize JavaScript code into separate files.
+
+## CommonJS (Node.js)
+
+```javascript
+// math.js
+const add = (a, b) => a + b;
+const subtract = (a, b) => a - b;
+
+module.exports = { add, subtract };
+// or
+exports.add = add;
+exports.subtract = subtract;
+
+// main.js
+const { add, subtract } = require("./math");
+console.log(add(5, 3)); // 8
+```
+
+## ES Modules (Modern)
+
+```javascript
+// math.js
+export const add = (a, b) => a + b;
+export const subtract = (a, b) => a - b;
+
+// Default export
+export default class Calculator {}
+
+// main.js
+import Calculator, { add, subtract } from "./math.js";
+import * as math from "./math.js";
+
+console.log(add(5, 3)); // 8
+```
+
+## Dynamic Imports
+
+```javascript
+// Static import
+import { add } from "./math.js";
+
+// Dynamic import
+const mathModule = await import("./math.js");
+mathModule.add(5, 3);
+```
+
+## HTML Import
+
+```html
+<script type="module" src="app.js"></script>
+```
+
+## Module Patterns
+
+### Re-exporting
+
+```javascript
+// math/operations.js
+export { add } from "./add.js";
+export { subtract } from "./subtract.js";
+
+// main.js
+import { add } from "./math/operations.js";
+```
+
+### Conditional Imports
+
+```javascript
+async function getModule() {
+  if (condition) {
+    return await import("./moduleA.js");
+  }
+  return await import("./moduleB.js");
+}
+```
+
+# Classes
+
+ES6 introduced a class syntax for object-oriented programming in JavaScript.
+
+## Basic Class
+
+```javascript
+class Person {
+  // Constructor
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+
+  // Method
+  greet() {
+    return `Hello, I'm ${this.name}`;
+  }
+
+  // Getter
+  get info() {
+    return `${this.name}, ${this.age} years old`;
+  }
+
+  // Setter
+  set age(value) {
+    if (value < 0) throw new Error("Age cannot be negative");
+    this._age = value;
+  }
+
+  // Static method
+  static create(name, age) {
+    return new Person(name, age);
+  }
+}
+
+const person = new Person("John", 30);
+console.log(person.greet()); // Hello, I'm John
+console.log(person.info); // John, 30 years old
+console.log(Person.create("Jane", 25)); // Person { name: 'Jane', age: 25 }
+```
+
+## Inheritance
+
+```javascript
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+
+  speak() {
+    console.log(`${this.name} makes a sound`);
+  }
+}
+
+class Dog extends Animal {
+  constructor(name, breed) {
+    super(name); // Call parent constructor
+    this.breed = breed;
+  }
+
+  speak() {
+    super.speak(); // Call parent method
+    console.log(`${this.name} barks`);
+  }
+}
+
+const dog = new Dog("Rex", "German Shepherd");
+dog.speak();
+// Rex makes a sound
+// Rex barks
+```
+
+## Private Fields
+
+```javascript
+class BankAccount {
+  // Private field (using #)
+  #balance;
+
+  constructor(initialBalance) {
+    this.#balance = initialBalance;
+  }
+
+  deposit(amount) {
+    this.#balance += amount;
+    return this.#balance;
+  }
+
+  getBalance() {
+    return this.#balance;
+  }
+}
+
+const account = new BankAccount(100);
+account.deposit(50);
+console.log(account.getBalance()); // 150
+console.log(account.#balance); // SyntaxError
+```
+
+## Static Blocks
+
+```javascript
+class MyClass {
+  static property = "value";
+
+  static {
+    // Complex initialization
+    this.property = this.process();
+  }
+}
+```
+
+## Mixins
+
+```javascript
+const Flyable = {
+  fly() {
+    console.log(`${this.name} flies`);
+  },
+};
+
+const Swimmable = {
+  swim() {
+    console.log(`${this.name} swims`);
+  },
+};
+
+class Duck {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+Object.assign(Duck.prototype, Flyable, Swimmable);
+
+const duck = new Duck("Donald");
+duck.fly(); // Donald flies
+duck.swim(); // Donald swims
+```
+
+# Proxy and Reflect
+
+## Proxy
+
+Proxy allows you to intercept and customize operations on objects.
+
+### Basic Usage
+
+```javascript
+const target = { message: "Hello" };
+
+const handler = {
+  get(target, prop) {
+    console.log(`Getting ${prop}`);
+    return target[prop];
+  },
+  set(target, prop, value) {
+    console.log(`Setting ${prop} to ${value}`);
+    target[prop] = value;
+    return true;
+  },
+};
+
+const proxy = new Proxy(target, handler);
+proxy.message; // Getting message
+proxy.message = "Hi"; // Setting message to Hi
+```
+
+### Proxy Traps
+
+```javascript
+const handler = {
+  get(target, prop) {
+    return target[prop];
+  },
+  set(target, prop, value) {
+    target[prop] = value;
+    return true;
+  },
+  has(target, prop) {
+    return prop in target;
+  },
+  deleteProperty(target, prop) {
+    delete target[prop];
+    return true;
+  },
+  apply(target, thisArg, args) {
+    return target.apply(thisArg, args);
+  },
+  construct(target, args) {
+    return new target(...args);
+  },
+};
+```
+
+### Validation
+
+```javascript
+const validator = {
+  set(obj, prop, value) {
+    if (prop === "age") {
+      if (typeof value !== "number") {
+        throw new TypeError("Age must be a number");
+      }
+      if (value < 0 || value > 150) {
+        throw new RangeError("Invalid age");
+      }
+    }
+    obj[prop] = value;
+    return true;
+  },
+};
+
+const person = new Proxy({}, validator);
+person.age = 30; // OK
+person.age = -1; // RangeError
+```
+
+### Private Fields Pattern
+
+```javascript
+const #data = new WeakMap();
+
+class MyClass {
+    constructor(value) {
+        #data.set(this, { value });
+    }
+
+    getValue() {
+        return #data.get(this).value;
+    }
+}
+```
+
+## Reflect
+
+Reflect provides methods for interceptable JavaScript operations.
+
+```javascript
+// Creating objects
+const obj = Reflect.construct(Array, [1, 2, 3]);
+
+// Calling functions
+const result = Reflect.apply(Math.floor, undefined, [1.75]);
+
+// Getting/Setting properties
+const value = Reflect.get({ x: 1 }, "x");
+Reflect.set({ x: 1 }, "x", 2);
+
+// Checking properties
+console.log(Reflect.has({ x: 1 }, "x")); // true
+
+// Deleting properties
+Reflect.deleteProperty({ x: 1 }, "x");
+
+// Own property keys
+console.log(Reflect.ownKeys({ x: 1, [Symbol("y")]: 2, z: 3 }));
+// ['x', 'z', Symbol(y)]
+```
+
+## Proxy with Reflect
+
+```javascript
+const target = { x: 1, y: 2 };
+
+const proxy = new Proxy(target, {
+  get(target, prop) {
+    console.log(`Accessing ${prop}`);
+    return Reflect.get(target, prop);
+  },
+  set(target, prop, value) {
+    console.log(`Setting ${prop} = ${value}`);
+    return Reflect.set(target, prop, value);
+  },
+});
+```
+
+# The DOM
+
+The Document Object Model (DOM) represents the structure of an HTML document.
+
+## Selecting Elements
+
+```javascript
+// By ID
+const element = document.getElementById("myId");
+
+// By class (returns HTMLCollection)
+const elements = document.getElementsByClassName("myClass");
+
+// By tag (returns HTMLCollection)
+const paragraphs = document.getElementsByTagName("p");
+
+// Query selectors (returns first match)
+const element = document.querySelector(".myClass");
+const element = document.querySelector("#myId");
+const element = document.querySelector("div.container > p");
+
+// Query selector all (returns NodeList)
+const elements = document.querySelectorAll(".myClass");
+```
+
+## Modifying Elements
+
+```javascript
+const element = document.querySelector("#myElement");
+
+// Text content
+element.textContent = "New text";
+element.innerText = "New text (respects CSS)";
+
+// HTML
+element.innerHTML = "<strong>Bold</strong>";
+
+// Attributes
+element.setAttribute("data-id", "123");
+element.getAttribute("data-id");
+element.removeAttribute("data-id");
+
+// Classes
+element.classList.add("active");
+element.classList.remove("hidden");
+element.classList.toggle("expanded");
+element.classList.contains("active");
+
+// Styles
+element.style.color = "red";
+element.style.fontSize = "16px";
+```
+
+## Creating Elements
+
+```javascript
+// Create element
+const div = document.createElement("div");
+div.textContent = "New div";
+div.className = "container";
+
+// Add to DOM
+document.body.appendChild(div);
+parentElement.appendChild(div);
+parentElement.insertBefore(newElement, referenceElement);
+
+// Insert adjacent HTML
+element.insertAdjacentHTML("beforeend", "<span>New</span>");
+
+// Remove
+div.remove();
+parentElement.removeChild(div);
+```
+
+## Traversing
+
+```javascript
+const element = document.querySelector(".item");
+
+// Parent
+element.parentElement;
+element.parentNode;
+
+// Children
+element.children; // HTMLCollection
+element.childNodes; // NodeList (includes text nodes)
+element.firstChild;
+element.lastChild;
+element.firstElementChild;
+element.lastElementChild;
+
+// Siblings
+element.nextSibling;
+element.previousSibling;
+element.nextElementSibling;
+element.previousElementSibling;
+```
+
+## Attributes and Data
+
+```javascript
+const element = document.querySelector("#user");
+
+// Data attributes
+element.dataset.userId;
+element.dataset["userId"];
+
+// Check/remove attributes
+element.hasAttribute("disabled");
+element.removeAttribute("disabled");
+
+// ClassList methods
+element.classList.add("active", "highlighted");
+element.classList.remove("hidden");
+element.classList.toggle("expanded");
+element.classList.replace("old", "new");
+element.classList.contains("active");
+```
+
+# Events
+
+Events allow you to respond to user interactions and browser actions.
+
+## Event Basics
+
+```javascript
+const button = document.querySelector("button");
+
+// Add event listener
+button.addEventListener("click", function (event) {
+  console.log("Button clicked!");
+});
+
+// Arrow function
+button.addEventListener("click", (event) => {
+  console.log(event.target);
+});
+
+// Named function
+function handleClick(event) {
+  console.log("Clicked!");
+}
+button.addEventListener("click", handleClick);
+
+// Remove listener
+button.removeEventListener("click", handleClick);
+
+// One-time listener
+button.addEventListener(
+  "click",
+  () => {
+    console.log("This only fires once");
+  },
+  { once: true },
+);
+```
+
+## Common Events
+
+### Mouse Events
+
+```javascript
+element.addEventListener("click", handler);
+element.addEventListener("dblclick", handler);
+element.addEventListener("mouseenter", handler);
+element.addEventListener("mouseleave", handler);
+element.addEventListener("mouseover", handler);
+element.addEventListener("mouseout", handler);
+element.addEventListener("mousemove", handler);
+element.addEventListener("mousedown", handler);
+element.addEventListener("mouseup", handler);
+```
+
+### Keyboard Events
+
+```javascript
+document.addEventListener("keydown", (e) => {
+  console.log(e.key);
+  console.log(e.code);
+  console.log(e.ctrlKey, e.shiftKey, e.altKey);
+});
+
+document.addEventListener("keyup", handler);
+document.addEventListener("keypress", handler);
+```
+
+### Form Events
+
+```javascript
+form.addEventListener("submit", (e) => {
+  e.preventDefault(); // Prevent form submission
+  console.log(new FormData(form));
+});
+
+input.addEventListener("focus", handler);
+input.addEventListener("blur", handler);
+input.addEventListener("change", handler); // On blur if value changed
+input.addEventListener("input", handler); // On every keystroke
+```
+
+### Window Events
+
+```javascript
+window.addEventListener("resize", handler);
+window.addEventListener("scroll", handler);
+window.addEventListener("load", handler);
+document.addEventListener("DOMContentLoaded", handler);
+window.addEventListener("beforeunload", handler);
+```
+
+## Event Object
+
+```javascript
+element.addEventListener("click", (event) => {
+  // Properties
+  event.target; // Element that triggered event
+  event.currentTarget; // Element listener is attached to
+  event.type; // Event type
+  event.bubbles; // Whether event bubbles
+  event.defaultPrevented; // Whether preventDefault() called
+
+  // Methods
+  event.preventDefault(); // Prevent default behavior
+  event.stopPropagation(); // Stop event from bubbling
+  event.stopImmediatePropagation(); // Stop all event handling
+});
+```
+
+## Event Delegation
+
+```javascript
+// Instead of adding listeners to each item
+document.querySelector("ul").addEventListener("click", (e) => {
+  if (e.target.tagName === "LI") {
+    console.log("Clicked:", e.target.textContent);
+  }
+});
+
+// Bubbles up from clicked li to ul
+```
+
+## Custom Events
+
+```javascript
+// Create custom event
+const event = new CustomEvent("build", {
+  detail: { timestamp: Date.now() },
+});
+
+// Dispatch event
+element.dispatchEvent(event);
+
+// Listen for it
+element.addEventListener("build", (e) => {
+  console.log(e.detail);
+});
+```
+
+# Forms
+
+Forms collect user input in HTML and JavaScript.
+
+## Form Structure
+
+```html
+<form id="myForm" action="/submit" method="POST">
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name" required />
+
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" />
+
+  <select name="country">
+    <option value="us">United States</option>
+    <option value="uk">United Kingdom</option>
+  </select>
+
+  <input type="checkbox" id="terms" name="terms" />
+  <label for="terms">I agree to terms</label>
+
+  <button type="submit">Submit</button>
+</form>
+```
+
+## FormData API
+
+```javascript
+const form = document.querySelector("#myForm");
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  // Create FormData from form element
+  const formData = new FormData(form);
+
+  // Methods
+  formData.get("name");
+  formData.getAll("hobbies"); // For multiple select
+  formData.has("email");
+  formData.set("name", "New Name");
+  formData.delete("email");
+  formData.append("hobbies", "reading"); // Add another value
+
+  // Convert to object
+  const data = Object.fromEntries(formData);
+
+  // Convert to URLSearchParams
+  const params = new URLSearchParams(formData);
+
+  // Fetch with FormData
+  fetch("/api/submit", {
+    method: "POST",
+    body: formData,
+  });
+});
+```
+
+## Input Types
+
+```html
+<input type="text" />
+<input type="email" />
+<input type="password" />
+<input type="number" min="0" max="100" />
+<input type="range" min="0" max="100" />
+<input type="date" />
+<input type="time" />
+<input type="datetime-local" />
+<input type="color" />
+<input type="file" accept=".pdf,.doc" />
+<input type="hidden" />
+<textarea></textarea>
+<select multiple></select>
+<input type="radio" name="option" />
+<input type="checkbox" name="option" value="a" />
+<input type="checkbox" name="option" value="b" />
+```
+
+## Validation
+
+### HTML5 Validation
+
+```javascript
+const input = document.querySelector("input");
+
+input.checkValidity(); // Returns boolean
+input.validity.valid;
+input.validity.valueMissing;
+input.validity.typeMismatch;
+input.validity.patternMismatch;
+input.validity.tooLong;
+input.validity.tooShort;
+input.validity.rangeUnderflow;
+input.validity.rangeOverflow;
+input.validity.stepMismatch;
+input.validity.badInput;
+
+input.setCustomValidity("Custom error message");
+input.reportValidity();
+```
+
+### CSS Pseudo-classes
+
+```css
+input:valid {
+  border-color: green;
+}
+input:invalid {
+  border-color: red;
+}
+input:required {
+  border: 2px solid;
+}
+input:focus:invalid {
+  /* ... */
+}
+```
+
+## Real-time Validation
+
+```javascript
+const input = document.querySelector("input[type='email']");
+const error = document.querySelector(".error");
+
+input.addEventListener("input", () => {
+  if (input.validity.typeMismatch) {
+    input.setCustomValidity("Please enter a valid email");
+  } else {
+    input.setCustomValidity("");
+  }
+  error.textContent = input.validationMessage;
+});
+```
+
+# Fetch API
+
+The Fetch API provides a modern way to make HTTP requests.
+
+## Basic Usage
+
+```javascript
+fetch("https://api.example.com/data")
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then((data) => console.log(data))
+  .catch((error) => console.error(error));
+```
+
+## Async/Await
+
+```javascript
+async function fetchData() {
+  try {
+    const response = await fetch("https://api.example.com/data");
+
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Fetch error:", error);
+  }
+}
+```
+
+## Request Options
+
+```javascript
+const options = {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: "Bearer token123",
+  },
+  body: JSON.stringify({ name: "John" }),
+  mode: "cors", // cors, no-cors, same-origin
+  credentials: "include", // include, same-origin, omit
+  cache: "no-cache",
+  redirect: "follow", // follow, error, manual
+  referrer: "no-referrer",
+};
+
+const response = await fetch(url, options);
+```
+
+## Response Properties
+
+```javascript
+const response = await fetch(url);
+
+response.ok; // true if status 200-299
+response.status; // HTTP status code
+response.statusText; // Status text
+response.url; // Actual URL fetched
+response.headers; // Headers object
+response.redirected; // true if redirected
+
+// Body methods
+await response.json(); // Parse JSON
+await response.text(); // Parse as text
+await response.blob(); // Binary data
+await response.arrayBuffer(); // ArrayBuffer
+await response.formData(); // FormData
+```
+
+## POST Request
+
+```javascript
+// JSON
+const response = await fetch("/api/users", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ name: "John", email: "john@example.com" }),
+});
+
+// Form Data
+const formData = new FormData(form);
+const response = await fetch("/api/upload", {
+  method: "POST",
+  body: formData,
+});
+```
+
+## File Upload
+
+```javascript
+const input = document.querySelector('input[type="file"]');
+const formData = new FormData();
+
+for (const file of input.files) {
+  formData.append("files[]", file);
+}
+
+const response = await fetch("/api/upload", {
+  method: "POST",
+  body: formData,
+});
+```
+
+## AbortController
+
+```javascript
+const controller = new AbortController();
+const signal = controller.signal;
+
+fetch(url, { signal })
+  .then((response) => response.json())
+  .catch((err) => {
+    if (err.name === "AbortError") {
+      console.log("Request cancelled");
+    }
+  });
+
+// Cancel after 5 seconds
+setTimeout(() => controller.abort(), 5000);
+```
+
+## Parallel Requests
+
+```javascript
+// Sequential
+const users = await fetch("/api/users").then((r) => r.json());
+const posts = await fetch("/api/posts").then((r) => r.json());
+
+// Parallel (faster)
+const [users, posts] = await Promise.all([
+  fetch("/api/users").then((r) => r.json()),
+  fetch("/api/posts").then((r) => r.json()),
+]);
+```
+
+# Storage
+
+Client-side storage mechanisms for web applications.
+
+## localStorage
+
+```javascript
+// Set item
+localStorage.setItem("token", "abc123");
+localStorage.setItem("user", JSON.stringify({ name: "John" }));
+
+// Get item
+const token = localStorage.getItem("token");
+const user = JSON.parse(localStorage.getItem("user"));
+
+// Remove item
+localStorage.removeItem("token");
+
+// Clear all
+localStorage.clear();
+
+// Check if key exists
+if (localStorage.getItem("token")) {
+}
+
+// Iterate
+for (let i = 0; i < localStorage.length; i++) {
+  const key = localStorage.key(i);
+  const value = localStorage.getItem(key);
+}
+
+// Events (for cross-tab sync)
+window.addEventListener("storage", (e) => {
+  console.log(e.key, e.oldValue, e.newValue);
+});
+```
+
+## sessionStorage
+
+```javascript
+// Same API as localStorage
+sessionStorage.setItem("page", "1");
+sessionStorage.getItem("page");
+
+// Differences:
+// - Cleared when tab/window closes
+// - Data is isolated to current tab
+```
+
+## Cookies
+
+```javascript
+// Set cookie
+document.cookie = "name=John; expires=Fri, 31 Dec 2025 23:59:59 GMT; path=/";
+document.cookie = "theme=dark; max-age=3600"; // expires in 1 hour
+document.cookie = "secure=true; SameSite=Strict";
+
+// Read cookies
+console.log(document.cookie); // "name=John; theme=dark"
+
+// Parse cookies
+function getCookie(name) {
+  const cookies = document.cookie.split("; ");
+  for (const cookie of cookies) {
+    const [key, value] = cookie.split("=");
+    if (key === name) return value;
+  }
+  return null;
+}
+
+// Delete cookie
+document.cookie = "name=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+```
+
+## IndexedDB
+
+```javascript
+// Open database
+const request = indexedDB.open("MyDatabase", 1);
+
+request.onerror = () => console.error("Database error");
+request.onsuccess = () => console.log("Database opened");
+
+request.onupgradeneeded = (e) => {
+  const db = e.target.result;
+  const store = db.createObjectStore("users", { keyPath: "id" });
+  store.createIndex("name", "name", { unique: false });
+};
+
+// Add data
+const transaction = db.transaction(["users"], "readwrite");
+const store = transaction.objectStore("users");
+store.add({ id: 1, name: "John", email: "john@example.com" });
+store.add({ id: 2, name: "Jane", email: "jane@example.com" });
+
+// Get data
+const getRequest = store.get(1);
+getRequest.onsuccess = () => console.log(getRequest.result);
+
+// Using with async/await
+function promisifyRequest(request) {
+  return new Promise((resolve, reject) => {
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
+```
+
+# Web APIs
+
+Modern JavaScript has access to many powerful Web APIs.
+
+## Geolocation
+
+```javascript
+if (navigator.geolocation) {
+  // Get current position
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const { latitude, longitude } = position.coords;
+      console.log(`Lat: ${latitude}, Long: ${longitude}`);
+    },
+    (error) => console.error(error),
+    { enableHighAccuracy: true, timeout: 5000 },
+  );
+
+  // Watch position
+  const watchId = navigator.geolocation.watchPosition(
+    (position) => console.log(position.coords),
+    (error) => console.error(error),
+  );
+
+  // Stop watching
+  navigator.geolocation.clearWatch(watchId);
+}
+```
+
+## Notifications
+
+```javascript
+// Request permission
+Notification.requestPermission().then((permission) => {
+  if (permission === "granted") {
+    new Notification("Hello!", {
+      body: "This is a notification",
+      icon: "/icon.png",
+      tag: "unique-id", // Replace same-tag notifications
+      requireInteraction: true,
+    });
+  }
+});
+
+// Service Worker notifications
+self.registration.showNotification("Title", {
+  body: "Body text",
+  icon: "/icon.png",
+  badge: "/badge.png",
+  data: { url: "https://example.com" },
+});
+```
+
+## Intersection Observer
+
+```javascript
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+      }
+    });
+  },
+  {
+    root: null,
+    rootMargin: "0px",
+    threshold: 0.1,
+  },
+);
+
+document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
+```
+
+## Resize Observer
+
+```javascript
+const observer = new ResizeObserver((entries) => {
+  for (const entry of entries) {
+    const { width, height } = entry.contentRect;
+    console.log(`Size: ${width}x${height}`);
+  }
+});
+
+observer.observe(document.querySelector(".container"));
+```
+
+## Web Workers
+
+```javascript
+// worker.js
+self.onmessage = function (e) {
+  const result = heavyComputation(e.data);
+  self.postMessage(result);
+};
+
+// main.js
+const worker = new Worker("worker.js");
+worker.postMessage({ data: 1000 });
+worker.onmessage = (e) => console.log(e.data);
+worker.terminate();
+```
+
+## Broadcast Channel
+
+```javascript
+// Tab 1
+const channel = new BroadcastChannel("my-channel");
+channel.postMessage({ type: "update", data: "hello" });
+channel.onmessage = (e) => console.log(e.data);
+
+// Tab 2 (receives the message)
+const channel = new BroadcastChannel("my-channel");
+channel.onmessage = (e) => console.log(e.data);
+```
+
+## Vibration
+
+```javascript
+// Vibrate for 200ms
+navigator.vibrate(200);
+
+// Vibrate pattern: 100ms vibrate, 100ms pause, 200ms vibrate
+navigator.vibrate([100, 100, 200]);
+
+// Stop vibration
+navigator.vibrate(0);
+```
+
+## Battery API
+
+```javascript
+navigator.getBattery().then((battery) => {
+  console.log(`Level: ${battery.level * 100}%`);
+  console.log(`Charging: ${battery.charging}`);
+
+  battery.addEventListener("levelchange", () => {
+    console.log(`New level: ${battery.level * 100}%`);
+  });
+});
+```
+
+# Canvas
+
+The Canvas API allows drawing graphics using JavaScript.
+
+## Basic Setup
+
+```html
+<canvas id="myCanvas" width="400" height="300"></canvas>
+```
+
+```javascript
+const canvas = document.querySelector("#myCanvas");
+const ctx = canvas.getContext("2d");
+
+// Fill rectangle
+ctx.fillStyle = "red";
+ctx.fillRect(10, 10, 100, 100);
+
+// Stroke rectangle
+ctx.strokeStyle = "blue";
+ctx.strokeRect(120, 10, 100, 100);
+
+// Clear area
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+```
+
+## Drawing Paths
+
+```javascript
+// Line
+ctx.beginPath();
+ctx.moveTo(0, 0);
+ctx.lineTo(100, 100);
+ctx.strokeStyle = "black";
+ctx.lineWidth = 2;
+ctx.stroke();
+
+// Triangle
+ctx.beginPath();
+ctx.moveTo(50, 0);
+ctx.lineTo(100, 100);
+ctx.lineTo(0, 100);
+ctx.closePath();
+ctx.fillStyle = "green";
+ctx.fill();
+
+// Circle
+ctx.beginPath();
+ctx.arc(100, 100, 50, 0, Math.PI * 2);
+ctx.fillStyle = "orange";
+ctx.fill();
+
+// Arc
+ctx.beginPath();
+ctx.arc(100, 100, 50, 0, Math.PI); // Half circle
+ctx.stroke();
+```
+
+## Text
+
+```javascript
+ctx.font = "24px Arial";
+ctx.fillStyle = "black";
+ctx.textAlign = "center";
+ctx.fillText("Hello Canvas", 100, 50);
+
+ctx.font = "16px Arial";
+ctx.strokeStyle = "gray";
+ctx.strokeText("Subtitle", 100, 80);
+```
+
+## Images
+
+```javascript
+const img = new Image();
+img.src = "image.png";
+img.onload = () => {
+  ctx.drawImage(img, 0, 0);
+  // Resize
+  ctx.drawImage(img, 0, 0, 200, 150);
+  // Crop
+  ctx.drawImage(img, 50, 50, 100, 100, 0, 0, 100, 100);
+};
+```
+
+## Transformations
+
+```javascript
+// Translate
+ctx.translate(50, 50);
+
+// Rotate (radians)
+ctx.rotate(Math.PI / 4);
+
+// Scale
+ctx.scale(2, 2);
+
+// Save/restore state
+ctx.save();
+ctx.rotate(Math.PI / 4);
+ctx.fillRect(0, 0, 50, 50);
+ctx.restore();
+
+// Reset
+ctx.setTransform(1, 0, 0, 1, 0, 0);
+```
+
+## Gradients
+
+```javascript
+// Linear gradient
+const gradient = ctx.createLinearGradient(0, 0, 200, 0);
+gradient.addColorStop(0, "red");
+gradient.addColorStop(1, "blue");
+ctx.fillStyle = gradient;
+ctx.fillRect(0, 0, 200, 100);
+
+// Radial gradient
+const radial = ctx.createRadialGradient(100, 100, 10, 100, 100, 100);
+radial.addColorStop(0, "yellow");
+radial.addColorStop(1, "transparent");
+ctx.fillStyle = radial;
+ctx.fillRect(0, 0, 200, 200);
+```
+
+## Animation Loop
+
+```javascript
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Update position
+  x += speed;
+  y += speed;
+
+  // Draw
+  ctx.beginPath();
+  ctx.arc(x, y, 20, 0, Math.PI * 2);
+  ctx.fillStyle = "red";
+  ctx.fill();
+
+  requestAnimationFrame(draw);
+}
+
+requestAnimationFrame(draw);
+```
+
+# Animation
+
+JavaScript provides several ways to create animations.
+
+## requestAnimationFrame
+
+```javascript
+function animate() {
+  // Update positions
+  element.style.left = x + "px";
+
+  // Continue animation
+  requestAnimationFrame(animate);
+}
+
+requestAnimationFrame(animate);
+
+// Cancel animation
+const id = requestAnimationFrame(animate);
+cancelAnimationFrame(id);
+```
+
+## CSS Transitions
+
+```css
+.box {
+  transition: all 0.3s ease;
+  transform: translateX(0);
+}
+
+.box:hover {
+  transform: translateX(100px);
+  background: blue;
+}
+```
+
+```javascript
+element.classList.add("active");
+```
+
+## CSS Animations
+
+```css
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.element {
+  animation: slideIn 0.5s ease-out;
+}
+```
+
+```javascript
+element.style.animation = "slideIn 0.5s ease-out";
+```
+
+## JavaScript Animation
+
+```javascript
+function animate(element, targetValue, duration = 1000) {
+  const start = performance.now();
+
+  function update(currentTime) {
+    const elapsed = currentTime - start;
+    const progress = Math.min(elapsed / duration, 1);
+
+    // Easing function
+    const easeOut = 1 - Math.pow(1 - progress, 3);
+
+    element.style.opacity = easeOut;
+
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    }
+  }
+
+  requestAnimationFrame(update);
+}
+```
+
+## GSAP Library
+
+```javascript
+// Install: npm install gsap
+import gsap from "gsap";
+
+gsap.to(".box", {
+  x: 200,
+  duration: 1,
+  ease: "power2.out",
+  repeat: -1,
+  yoyo: true,
+});
+
+// Timeline
+const tl = gsap.timeline();
+tl.to(".box1", { x: 100, duration: 1 })
+  .to(".box2", { y: 100, duration: 1 })
+  .to(".box3", { rotation: 360, duration: 1 });
+```
+
+## Performance Tips
+
+```javascript
+// Use transform/opacity for smooth animations
+element.style.transform = `translateX(${x}px)`;
+element.style.opacity = opacity;
+
+// Use will-change (sparingly)
+element.style.willChange = "transform";
+element.style.willChange = "auto"; // After animation
+
+// Use requestAnimationFrame
+// NOT setTimeout or setInterval for animations
+```
+
+# Node.js Introduction
+
+Node.js is a JavaScript runtime built on Chrome's V8 engine that executes JavaScript outside the browser.
+
+## Installation
+
+Download from [nodejs.org](https://nodejs.org) or use nvm:
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+nvm install node
+nvm use node
+```
+
+## Basic Server
+
+```javascript
+const http = require("http");
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { "Content-Type": "text/plain" });
+  res.end("Hello World!");
+});
+
+server.listen(3000, () => {
+  console.log("Server running on port 3000");
+});
+```
+
+## Node.js Modules
+
+```javascript
+// CommonJS
+const fs = require("fs");
+const { join } = require("path");
+
+// ES Modules (package.json: "type": "module")
+import fs from "fs";
+import { join } from "path";
+```
+
+## Global Objects
+
+```javascript
+console.log(__dirname); // Current directory
+console.log(__filename); // Current file path
+console.log(process.env); // Environment variables
+console.log(process.argv); // Command line arguments
+
+setTimeout(() => {}, 1000);
+setInterval(() => {}, 1000);
+```
+
+# npm and Packages
+
+npm (Node Package Manager) is the default package manager for Node.js.
+
+## Basic Commands
+
+```bash
+# Initialize project
+npm init -y
+npm init
+
+# Install package
+npm install express
+npm install --save express # or -S
+npm install --save-dev nodemon # or -D
+
+# Install specific version
+npm install express@4.18.2
+
+# Install from git
+npm install git+https://github.com/user/repo.git
+
+# Remove package
+npm uninstall express
+
+# Update
+npm update
+npm update express
+
+# List packages
+npm list
+npm list --depth=0
+```
+
+## package.json
+
+```json
+{
+  "name": "my-project",
+  "version": "1.0.0",
+  "description": "A sample project",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "jest"
+  },
+  "keywords": ["node", "express"],
+  "author": "John Doe",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
+```
+
+## npx
+
+```bash
+# Run local command
+npx nodemon index.js
+
+# Run one-time package
+npx create-react-app my-app
+```
+
+## Semantic Versioning
+
+```json
+{
+  "dependencies": {
+    "pkg": "1.2.3", // Exact version
+    "pkg": "^1.2.3", // 1.x.x (compatible)
+    "pkg": "~1.2.3", // 1.2.x (patch)
+    "pkg": ">=1.2.3", // At least
+    "pkg": "1.2.x", // Any 1.2.x
+    "pkg": "*" // Any version
+  }
+}
+```
+
+# File System
+
+Node.js fs module for working with the file system.
+
+## Reading Files
+
+```javascript
+const fs = require("fs").promises;
+
+// Async/await
+async function readFile() {
+  const data = await fs.readFile("test.txt", "utf8");
+  console.log(data);
+}
+
+// Callback
+fs.readFile("test.txt", "utf8", (err, data) => {
+  if (err) throw err;
+  console.log(data);
+});
+
+// Synchronous
+const data = fs.readFileSync("test.txt", "utf8");
+```
+
+## Writing Files
+
+```javascript
+const fs = require("fs").promises;
+
+// Write (overwrites)
+await fs.writeFile("output.txt", "Hello World", "utf8");
+
+// Append
+await fs.appendFile("output.txt", "\nMore text", "utf8");
+
+// Write JSON
+await fs.writeFile("data.json", JSON.stringify(obj, null, 2));
+```
+
+## File Operations
+
+```javascript
+const fs = require("fs").promises;
+
+// Check if exists
+const exists = await fs
+  .access("file.txt")
+  .then(() => true)
+  .catch(() => false);
+
+// Copy
+await fs.copyFile("source.txt", "dest.txt");
+
+// Rename
+await fs.rename("old.txt", "new.txt");
+
+// Delete
+await fs.unlink("file.txt");
+
+// Stats
+const stats = await fs.stat("file.txt");
+stats.isFile();
+stats.isDirectory();
+stats.size;
+stats.mtime;
+```
+
+## Directories
+
+```javascript
+const fs = require("fs").promises;
+
+// Create directory
+await fs.mkdir("new-dir", { recursive: true });
+
+// Read directory
+const files = await fs.readdir("my-dir");
+
+// Delete directory
+await fs.rmdir("empty-dir", { recursive: true });
+await fs.rm("dir", { recursive: true }); // Node 14+
+```
+
+## Watch Files
+
+```javascript
+const fs = require("fs");
+
+fs.watch(".", (eventType, filename) => {
+  console.log(`${eventType}: ${filename}`);
+});
+
+fs.watchFile("file.txt", (curr, prev) => {
+  console.log("Modified");
+});
+```
+
+# HTTP Server
+
+Building HTTP servers in Node.js.
+
+## Basic HTTP Server
+
+```javascript
+const http = require("http");
+
+const server = http.createServer((req, res) => {
+  // Request data
+  console.log(req.method);
+  console.log(req.url);
+  console.log(req.headers);
+
+  // Response
+  res.statusCode = 200;
+  res.setHeader("Content-Type", "text/html");
+  res.end("<h1>Hello</h1>");
+});
+
+server.listen(3000, () => {
+  console.log("Server running");
+});
+```
+
+## Handling Routes
+
+```javascript
+const http = require("http");
+
+const server = http.createServer((req, res) => {
+  const url = req.url;
+
+  if (url === "/") {
+    res.end("Home");
+  } else if (url === "/about") {
+    res.end("About");
+  } else {
+    res.writeHead(404);
+    res.end("Not Found");
+  }
+});
+```
+
+## Parsing Request Body
+
+```javascript
+const http = require("http");
+
+const server = http.createServer(async (req, res) => {
+  if (req.method === "POST") {
+    let body = "";
+
+    req.on("data", (chunk) => {
+      body += chunk.toString();
+    });
+
+    req.on("end", () => {
+      const data = JSON.parse(body);
+      console.log(data);
+      res.end("Received");
+    });
+  }
+});
+```
+
+## Request Object
+
+```javascript
+req.method; // GET, POST, etc.
+req.url; // URL path
+req.headers; // Request headers
+req.query; // Query parameters (with url module)
+req.path; // URL path without query
+req.protocol; // http/https
+req.ip; // Client IP
+```
+
+## Response Object
+
+```javascript
+res.statusCode = 200;
+res.statusMessage = "OK";
+res.setHeader("Content-Type", "application/json");
+res.setHeader("Cache-Control", "no-cache");
+res.writeHead(200, { "Content-Type": "text/plain" });
+res.write("<h1>Hello</h1>");
+res.end("Done");
+```
+
+# Express.js
+
+Express is a minimal and flexible Node.js web application framework.
+
+## Setup
+
+```bash
+npm install express
+```
+
+```javascript
+const express = require("express");
+const app = express();
+
+app.listen(3000, () => {
+  console.log("Server running");
+});
+```
+
+## Basic Routes
+
+```javascript
+app.get("/", (req, res) => {
+  res.send("Home");
+});
+
+app.get("/about", (req, res) => {
+  res.json({ message: "About page" });
+});
+
+app.post("/api/data", (req, res) => {
+  res.send("POST request");
+});
+
+app.put("/api/data/:id", (req, res) => {
+  res.send(`Update ${req.params.id}`);
+});
+
+app.delete("/api/data/:id", (req, res) => {
+  res.send(`Delete ${req.params.id}`);
+});
+```
+
+## Route Parameters
+
+```javascript
+// Multiple params
+app.get("/users/:userId/posts/:postId", (req, res) => {
+  const { userId, postId } = req.params;
+  res.json({ userId, postId });
+});
+
+// Query parameters
+app.get("/search", (req, res) => {
+  const { q, page = 1 } = req.query;
+  res.json({ q, page });
+});
+```
+
+## Middleware
+
+```javascript
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
+```
+
+## Static Files
+
+```javascript
+app.use(express.static("public"));
+app.use("/static", express.static("public"));
+```
+
+## JSON and URL-encoded
+
+```javascript
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+```
+
+# Middleware
+
+Middleware functions have access to request, response, and the next middleware.
+
+## Types of Middleware
+
+```javascript
+// Application-level
+app.use(logger);
+
+// Router-level
+const router = express.Router();
+router.use(auth);
+
+// Error-handling
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
+});
+
+// Built-in
+app.use(express.json());
+app.use(express.static("public"));
+
+// Third-party
+const cors = require("cors");
+app.use(cors());
+```
+
+## Custom Middleware
+
+```javascript
+// Logger middleware
+const logger = (req, res, next) => {
+  console.log(`${new Date()} - ${req.method} ${req.url}`);
+  next();
+};
+
+// Auth middleware
+const auth = (req, res, next) => {
+  const token = req.headers.authorization;
+  if (token === "valid") {
+    next();
+  } else {
+    res.status(401).send("Unauthorized");
+  }
+};
+
+// Body parser
+const bodyParser = (req, res, next) => {
+  let body = "";
+  req.on("data", (chunk) => (body += chunk));
+  req.on("end", () => {
+    req.body = JSON.parse(body);
+    next();
+  });
+};
+```
+
+## Middleware Order
+
+```javascript
+// Execute in order
+app.use(middleware1);
+app.use(middleware2);
+app.get("/", handler); // middleware1, middleware2, handler
+```
+
+# RESTful APIs
+
+Building RESTful APIs with Express.
+
+## REST Principles
+
+- **GET** - Retrieve resources
+- **POST** - Create new resources
+- **PUT** - Update entire resources
+- **PATCH** - Partial update
+- **DELETE** - Remove resources
+
+## CRUD Example
+
+```javascript
+const express = require("express");
+const app = express();
+
+let users = [
+  { id: 1, name: "John" },
+  { id: 2, name: "Jane" },
+];
+
+// GET all users
+app.get("/api/users", (req, res) => {
+  res.json(users);
+});
+
+// GET single user
+app.get("/api/users/:id", (req, res) => {
+  const user = users.find((u) => u.id === parseInt(req.params.id));
+  if (!user) return res.status(404).json({ error: "User not found" });
+  res.json(user);
+});
+
+// POST create user
+app.post("/api/users", (req, res) => {
+  const newUser = {
+    id: users.length + 1,
+    name: req.body.name,
+  };
+  users.push(newUser);
+  res.status(201).json(newUser);
+});
+
+// PUT update user
+app.put("/api/users/:id", (req, res) => {
+  const user = users.find((u) => u.id === parseInt(req.params.id));
+  if (!user) return res.status(404).json({ error: "User not found" });
+
+  user.name = req.body.name;
+  res.json(user);
+});
+
+// DELETE user
+app.delete("/api/users/:id", (req, res) => {
+  const index = users.findIndex((u) => u.id === parseInt(req.params.id));
+  if (index === -1) return res.status(404).json({ error: "User not found" });
+
+  users.splice(index, 1);
+  res.status(204).send();
+});
+```
+
+## Response Codes
+
+```javascript
+200 OK // Success
+201 Created // Resource created
+204 No Content // Success, no body
+400 Bad Request // Invalid input
+401 Unauthorized // Not authenticated
+403 Forbidden // Not authorized
+404 Not Found // Resource doesn't exist
+500 Internal Server Error // Server error
+```
+
+# Error Handling
+
+Proper error handling in Express applications.
+
+## Error Classes
+
+```javascript
+class AppError extends Error {
+  constructor(message, statusCode) {
+    super(message);
+    this.statusCode = statusCode;
+    this.status = `${statusCode}`.startsWith("4") ? "fail" : "error";
+    this.isOperational = true;
+
+    Error.captureStackTrace(this, this.constructor);
+  }
+}
+
+// Usage
+throw new AppError("Resource not found", 404);
+```
+
+## Error Handler Middleware
+
+```javascript
+// Must be last middleware
+app.use((err, req, res, next) => {
+  err.statusCode = err.statusCode || 500;
+  err.status = err.status || "error";
+
+  res.status(err.statusCode).json({
+    status: err.status,
+    message: err.message,
+  });
+});
+```
+
+## Async Error Handling
+
+```javascript
+// Wrap async handlers
+const asyncHandler = (fn) => (req, res, next) => {
+  Promise.resolve(fn(req, res, next)).catch(next);
+};
+
+app.get(
+  "/users",
+  asyncHandler(async (req, res) => {
+    const users = await User.findAll();
+    res.json(users);
+  }),
+);
+```
+
+## Validation Errors
+
+```javascript
+app.post("/users", (req, res, next) => {
+  const { name, email } = req.body;
+
+  if (!name || !email) {
+    return res.status(400).json({
+      error: "Name and email are required",
+    });
+  }
+
+  if (!isValidEmail(email)) {
+    return res.status(400).json({
+      error: "Invalid email format",
+    });
+  }
+
+  next();
+});
+```
+
+# Testing
+
+Testing JavaScript applications.
+
+## Jest Setup
+
+```bash
+npm install --save-dev jest
+```
+
+```json
+// package.json
+{
+  "scripts": {
+    "test": "jest"
+  }
+}
+```
+
+## Basic Tests
+
+```javascript
+// math.js
+function add(a, b) {
+  return a + b;
+}
+
+module.exports = { add };
+
+// math.test.js
+const { add } = require("./math");
+
+test("adds 1 + 2 to equal 3", () => {
+  expect(add(1, 2)).toBe(3);
+});
+
+test("adds negative numbers", () => {
+  expect(add(-1, -1)).toBe(-2);
+});
+```
+
+## Matchers
+
+```javascript
+// Equality
+expect(value).toBe(expected);
+expect(value).toEqual(expected);
+
+// Truthiness
+expect(value).toBeTruthy();
+expect(value).toBeFalsy();
+expect(value).toBeNull();
+expect(value).toBeUndefined();
+
+// Numbers
+expect(value).toBeGreaterThan(3);
+expect(value).toBeLessThanOrEqual(3);
+
+// Strings
+expect(value).toMatch(/pattern/);
+
+// Arrays
+expect(value).toContain(item);
+expect(value).toHaveLength(3);
+
+// Objects
+expect(value).toHaveProperty("name");
+expect(value).toMatchObject({ name: "John" });
+
+// Errors
+expect(() => {
+  throw new Error("Error!");
+}).toThrow("Error!");
+```
+
+## Async Tests
+
+```javascript
+test("fetches data", async () => {
+  const data = await fetchData();
+  expect(data).toHaveLength(5);
+});
+
+test("handles errors", async () => {
+  await expect(fetchFailingData()).rejects.toThrow("Error");
+});
+```
+
+## Mocking
+
+```javascript
+// Mock function
+const mockFn = jest.fn();
+mockFn.mockReturnValue("hello");
+console.log(mockFn()); // hello
+
+// Mock module
+jest.mock("./api");
+const api = require("./api");
+api.fetch.mockResolvedValue({ data: "test" });
+
+// Spy
+const obj = { method: () => "real" };
+jest.spyOn(obj, "method").mockReturnValue("mocked");
+```
+
+# TypeScript Introduction
+
+TypeScript is a typed superset of JavaScript.
+
+## Setup
+
+```bash
+npm install --save-dev typescript @types/node
+npx tsc --init
+```
+
+## Basic Types
+
+```typescript
+let name: string = "John";
+let age: number = 30;
+let isActive: boolean = true;
+let numbers: number[] = [1, 2, 3];
+let mixed: (string | number)[] = ["a", 1];
+
+// Type inference
+let inferred = "hello"; // Type is string
+
+// Any (avoid when possible)
+let unknown: any = 4;
+```
+
+## Interfaces
+
+```typescript
+interface User {
+  id: number;
+  name: string;
+  email?: string; // Optional
+  readonly createdAt: Date; // Readonly
+}
+
+const user: User = {
+  id: 1,
+  name: "John",
+  createdAt: new Date(),
+};
+```
+
+## Types
+
+```typescript
+type Status = "pending" | "active" | "completed";
+
+type Point = {
+  x: number;
+  y: number;
+};
+
+type Callback = (data: string) => void;
+```
+
+## Functions
+
+```typescript
+function greet(name: string): string {
+  return `Hello, ${name}`;
+}
+
+const add = (a: number, b: number): number => a + b;
+
+// Optional parameters
+function createUser(name: string, age?: number) {}
+
+// Default parameters
+function greet(name: string = "Guest") {}
+
+// Rest parameters
+function sum(...nums: number[]): number {
+  return nums.reduce((a, b) => a + b, 0);
+}
+```
+
+## Generics
+
+```typescript
+function identity<T>(arg: T): T {
+  return arg;
+}
+
+const result = identity<string>("hello");
+
+interface Box<T> {
+  value: T;
+}
+```
+
+# Build Tools
+
+JavaScript build tools and bundlers.
+
+## Webpack
+
+```bash
+npm install webpack webpack-cli webpack-dev-server --save-dev
+```
+
+```javascript
+// webpack.config.js
+module.exports = {
+  entry: "./src/index.js",
+  output: {
+    path: __dirname + "/dist",
+    filename: "bundle.js",
+  },
+  mode: "development",
+  devtool: "source-map",
+};
+```
+
+## Vite
+
+```bash
+npm create vite@latest my-app -- --template vanilla
+```
+
+```javascript
+// vite.config.js
+import { defineConfig } from "vite";
+
+export default defineConfig({
+  server: {
+    port: 3000,
+    open: true,
+  },
+  build: {
+    outDir: "dist",
+  },
+});
+```
+
+## Parcel
+
+```bash
+npm install parcel --save-dev
+```
+
+```json
+{
+  "scripts": {
+    "start": "parcel src/index.html",
+    "build": "parcel build src/index.html"
+  }
+}
+```
+
+# Performance
+
+Optimizing JavaScript performance.
+
+## Code Splitting
+
+```javascript
+// Dynamic imports
+button.addEventListener("click", async () => {
+  const { heavyFunction } = await import("./heavy.js");
+  heavyFunction();
+});
+
+// React lazy loading
+const LazyComponent = React.lazy(() => import("./Component"));
+```
+
+## Debouncing
+
+```javascript
+function debounce(func, delay) {
+  let timeoutId;
+  return function (...args) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      func.apply(this, args);
+    }, delay);
+  };
+}
+
+const debouncedSearch = debounce(search, 300);
+input.addEventListener("input", (e) => {
+  debouncedSearch(e.target.value);
+});
+```
+
+## Throttling
+
+```javascript
+function throttle(func, limit) {
+  let inThrottle;
+  return function (...args) {
+    if (!inThrottle) {
+      func.apply(this, args);
+      inThrottle = true;
+      setTimeout(() => (inThrottle = false), limit);
+    }
+  };
+}
+```
+
+## Virtual DOM
+
+```javascript
+// Simulating virtual DOM update
+const elements = [];
+
+function render() {
+  const virtual = elements.map((el) => createElement(el));
+  // Compare with actual DOM and update only changes
+}
+```
+
+## Web Workers
+
+```javascript
+// main.js
+const worker = new Worker("worker.js");
+worker.postMessage({ data: largeArray });
+worker.onmessage = (e) => processResult(e.data);
+
+// worker.js
+self.onmessage = (e) => {
+  const result = heavyComputation(e.data);
+  self.postMessage(result);
+};
+```
+
+# Security
+
+Securing JavaScript applications.
+
+## XSS Prevention
+
+```javascript
+// Never use innerHTML with user input
+element.textContent = userInput; // Safe
+element.innerText = userInput; // Safe
+
+// Sanitize HTML
+import DOMPurify from "dompurify";
+element.innerHTML = DOMPurify.sanitize(userHTML);
+```
+
+## CSP Headers
+
+```javascript
+// Server-side header
+res.setHeader(
+  "Content-Security-Policy",
+  "default-src 'self'; script-src 'self' 'unsafe-inline';",
+);
+```
+
+## Input Validation
+
+```javascript
+function validateInput(input) {
+  // Length
+  if (input.length < 3 || input.length > 50) return false;
+
+  // Pattern
+  const pattern = /^[a-zA-Z0-9]+$/;
+  if (!pattern.test(input)) return false;
+
+  return true;
+}
+```
+
+## HTTPS
+
+```javascript
+// Always use HTTPS
+if (location.protocol !== "https:") {
+  location.replace(`https:${location.href.slice(5)}`);
+}
+```
+
+## Secure Cookies
+
+```javascript
+res.cookie("session", token, {
+  httpOnly: true, // Cannot access via JS
+  secure: true, // HTTPS only
+  sameSite: "strict", // CSRF protection
+});
+```
+
+# Design Patterns
+
+Common design patterns in JavaScript.
+
+## Module Pattern
+
+```javascript
+const Module = (function () {
+  let privateVar = "private";
+
+  function privateMethod() {
+    return privateVar;
+  }
+
+  return {
+    publicMethod: function () {
+      return "public";
+    },
+    getValue: function () {
+      return privateMethod();
+    },
+  };
+})();
+
+Module.publicMethod();
+Module.getValue();
+```
+
+## Factory Pattern
+
+```javascript
+class User {
+  constructor(options) {
+    this.name = options.name;
+    this.role = options.role;
+  }
+}
+
+class UserFactory {
+  static create(type, options) {
+    switch (type) {
+      case "admin":
+        return new User({ ...options, role: "admin" });
+      case "user":
+        return new User({ ...options, role: "user" });
+      default:
+        throw new Error("Invalid type");
+    }
+  }
+}
+```
+
+## Observer Pattern
+
+```javascript
+class Subject {
+  constructor() {
+    this.observers = [];
+  }
+
+  subscribe(observer) {
+    this.observers.push(observer);
+  }
+
+  unsubscribe(observer) {
+    this.observers = this.observers.filter((o) => o !== observer);
+  }
+
+  notify(data) {
+    this.observers.forEach((o) => o.update(data));
+  }
+}
+```
+
+## Singleton Pattern
+
+```javascript
+class Singleton {
+  static instance;
+
+  constructor() {
+    if (Singleton.instance) {
+      return Singleton.instance;
+    }
+    Singleton.instance = this;
+    this.data = 0;
+  }
+}
+
+const a = new Singleton();
+const b = new Singleton();
+console.log(a === b); // true
+```
+
+## Strategy Pattern
+
+```javascript
+class PaymentContext {
+  constructor(strategy) {
+    this.strategy = strategy;
+  }
+
+  pay(amount) {
+    return this.strategy.pay(amount);
+  }
+}
+
+class CreditCard {
+  pay(amount) {
+    return `Paid ${amount} via Credit Card`;
+  }
+}
+
+class PayPal {
+  pay(amount) {
+    return `Paid ${amount} via PayPal`;
+  }
+}
+
+const payment = new PaymentContext(new CreditCard());
+console.log(payment.pay(100));
+```
+
+# Next Steps
+
+Congratulations, you've finished the course!
+
+Now that you know the fundamentals of JavaScript, here are some additional things for you to try:
+
+- **Frontend Frameworks**: React, Vue, or Angular
+- **Backend Development**: Node.js with Express or NestJS
+- **Mobile Development**: React Native or Flutter
+- **Desktop Apps**: Electron or Tauri
+- **Databases**: MongoDB, PostgreSQL, or Firebase
+- **Testing**: Jest, Mocha, or Cypress
+- **DevOps**: Docker, CI/CD, and Cloud platforms
+
+I hope this course was a great learning experience. I would love to hear feedback from you.
+
+Wishing you all the best for further learning!
+
+# References
+
+Here are the resources that were referenced while creating this course:
+
+- [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+- [JavaScript.info](https://javascript.info)
+- [Eloquent JavaScript](https://eloquentjavascript.net)
+- [You Don't Know JS](https://github.com/getify/You-Dont-Know-JS)
+- [Node.js Documentation](https://nodejs.org/docs)
+- [Express.js Documentation](https://expressjs.com)
+- [JavaScript: The Good Parts](https://www.oreilly.com/library/view/javascript-the-good/9780596517748/)

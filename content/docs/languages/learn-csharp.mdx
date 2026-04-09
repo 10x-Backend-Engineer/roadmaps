@@ -1,0 +1,1610 @@
+---
+title: Learn C#
+description: A comprehensive C# course.
+---
+
+Welcome to the comprehensive C# course. C# is a modern, object-oriented programming language developed by Microsoft.
+
+# Table of contents
+
+- **Getting Started**
+  - [What is C#?](#what-is-c)
+  - [Why learn C#?](#why-learn-c)
+  - [Installation and Setup](#installation-and-setup)
+
+- **Chapter I**
+  - [Hello World](#hello-world)
+  - [Variables and Data Types](#variables-and-data-types)
+  - [Operators](#operators)
+  - [Flow Control](#flow-control)
+  - [Methods](#methods)
+  - [Strings](#strings)
+
+- **Chapter II**
+  - [Arrays](#arrays)
+  - [Lists](#lists)
+  - [Collections](#collections)
+  - [LINQ](#linq)
+
+- **Chapter III**
+  - [Classes](#classes)
+  - [Inheritance](#inheritance)
+  - [Interfaces](#interfaces)
+  - [Records](#records)
+  - [Structs](#structs)
+
+- **Chapter IV**
+  - [Exception Handling](#exception-handling)
+  - [File Handling](#file-handling)
+  - [Delegates and Events](#delegates-and-events)
+  - [Async/Await](#asyncawait)
+
+- **Chapter V**
+  - [Generics](#generics)
+  - [Attributes](#attributes)
+  - [Pattern Matching](#pattern-matching)
+  - [Testing](#testing)
+
+- **Appendix**
+  - [Next Steps](#next-steps)
+  - [References](#references)
+
+# What is C#?
+
+C# (pronounced "C sharp") is a modern, general-purpose, object-oriented programming language developed by Microsoft and standardized by ECMA and ISO.
+
+## Key Characteristics
+
+- **Type-safe**: Strong type checking at compile time
+- **Object-oriented**: Supports classes, inheritance, polymorphism
+- **Component-oriented**: Built-in support for component software
+- **Modern**: Garbage collection, exception handling, lambda expressions
+- **Versatile**: Desktop, web, mobile, gaming, cloud applications
+
+# Why learn C#?
+
+## 1. Wide Platform Support
+
+.NET runs on Windows, macOS, and Linux.
+
+## 2. Rich Ecosystem
+
+Extensive libraries and frameworks for any task.
+
+## 3. Career Opportunities
+
+High demand in enterprise software development.
+
+## 4. Game Development
+
+Unity game engine uses C# for game development.
+
+# Installation and Setup
+
+## .NET SDK
+
+Download from [dotnet.microsoft.com](https://dotnet.microsoft.com):
+
+```bash
+dotnet --version
+dotnet --list-sdks
+```
+
+## IDE Options
+
+- **Visual Studio** (Windows) - Full-featured IDE
+- **Visual Studio Code** - Lightweight with C# extension
+- **JetBrains Rider** - Cross-platform .NET IDE
+
+## Creating a Project
+
+```bash
+dotnet new console -n MyApp
+dotnet new webapi -n MyApi
+dotnet new classlib -n MyLibrary
+```
+
+## Running
+
+```bash
+dotnet run
+dotnet build
+dotnet test
+```
+
+# Hello World
+
+```csharp
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine("Hello, World!");
+    }
+}
+```
+
+Modern C# 9+ top-level statements:
+
+```csharp
+Console.WriteLine("Hello, World!");
+```
+
+# Variables and Data Types
+
+## Value Types
+
+```csharp
+// Integers
+sbyte s = -128;           // 8-bit
+byte b = 255;              // 8-bit unsigned
+short sh = 32767;          // 16-bit
+int i = 2147483647;        // 32-bit
+long l = 9223372036854775807L;  // 64-bit
+
+// Floating point
+float f = 3.14f;          // 32-bit
+double d = 3.14159;        // 64-bit
+decimal dec = 3.14m;       // 128-bit (financial)
+
+// Characters
+char c = 'A';
+
+// Booleans
+bool flag = true;
+```
+
+## Reference Types
+
+```csharp
+string name = "John";      // Immutable string
+object obj = new object();  // Base type
+dynamic dyn = 10;          // No type checking
+```
+
+## var and Type Inference
+
+```csharp
+var name = "John";        // Compiler infers string
+var age = 30;             // Compiler infers int
+var price = 19.99;        // Compiler infers double
+```
+
+## Constants
+
+```csharp
+const double Pi = 3.14159;
+const int MaxItems = 100;
+const string AppName = "MyApp";
+```
+
+## Nullable Types
+
+```csharp
+int? nullableInt = null;
+string? nullableString = null;
+
+if (nullableInt.HasValue)
+{
+    Console.WriteLine(nullableInt.Value);
+}
+
+// Null coalescing
+int value = nullableInt ?? 0;
+```
+
+## Default Values
+
+```csharp
+int i = default;          // 0
+bool b = default;         // false
+string s = default;        // null
+```
+
+# Operators
+
+## Arithmetic
+
+```csharp
+int a = 10, b = 3;
+
+Console.WriteLine(a + b);   // 13
+Console.WriteLine(a - b);   // 7
+Console.WriteLine(a * b);   // 30
+Console.WriteLine(a / b);   // 3 (integer division)
+Console.WriteLine(a % b);    // 1 (modulus)
+```
+
+## Comparison
+
+```csharp
+Console.WriteLine(5 == 5);   // True
+Console.WriteLine(5 != 3);   // True
+Console.WriteLine(5 > 3);    // True
+Console.WriteLine(5 >= 5);   // True
+```
+
+## Logical
+
+```csharp
+Console.WriteLine(true && false);  // False
+Console.WriteLine(true || false);  // True
+Console.WriteLine(!true);          // False
+```
+
+## Null Operators
+
+```csharp
+string? name = null;
+
+// Null coalescing
+string displayName = name ?? "Anonymous";
+
+// Null conditional
+int? length = name?.Length;
+
+// Null coalescing assignment
+name ??= "Default";
+```
+
+## Ternary
+
+```csharp
+int age = 20;
+string status = age >= 18 ? "Adult" : "Minor";
+```
+
+# Flow Control
+
+## If/Else
+
+```csharp
+int score = 85;
+
+if (score >= 90)
+{
+    Console.WriteLine("A grade");
+}
+else if (score >= 80)
+{
+    Console.WriteLine("B grade");
+}
+else
+{
+    Console.WriteLine("Need improvement");
+}
+```
+
+## Switch
+
+```csharp
+string day = "Monday";
+
+switch (day)
+{
+    case "Monday":
+    case "Tuesday":
+    case "Wednesday":
+    case "Thursday":
+    case "Friday":
+        Console.WriteLine("Weekday");
+        break;
+    case "Saturday":
+    case "Sunday":
+        Console.WriteLine("Weekend");
+        break;
+    default:
+        Console.WriteLine("Invalid day");
+        break;
+}
+
+// Switch expression (C# 8+)
+string result = day switch
+{
+    "Saturday" or "Sunday" => "Weekend",
+    _ => "Weekday"
+};
+```
+
+## For Loop
+
+```csharp
+for (int i = 0; i < 5; i++)
+{
+    Console.WriteLine(i);
+}
+
+// Foreach
+string[] fruits = { "Apple", "Banana", "Cherry" };
+foreach (string fruit in fruits)
+{
+    Console.WriteLine(fruit);
+}
+```
+
+## While Loop
+
+```csharp
+int count = 0;
+while (count < 5)
+{
+    Console.WriteLine(count);
+    count++;
+}
+
+// Do-while
+int i = 0;
+do
+{
+    Console.WriteLine(i);
+    i++;
+} while (i < 5);
+```
+
+## Jump Statements
+
+```csharp
+for (int i = 0; i < 10; i++)
+{
+    if (i == 5)
+        break;       // Exit loop
+    if (i == 2)
+        continue;    // Skip iteration
+    Console.WriteLine(i);
+}
+```
+
+# Methods
+
+## Basic Method
+
+```csharp
+static string Greet(string name)
+{
+    return $"Hello, {name}!";
+}
+```
+
+## Parameters
+
+```csharp
+// Optional parameters
+static void Print(string message, string prefix = "INFO")
+{
+    Console.WriteLine($"[{prefix}] {message}");
+}
+
+// Named arguments
+Print(message: "Hello", prefix: "DEBUG");
+
+// Out parameters
+static bool TryParse(string s, out int result)
+{
+    result = int.TryParse(s, out int parsed) ? parsed : 0;
+    return parsed != 0;
+}
+
+// Ref parameters
+static void Increment(ref int value)
+{
+    value++;
+}
+
+// Params for variable arguments
+static int Sum(params int[] numbers)
+{
+    return numbers.Sum();
+}
+```
+
+## Local Functions
+
+```csharp
+static int Calculate()
+{
+    int Square(int x) => x * x;
+
+    return Square(5) + Square(3);
+}
+```
+
+## Expression-bodied Members
+
+```csharp
+class Person
+{
+    public string Name { get; set; }
+
+    public string Greet() => $"Hello, {Name}!";
+
+    public string Greeting => $"Welcome, {Name}";
+}
+```
+
+# Strings
+
+## Creating Strings
+
+```csharp
+string s1 = "Hello";
+string s2 = @"C:\Path\To\File";  // Verbatim string
+string s3 = $"Hello, {name}!";    // Interpolated
+string s4 = """
+    Multi-line
+    string
+    """;
+```
+
+## String Methods
+
+```csharp
+string s = "  Hello, World!  ";
+
+s.Trim()                 // "Hello, World!"
+s.TrimStart()           // "Hello, World!  "
+s.TrimEnd()             // "  Hello, World!"
+s.ToUpper()             // "  HELLO, WORLD!  "
+s.ToLower()             // "  hello, world!  "
+s.Replace("World", "C#")
+s.Split(',')            // ["  Hello", " World!  "]
+s.Contains("Hello")     // True
+s.StartsWith("  Hello") // True
+s.EndsWith("!  ")       // True
+s.IndexOf("World")      // 9
+s.Substring(2, 5)       // "Hello"
+s.Insert(5, " there")  // "  Hello there, World!  "
+s.Remove(0, 2)         // "Hello, World!  "
+```
+
+## String Formatting
+
+```csharp
+string name = "John";
+int age = 30;
+
+// String interpolation
+$"Name: {name}, Age: {age}";
+
+// Format
+string.Format("Name: {0}, Age: {1}", name, age);
+
+// Composite formatting
+Console.WriteLine("{0,-10} {1,5}", "Name", "Value");
+Console.WriteLine("{0,-10} {1,5}", "Item", 100);
+
+// Date formatting
+DateTime now = DateTime.Now;
+$"{now:d}"              // 04/08/2026
+$"{now:D}"              // Tuesday, April 8, 2026
+$"{now:yyyy-MM-dd}"     // 2026-04-08
+$"{now:HH:mm:ss}"       // 14:30:00
+```
+
+## StringBuilder
+
+```csharp
+using System.Text;
+
+var sb = new StringBuilder();
+sb.Append("Hello");
+sb.AppendLine(" World");
+sb.AppendFormat("Value: {0}", 42);
+sb.Insert(5, " there");
+sb.Remove(0, 2);
+string result = sb.ToString();
+```
+
+# Arrays
+
+## Creating Arrays
+
+```csharp
+int[] numbers = { 1, 2, 3, 4, 5 };
+int[] zeros = new int[5];           // All zeros
+string[] names = new string[] { "A", "B" };
+var array = new[] { 1, 2, 3 };      // Compiler infers int[]
+```
+
+## Multi-dimensional
+
+```csharp
+int[,] matrix = {
+    { 1, 2, 3 },
+    { 4, 5, 6 }
+};
+
+int[,,] cube = new int[2, 3, 4];
+
+// Access
+Console.WriteLine(matrix[0, 1]);  // 2
+```
+
+## Jagged Arrays
+
+```csharp
+int[][] jagged = new int[3][];
+jagged[0] = new[] { 1, 2 };
+jagged[1] = new[] { 3, 4, 5 };
+jagged[2] = new[] { 6 };
+```
+
+## Array Methods
+
+```csharp
+int[] arr = { 5, 2, 8, 1, 9 };
+
+Array.Sort(arr);
+Array.Reverse(arr);
+Array.Clear(arr);
+Array.Resize(ref arr, 10);
+int idx = Array.IndexOf(arr, 5);
+bool exists = arr.Contains(5);
+
+int min = arr.Min();
+int max = arr.Max();
+int sum = arr.Sum();
+```
+
+# Lists
+
+## Creating Lists
+
+```csharp
+var list = new List<int>();
+var list2 = new List<int> { 1, 2, 3 };
+var names = new List<string> { "John", "Jane" };
+```
+
+## List Methods
+
+```csharp
+var list = new List<int> { 1, 2, 3 };
+
+list.Add(4);             // Add element
+list.AddRange(new[] { 5, 6 });  // Add multiple
+list.Insert(0, 0);       // Insert at index
+list.InsertRange(0, new[] { -1, 0 });
+
+list.Remove(3);          // Remove first match
+list.RemoveAt(0);         // Remove at index
+list.RemoveRange(0, 2);   // Remove range
+
+list.Clear();            // Remove all
+
+bool exists = list.Contains(5);
+int idx = list.IndexOf(5);
+list.Sort();
+list.Reverse();
+
+int count = list.Count;
+list.Capacity;
+```
+
+# Collections
+
+## Dictionary
+
+```csharp
+var dict = new Dictionary<string, int>
+{
+    { "one", 1 },
+    { "two", 2 }
+};
+
+dict["three"] = 3;
+dict.TryGetValue("one", out int value);
+bool exists = dict.ContainsKey("two");
+
+foreach (var kvp in dict)
+{
+    Console.WriteLine($"{kvp.Key}: {kvp.Value}");
+}
+
+foreach (var key in dict.Keys) { }
+foreach (var value in dict.Values) { }
+```
+
+## HashSet
+
+```csharp
+var set = new HashSet<int> { 1, 2, 3 };
+
+set.Add(4);
+set.Add(1);  // No effect (already exists)
+
+bool exists = set.Contains(2);
+set.Remove(3);
+set.Clear();
+
+set.UnionWith(new[] { 5, 6 });
+set.IntersectWith(new[] { 2, 3, 4 });
+set.ExceptWith(new[] { 1, 2 });
+```
+
+## Queue
+
+```csharp
+var queue = new Queue<int>();
+
+queue.Enqueue(1);
+queue.Enqueue(2);
+queue.Enqueue(3);
+
+int first = queue.Peek();   // View without removing
+int removed = queue.Dequeue();
+```
+
+## Stack
+
+```csharp
+var stack = new Stack<int>();
+
+stack.Push(1);
+stack.Push(2);
+stack.Push(3);
+
+int top = stack.Peek();     // View without removing
+int removed = stack.Pop();
+```
+
+## LinkedList
+
+```csharp
+var list = new LinkedList<string>();
+
+list.AddFirst("First");
+list.AddLast("Last");
+list.AddAfter(list.First, "After First");
+list.AddBefore(list.Last, "Before Last");
+
+list.Remove("First");
+```
+
+# LINQ
+
+## Query Syntax
+
+```csharp
+var numbers = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+var evens = from n in numbers
+            where n % 2 == 0
+            select n;
+
+var grouped = from n in numbers
+             group n by n % 2 == 0 into g
+             select new { IsEven = g.Key, Values = g };
+```
+
+## Method Syntax
+
+```csharp
+var numbers = new[] { 1, 2, 3, 4, 5 };
+
+// Filtering
+var evens = numbers.Where(n => n % 2 == 0);
+var first = numbers.First();
+var firstOrNone = numbers.FirstOrDefault(n => n > 10);
+var single = numbers.Single(n => n == 3);
+
+// Projection
+var doubled = numbers.Select(n => n * 2);
+var projected = numbers.Select((n, i) => $"{i}: {n}");
+
+// Ordering
+var sorted = numbers.OrderBy(n => n);
+var desc = numbers.OrderByDescending(n => n);
+var multi = numbers.OrderBy(n => n % 2).ThenBy(n => n);
+
+// Aggregation
+int count = numbers.Count();
+int sum = numbers.Sum();
+int min = numbers.Min();
+int max = numbers.Max();
+double avg = numbers.Average();
+var grouped = numbers.GroupBy(n => n % 2);
+
+// Set operations
+int[] a = { 1, 2, 3 };
+int[] b = { 3, 4, 5 };
+var union = a.Union(b);           // { 1, 2, 3, 4, 5 }
+var intersect = a.Intersect(b);    // { 3 }
+var except = a.Except(b);          // { 1, 2 }
+
+// Take/Skip
+var first3 = numbers.Take(3);
+var skip3 = numbers.Skip(3);
+var page2 = numbers.Skip(5).Take(5);
+
+// All/Any
+bool allPositive = numbers.All(n => n > 0);
+bool hasEven = numbers.Any(n => n % 2 == 0);
+
+// Conversion
+List<int> list = numbers.ToList();
+int[] array = numbers.ToArray();
+Dictionary<int, string> dict = numbers.ToDictionary(n => n, n => $"Num {n}");
+```
+
+## Deferred Execution
+
+```csharp
+var query = numbers.Where(n => n > 5);  // Not executed yet
+
+numbers.Add(6);  // Modifies source
+
+foreach (var n in query)  // Executes now, includes new element
+{
+    Console.WriteLine(n);
+}
+```
+
+# Classes
+
+## Basic Class
+
+```csharp
+public class Person
+{
+    // Fields
+    private string _name;
+
+    // Properties
+    public string Name
+    {
+        get => _name;
+        set => _name = value ?? throw new ArgumentNullException();
+    }
+
+    public int Age { get; set; }
+
+    // Auto-property
+    public string Email { get; init; }
+
+    // Constructor
+    public Person(string name, int age)
+    {
+        Name = name;
+        Age = age;
+    }
+
+    // Method
+    public string Greet() => $"Hello, I'm {Name}";
+}
+```
+
+## Access Modifiers
+
+```csharp
+public class PublicClass { }          // Accessible everywhere
+internal class InternalClass { }       // Same assembly only
+
+public class MyClass
+{
+    public string PublicField;         // Everywhere
+    private string _privateField;      // This class only
+    protected string _protectedField;  // This + derived
+    internal string _internalField;    // Same assembly
+    protected internal string _tiField; // Internal OR protected
+    private protected string _ptField;  // Protected AND internal
+
+    public readonly string Id;        // Set once, anywhere read
+    public const double Pi = 3.14159; // Compile-time constant
+}
+```
+
+## Static Members
+
+```csharp
+public class MathHelper
+{
+    public static int Add(int a, int b) => a + b;
+
+    public static string AppName { get; } = "MyApp";
+
+    static MathHelper()
+    {
+        // Static constructor
+    }
+}
+
+// Usage
+var result = MathHelper.Add(1, 2);
+```
+
+## Partial Classes
+
+```csharp
+// File1.cs
+public partial class User
+{
+    public string Name { get; set; }
+}
+
+// File2.cs
+public partial class User
+{
+    public string Email { get; set; }
+}
+```
+
+# Inheritance
+
+## Basic Inheritance
+
+```csharp
+public class Animal
+{
+    public string Name { get; set; }
+
+    public virtual void Speak()
+    {
+        Console.WriteLine("...");
+    }
+}
+
+public class Dog : Animal
+{
+    public string Breed { get; set; }
+
+    public override void Speak()
+    {
+        Console.WriteLine("Woof!");
+    }
+}
+```
+
+## Constructor Inheritance
+
+```csharp
+public class BaseClass
+{
+    public BaseClass(int value)
+    {
+        Value = value;
+    }
+
+    public int Value { get; }
+}
+
+public class DerivedClass : BaseClass
+{
+    public DerivedClass(int value, string name) : base(value)
+    {
+        Name = name;
+    }
+
+    public string Name { get; }
+}
+```
+
+## Sealed Classes
+
+```csharp
+public sealed class FinalClass
+{
+    // Cannot be inherited
+}
+```
+
+## Abstract Classes
+
+```csharp
+public abstract class Shape
+{
+    public abstract double Area { get; }
+
+    public string Color { get; set; } = "White";
+
+    public virtual void Display()
+    {
+        Console.WriteLine($"Color: {Color}");
+    }
+}
+
+public class Circle : Shape
+{
+    public double Radius { get; set; }
+
+    public override double Area => Math.PI * Radius * Radius;
+}
+```
+
+# Interfaces
+
+## Basic Interface
+
+```csharp
+public interface IComparable
+{
+    int CompareTo(object obj);
+}
+
+public interface IDrawable
+{
+    void Draw();
+}
+
+public interface IReadable
+{
+    string Content { get; }
+}
+```
+
+## Interface Implementation
+
+```csharp
+public class Document : IDrawable, IReadable
+{
+    public string Content => "Document content...";
+
+    public void Draw()
+    {
+        Console.WriteLine("Drawing document");
+    }
+}
+
+// Explicit implementation
+public class Reader : IReadable
+{
+    private string _content = "Data";
+
+    string IReadable.Content => _content;
+}
+```
+
+## Default Interface Methods (C# 8+)
+
+```csharp
+public interface ILogger
+{
+    void Log(string message);
+
+    void LogError(string error) => Log($"ERROR: {error}");
+}
+```
+
+# Records
+
+## Basic Record
+
+```csharp
+public record Person(string Name, int Age);
+
+// Usage
+var person = new Person("John", 30);
+var (name, age) = person;  // Deconstruction
+```
+
+## Class-like Record
+
+```csharp
+public record Person
+{
+    public string Name { get; init; }
+    public int Age { get; init; }
+}
+```
+
+## With Expressions
+
+```csharp
+public record Person(string Name, int Age)
+{
+    public string Greeting => $"Hello, {Name}!";
+}
+```
+
+## Immutability
+
+```csharp
+public record Person(string Name, int Age)
+{
+    public Person WithName(string name) => this with { Name = name };
+}
+
+var person = new Person("John", 30);
+var updated = person with { Name = "Jane" };  // New instance
+```
+
+## Value Equality
+
+```csharp
+var p1 = new Person("John", 30);
+var p2 = new Person("John", 30);
+
+Console.WriteLine(p1 == p2);  // True (same values)
+```
+
+# Structs
+
+## Basic Struct
+
+```csharp
+public struct Point
+{
+    public double X { get; init; }
+    public double Y { get; init; }
+
+    public Point(double x, double y)
+    {
+        X = x;
+        Y = y;
+    }
+
+    public double Distance => Math.Sqrt(X * X + Y * Y);
+}
+```
+
+## readonly Struct
+
+```csharp
+public readonly struct ImmutablePoint
+{
+    public double X { get; }
+    public double Y { get; }
+
+    public ImmutablePoint(double x, double y) => (X, Y) = (x, y);
+
+    public double Distance => Math.Sqrt(X * X + Y * Y);
+}
+```
+
+## ref Struct
+
+```csharp
+public ref struct Span<int>
+{
+    private ref int _reference;
+    private int _length;
+
+    public Span(ref int reference, int length)
+    {
+        _reference = ref reference;
+        _length = length;
+    }
+}
+```
+
+# Exception Handling
+
+## Basic Try/Catch
+
+```csharp
+try
+{
+    int result = 10 / 0;
+}
+catch (DivideByZeroException ex)
+{
+    Console.WriteLine($"Division error: {ex.Message}");
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Error: {ex.Message}");
+}
+finally
+{
+    Console.WriteLine("Always executes");
+}
+```
+
+## Throwing Exceptions
+
+```csharp
+public void ValidateAge(int age)
+{
+    if (age < 0)
+    {
+        throw new ArgumentException("Age cannot be negative", nameof(age));
+    }
+}
+```
+
+## Custom Exceptions
+
+```csharp
+public class ValidationException : Exception
+{
+    public string Field { get; }
+
+    public ValidationException(string field, string message)
+        : base(message)
+    {
+        Field = field;
+    }
+}
+
+throw new ValidationException("email", "Invalid email format");
+```
+
+## Exception Filters (C# 6+)
+
+```csharp
+try
+{
+    // Code
+}
+catch (Exception ex) when (ex is InvalidOperationException or ArgumentNullException)
+{
+    // Handle specific exceptions
+}
+```
+
+# File Handling
+
+## Reading Files
+
+```csharp
+using System.IO;
+
+// Read all text
+string content = File.ReadAllText("file.txt");
+
+// Read all lines
+string[] lines = File.ReadAllLines("file.txt");
+
+// Read as stream
+using var reader = new StreamReader("file.txt");
+while (!reader.EndOfStream)
+{
+    string line = await reader.ReadLineAsync();
+    Console.WriteLine(line);
+}
+```
+
+## Writing Files
+
+```csharp
+using System.IO;
+
+// Write all text
+File.WriteAllText("output.txt", "Hello, World!");
+
+// Write all lines
+File.WriteAllLines("output.txt", new[] { "Line 1", "Line 2" });
+
+// Append
+File.AppendAllText("output.txt", "\nNew line");
+```
+
+## FileInfo
+
+```csharp
+var file = new FileInfo("document.pdf");
+
+if (file.Exists)
+{
+    long size = file.Length;
+    DateTime created = file.CreationTime;
+    DateTime modified = file.LastWriteTime;
+    file.CopyTo("backup.pdf");
+    file.MoveTo("renamed.pdf");
+    file.Delete();
+}
+```
+
+## Directory Operations
+
+```csharp
+Directory.CreateDirectory("newfolder");
+Directory.Delete("folder");
+Directory.Move("old", "new");
+
+var files = Directory.GetFiles(".", "*.txt");
+var dirs = Directory.GetDirectories(".");
+```
+
+# Delegates and Events
+
+## Delegates
+
+```csharp
+public delegate int Operation(int a, int b);
+
+public static class MathOperations
+{
+    public static int Add(int a, int b) => a + b;
+    public static int Multiply(int a, int b) => a * b;
+}
+
+// Usage
+Operation op = MathOperations.Add;
+Console.WriteLine(op(5, 3));  // 8
+
+op = MathOperations.Multiply;
+Console.WriteLine(op(5, 3));  // 15
+```
+
+## Generic Delegates
+
+```csharp
+Func<int, int, int> add = (a, b) => a + b;
+Action<string> print = Console.WriteLine;
+Predicate<int> isEven = n => n % 2 == 0;
+```
+
+## Events
+
+```csharp
+public class Button
+{
+    // Event declaration
+    public event EventHandler? Clicked;
+
+    public void OnClick()
+    {
+        Clicked?.Invoke(this, EventArgs.Empty);
+    }
+}
+
+// Subscribe
+var button = new Button();
+button.Clicked += (sender, e) => Console.WriteLine("Clicked!");
+
+// Unsubscribe
+button.Clicked -= handler;
+```
+
+## Custom EventArgs
+
+```csharp
+public class ValueChangedEventArgs : EventArgs
+{
+    public int OldValue { get; }
+    public int NewValue { get; }
+
+    public ValueChangedEventArgs(int oldValue, int newValue)
+    {
+        OldValue = oldValue;
+        NewValue = newValue;
+    }
+}
+
+public class Counter
+{
+    private int _value;
+
+    public event EventHandler<ValueChangedEventArgs>? ValueChanged;
+
+    public int Value
+    {
+        get => _value;
+        set
+        {
+            var old = _value;
+            _value = value;
+            ValueChanged?.Invoke(this, new ValueChangedEventArgs(old, value));
+        }
+    }
+}
+```
+
+# Async/Await
+
+## Basic Async
+
+```csharp
+public async Task<string> FetchDataAsync()
+{
+    using var client = new HttpClient();
+    string result = await client.GetStringAsync("https://api.example.com");
+    return result;
+}
+
+// Call async method
+var data = await FetchDataAsync();
+```
+
+## Async with Cancellation
+
+```csharp
+public async Task<string> DownloadAsync(CancellationToken ct)
+{
+    using var client = new HttpClient();
+    var response = await client.GetAsync("https://api.example.com/file", ct);
+    return await response.Content.ReadAsStringAsync(ct);
+}
+
+// Usage
+var cts = new CancellationTokenSource();
+cts.CancelAfter(TimeSpan.FromSeconds(30));
+
+try
+{
+    var data = await DownloadAsync(cts.Token);
+}
+catch (OperationCanceledException)
+{
+    Console.WriteLine("Download cancelled");
+}
+```
+
+## Parallel Async
+
+```csharp
+// Sequential
+var result1 = await GetData1Async();
+var result2 = await GetData2Async();
+
+// Parallel
+var (r1, r2) = await (GetData1Async(), GetData2Async());
+
+// Task.WhenAll
+var tasks = new[] { GetData1Async(), GetData2Async(), GetData3Async() };
+var results = await Task.WhenAll(tasks);
+
+// Task.WhenAny
+var first = await Task.WhenAny(tasks);
+```
+
+## async Main (C# 7.2+)
+
+```csharp
+static async Task Main(string[] args)
+{
+    await DoWorkAsync();
+}
+```
+
+# Generics
+
+## Generic Class
+
+```csharp
+public class Box<T>
+{
+    public T Content { get; set; }
+}
+
+var intBox = new Box<int> { Content = 42 };
+var stringBox = new Box<string> { Content = "Hello" };
+```
+
+## Generic Method
+
+```csharp
+public static void Swap<T>(ref T a, ref T b)
+{
+    (a, b) = (b, a);
+}
+
+int x = 1, y = 2;
+Swap(ref x, ref y);
+```
+
+## Generic Constraints
+
+```csharp
+// struct - value type
+// class - reference type
+// new() - parameterless constructor
+// : BaseClass - must inherit
+// : IInterface - must implement
+
+public class DataStore<T> where T : class
+{
+    public T Data { get; set; }
+}
+
+public class Comparer<T> where T : IComparable<T>
+{
+    public bool IsGreater(T a, T b) => a.CompareTo(b) > 0;
+}
+
+public class Factory<T> where T : new()
+{
+    public T Create() => new T();
+}
+```
+
+## Covariance and Contravariance
+
+```csharp
+// out - covariance (return type)
+IEnumerable<Derived> d = new List<Derived>();
+IEnumerable<Base> b = d;  // IEnumerable<out T>
+
+// in - contravariance (parameter type)
+Action<Base> baseAction = (Base b) => { };
+Action<Derived> derivedAction = baseAction;
+```
+
+# Attributes
+
+## Basic Attribute
+
+```csharp
+[Obsolete("Use NewMethod instead")]
+public void OldMethod()
+{
+}
+
+[Serializable]
+public class User
+{
+    public string Name { get; set; }
+}
+
+[Range(1, 100)]
+public int Quantity { get; set; }
+
+[Required]
+[EmailAddress]
+public string Email { get; set; }
+```
+
+## Custom Attribute
+
+```csharp
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+public class DocumentationAttribute : Attribute
+{
+    public string Author { get; init; }
+    public string Date { get; init; }
+    public string Version { get; init; } = "1.0";
+}
+
+[Documentation(Author = "John", Date = "2024-01-01")]
+public class MyClass
+{
+}
+```
+
+## Reflection
+
+```csharp
+var type = typeof(MyClass);
+var attributes = type.GetCustomAttributes(typeof(DocumentationAttribute), true);
+
+if (attributes.Length > 0)
+{
+    var doc = (DocumentationAttribute)attributes[0];
+    Console.WriteLine($"Author: {doc.Author}");
+}
+```
+
+# Pattern Matching
+
+## Type Pattern
+
+```csharp
+object obj = "Hello";
+
+if (obj is string s)
+{
+    Console.WriteLine(s.Length);
+}
+
+// With not null
+if (obj is string { Length: > 0 } s)
+{
+    Console.WriteLine(s);
+}
+```
+
+## Switch Expression
+
+```csharp
+Shape GetShapeType(Shape shape) => shape switch
+{
+    Circle c => c,
+    Rectangle r when r.Width == r.Height => new Square(r.Width),
+    Rectangle r => r,
+    _ => throw new ArgumentException()
+};
+```
+
+## Property Pattern
+
+```csharp
+if (person is { Name: "John", Age: >= 18 })
+{
+    Console.WriteLine("Adult John");
+}
+
+var greeting = person switch
+{
+    { Name: "John" } => "Hello John",
+    { Name: var n } => $"Hello {n}"
+};
+```
+
+## Tuple Pattern
+
+```csharp
+string GetResult((int a, int b) pair) => pair switch
+{
+    (0, 0) => "Origin",
+    (_, 0) => "X-axis",
+    (0, _) => "Y-axis",
+    (var x, var y) when x == y => "Diagonal",
+    _ => "Other"
+};
+```
+
+# Testing
+
+## xUnit
+
+```csharp
+using Xunit;
+
+public class CalculatorTests
+{
+    [Fact]
+    public void Add_TwoNumbers_ReturnsSum()
+    {
+        // Arrange
+        var calculator = new Calculator();
+
+        // Act
+        int result = calculator.Add(2, 3);
+
+        // Assert
+        Assert.Equal(5, result);
+    }
+
+    [Theory]
+    [InlineData(1, 2, 3)]
+    [InlineData(0, 0, 0)]
+    [InlineData(-1, 1, 0)]
+    public void Add_VariousInputs_ReturnsExpected(int a, int b, int expected)
+    {
+        var calculator = new Calculator();
+        Assert.Equal(expected, calculator.Add(a, b));
+    }
+
+    [Fact]
+    public void Divide_ByZero_ThrowsException()
+    {
+        var calculator = new Calculator();
+        Assert.Throws<DivideByZeroException>(() => calculator.Divide(1, 0));
+    }
+}
+```
+
+## Setup/Teardown
+
+```csharp
+public class DatabaseTests : IDisposable
+{
+    private Database _db;
+
+    public DatabaseTests()
+    {
+        _db = new Database();
+        _db.Connect();
+    }
+
+    public void Dispose()
+    {
+        _db.Disconnect();
+    }
+
+    [Fact]
+    public void Test1()
+    {
+        // Uses fresh database
+    }
+}
+```
+
+# Next Steps
+
+Now that you know C# fundamentals:
+
+- Build web apps with ASP.NET Core
+- Create desktop apps with WPF or WinUI
+- Learn Blazor for web UI
+- Explore Unity for game development
+- Build cloud services with Azure
+
+# References
+
+- [C# Documentation](https://docs.microsoft.com/en-us/dotnet/csharp)
+- [.NET Documentation](https://docs.microsoft.com/en-us/dotnet)
+- [C# in a Nutshell](https://www.oreilly.com/library/view/c-9-in/9781492057076/)
+- [Microsoft Learn](https://learn.microsoft.com)
