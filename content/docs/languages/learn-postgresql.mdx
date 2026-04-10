@@ -1,0 +1,1493 @@
+---
+title: Learn PostgreSQL
+description: A comprehensive PostgreSQL course.
+---
+
+Welcome to the comprehensive PostgreSQL course. PostgreSQL is the world's most advanced open-source relational database.
+
+# Table of contents
+
+- **Getting Started**
+  - [What is PostgreSQL?](#what-is-postgresql)
+  - [Why learn PostgreSQL?](#why-learn-postgresql)
+  - [Installation and Setup](#installation-and-setup)
+
+- **Chapter I**
+  - [Database Basics](#database-basics)
+  - [Tables](#tables)
+  - [Data Types](#data-types)
+  - [CRUD Operations](#crud-operations)
+
+- **Chapter II**
+  - [Querying Data](#querying-data)
+  - [Filtering](#filtering)
+  - [Sorting](#sorting)
+  - [Limit and Offset](#limit-and-offset)
+  - [Aggregate Functions](#aggregate-functions)
+
+- **Chapter III**
+  - [Joins](#joins)
+  - [Subqueries](#subqueries)
+  - [Views](#views)
+  - [Stored Procedures](#stored-procedures)
+  - [Functions](#functions)
+
+- **Chapter IV**
+  - [Indexes](#indexes)
+  - [Constraints](#constraints)
+  - [Transactions](#transactions)
+  - [JSON Data](#json-data)
+
+- **Chapter V**
+  - [Users and Permissions](#users-and-permissions)
+  - [PostgreSQL Specifics](#postgresql-specifics)
+  - [Performance Tuning](#performance-tuning)
+
+- **Appendix**
+  - [Next Steps](#next-steps)
+  - [References](#references)
+
+# What is PostgreSQL?
+
+PostgreSQL is a powerful, open-source object-relational database system that uses and extends the SQL language.
+
+## Key Characteristics
+
+- **ACID Compliant**: Full support for transactions
+- **Extensible**: User-defined types, functions, operators
+- **Standards Compliant**: Full SQL standard compliance
+- **MVCC**: Multi-version concurrency control
+- **JSON Support**: Native JSON/JSONB support
+- **Full-Text Search**: Built-in search capabilities
+- **NoSQL Features**: Key-value, document storage
+
+# Why learn PostgreSQL?
+
+## 1. Most Advanced Open Source DB
+
+Handles complex queries and large datasets efficiently.
+
+## 2. Strong Standards Compliance
+
+Works with any SQL standard application.
+
+## 3. Rich Feature Set
+
+Advanced features not found in other databases.
+
+## 4. Great Performance
+
+Excellent for high-volume applications.
+
+## 5. Growing Popularity
+
+Used by Apple, Instagram, Spotify, and more.
+
+# Installation and Setup
+
+## Installation Options
+
+### macOS (Homebrew)
+
+```bash
+brew install postgresql
+brew services start postgresql
+```
+
+### Ubuntu/Debian
+
+```bash
+sudo apt update
+sudo apt install postgresql postgresql-contrib
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+```
+
+### Windows
+
+Download from [postgresql.org](https://www.postgresql.org/download/windows/)
+
+## Basic Commands
+
+```bash
+# Connect
+psql -U postgres
+
+# With database
+psql -U postgres myapp
+
+# With host and port
+psql -h localhost -p 5432 -U postgres myapp
+```
+
+## psql Commands
+
+```sql
+-- Meta commands (backslash commands)
+\help                    -- SQL help
+\?                       -- psql help
+\l                       -- List databases
+\c myapp                 -- Connect to database
+\d                       -- List tables
+\d users                 -- Describe table
+\dt                      -- List tables only
+\di                      -- List indexes
+\du                      -- List users
+\dv                      -- List views
+\df                      -- List functions
+\x                       -- Toggle expanded display
+\i file.sql              -- Execute file
+\o output.txt            -- Output to file
+\timing                  -- Toggle query timing
+```
+
+# Database Basics
+
+## Creating Database
+
+```sql
+CREATE DATABASE myapp;
+CREATE DATABASE myapp WITH OWNER = myuser;
+CREATE DATABASE myapp ENCODING = 'UTF8';
+CREATE DATABASE myapp TEMPLATE = template0;
+```
+
+## Using Database
+
+```sql
+\c myapp
+```
+
+## Listing Databases
+
+```sql
+\l
+\l+
+```
+
+## Deleting Database
+
+```sql
+DROP DATABASE myapp;
+DROP DATABASE IF EXISTS myapp;
+```
+
+## Current Database
+
+```sql
+SELECT current_database();
+SELECT pg_database.datname FROM pg_database WHERE datistemplate = false;
+```
+
+# Tables
+
+## Creating Tables
+
+```sql
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id),
+    total DECIMAL(10, 2),
+    status VARCHAR(20) DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+## Table Structure
+
+```sql
+\d users
+\d+ users
+```
+
+## Modifying Tables
+
+```sql
+-- Add column
+ALTER TABLE users ADD COLUMN age INTEGER;
+ALTER TABLE users ADD COLUMN phone VARCHAR(20) UNIQUE;
+
+-- Add constraint
+ALTER TABLE users ADD CONSTRAINT users_email_key UNIQUE (email);
+
+-- Drop column
+ALTER TABLE users DROP COLUMN age;
+
+-- Modify column type
+ALTER TABLE users ALTER COLUMN username TYPE VARCHAR(100);
+
+-- Rename column
+ALTER TABLE users RENAME COLUMN created_at TO registration_date;
+
+-- Rename table
+ALTER TABLE users RENAME TO customers;
+```
+
+## Deleting Table
+
+```sql
+DROP TABLE orders;
+DROP TABLE IF EXISTS orders;
+DROP TABLE orders CASCADE;  -- Drop dependent objects
+```
+
+# Data Types
+
+## Numeric Types
+
+```sql
+-- Integers
+SMALLINT       -- -32768 to 32767
+INTEGER         -- -2.1B to 2.1B
+BIGINT          -- Very large numbers
+SERIAL          -- Auto-incrementing integer
+BIGSERIAL       -- Auto-incrementing bigint
+
+-- Arbitrary precision
+NUMERIC(10, 2)  -- Exact decimal
+DECIMAL(10, 2)  -- Same as NUMERIC
+
+-- Floating point
+REAL            -- Single precision (6 digits)
+DOUBLE PRECISION -- Double precision (15 digits)
+```
+
+## Character Types
+
+```sql
+VARCHAR(n)      -- Variable length with limit
+CHAR(n)         -- Fixed length, padded
+TEXT            -- Variable unlimited length
+
+-- Examples
+username VARCHAR(50)
+postal_code CHAR(6)
+content TEXT
+```
+
+## Date/Time Types
+
+```sql
+DATE            -- Calendar date
+TIME            -- Time of day
+TIME WITH TIME ZONE
+TIMESTAMP       -- Date and time
+TIMESTAMP WITH TIME ZONE  -- Timezone aware
+INTERVAL        -- Time span
+
+-- Current values
+SELECT NOW();                    -- Current timestamp
+SELECT CURRENT_DATE;             -- Current date
+SELECT CURRENT_TIME;             -- Current time
+SELECT CURRENT_TIMESTAMP;         -- Current timestamp (timezone aware)
+```
+
+## Boolean
+
+```sql
+BOOLEAN         -- true, false, NULL
+-- Also: 't', 'f', 'true', 'false', 'yes', 'no', '1', '0'
+```
+
+## Array Types
+
+```sql
+CREATE TABLE products (
+    name TEXT,
+    tags TEXT[]              -- Array of text
+);
+
+CREATE TABLE schedules (
+    days INTEGER[],
+    times TIME[]
+);
+
+-- Using arrays
+INSERT INTO products VALUES ('Laptop', ARRAY['electronics', 'computer']);
+INSERT INTO products VALUES ('Phone', '{"mobile", "electronics"}');
+
+SELECT tags[1] FROM products;  -- First element (1-indexed)
+SELECT array_length(tags, 1) FROM products;  -- Array length
+SELECT UNNEST(tags) FROM products;  -- Expand array to rows
+```
+
+## JSON Types
+
+```sql
+JSON            -- Validated JSON
+JSONB           -- Binary JSON, faster operations
+
+CREATE TABLE events (
+    data JSONB
+);
+
+INSERT INTO events VALUES ('{"name": "John", "age": 30}');
+```
+
+## Other Types
+
+```sql
+UUID            -- Universally unique identifier
+ENUM            -- Custom enumerated types
+POINT           -- Geometric point
+ARRAY           -- Dynamic arrays
+XML             -- XML data
+INET            -- IP address
+CIDR            -- Network address
+MACADDR         -- MAC address
+BYTEA           -- Binary data
+```
+
+## Creating ENUM
+
+```sql
+CREATE TYPE order_status AS ENUM ('pending', 'processing', 'shipped', 'delivered');
+
+CREATE TABLE orders (
+    status order_status DEFAULT 'pending'
+);
+```
+
+# CRUD Operations
+
+## INSERT
+
+```sql
+-- Insert single row
+INSERT INTO users (username, email) VALUES ('john', 'john@example.com');
+
+-- Insert with default
+INSERT INTO users (username) VALUES ('jane');
+
+-- Insert multiple rows
+INSERT INTO users (username, email) VALUES
+    ('bob', 'bob@example.com'),
+    ('alice', 'alice@example.com');
+
+-- Insert from select
+INSERT INTO users (username, email)
+SELECT username, email FROM old_users;
+
+-- INSERT ... ON CONFLICT (Upsert)
+INSERT INTO users (username, email) VALUES ('john', 'johnnew@example.com')
+ON CONFLICT (username) DO UPDATE SET email = EXCLUDED.email;
+
+-- INSERT ... ON CONFLICT DO NOTHING
+INSERT INTO users (username, email) VALUES ('john', 'john@example.com')
+ON CONFLICT DO NOTHING;
+
+-- RETURNING
+INSERT INTO users (username, email) VALUES ('test', 'test@example.com')
+RETURNING id, username;
+```
+
+## SELECT
+
+```sql
+SELECT * FROM users;
+SELECT id, username FROM users;
+SELECT username AS "User Name" FROM users;
+SELECT DISTINCT country FROM users;
+SELECT username, price * quantity AS total FROM orders;
+```
+
+## UPDATE
+
+```sql
+-- Update single column
+UPDATE users SET email = 'new@example.com' WHERE id = 1;
+
+-- Update multiple columns
+UPDATE users
+SET email = 'new@example.com',
+    username = 'newname'
+WHERE id = 1;
+
+-- Update with expression
+UPDATE products SET price = price * 0.9 WHERE category = 'sale';
+
+-- RETURNING
+UPDATE users SET status = 'active' WHERE id = 1
+RETURNING id, username, status;
+```
+
+## DELETE
+
+```sql
+DELETE FROM users WHERE id = 1;
+DELETE FROM users WHERE status = 'banned';
+DELETE FROM users WHERE id IN (SELECT user_id FROM banned_users)
+RETURNING id, username;
+```
+
+# Querying Data
+
+## WHERE Clause
+
+```sql
+SELECT * FROM users WHERE age >= 18;
+SELECT * FROM users WHERE age >= 18 AND country = 'USA';
+SELECT * FROM users WHERE email LIKE '%@gmail.com';
+SELECT * FROM users WHERE status IN ('active', 'premium');
+SELECT * FROM users WHERE created_at BETWEEN '2024-01-01' AND '2024-12-31';
+```
+
+## Pattern Matching
+
+```sql
+-- LIKE
+SELECT * FROM users WHERE name LIKE 'J%';      -- Starts with J
+SELECT * FROM users WHERE name LIKE '%ohn%';    -- Contains 'ohn'
+SELECT * FROM users WHERE name LIKE 'J_hn';     -- J + any + hn
+
+-- ILIKE (case-insensitive)
+SELECT * FROM users WHERE name ILIKE 'j%';
+
+-- SIMILAR TO (regex)
+SELECT * FROM users WHERE name SIMILAR TO '(John|Jane)%';
+
+-- POSIX regex (PostgreSQL)
+SELECT * FROM users WHERE name ~ '^J.*';
+```
+
+## NULL Handling
+
+```sql
+SELECT * FROM users WHERE phone IS NULL;
+SELECT * FROM users WHERE phone IS NOT NULL;
+
+-- COALESCE
+SELECT COALESCE(phone, email, 'No contact') AS contact FROM users;
+
+-- NULLIF
+SELECT NULLIF(value, 0);  -- Returns NULL if value is 0
+
+-- NVL alias
+SELECT COALESCE(phone, email);
+```
+
+# Filtering
+
+## AND/OR/NOT
+
+```sql
+SELECT * FROM users
+WHERE (age >= 18 AND status = 'active')
+   OR role = 'admin';
+
+SELECT * FROM users WHERE NOT status = 'banned';
+```
+
+## IN/BETWEEN
+
+```sql
+SELECT * FROM users WHERE country IN ('USA', 'Canada', 'Mexico');
+SELECT * FROM users WHERE country NOT IN ('USA', 'Canada');
+
+SELECT * FROM products WHERE price BETWEEN 10 AND 100;
+SELECT * FROM orders WHERE order_date BETWEEN '2024-01-01' AND '2024-12-31';
+```
+
+## EXISTS
+
+```sql
+SELECT username FROM users u
+WHERE EXISTS (
+    SELECT 1 FROM orders o WHERE o.user_id = u.id
+);
+```
+
+# Sorting
+
+## ORDER BY
+
+```sql
+SELECT * FROM users ORDER BY username ASC;
+SELECT * FROM users ORDER BY created_at DESC;
+SELECT * FROM users ORDER BY country ASC, username ASC;
+
+-- NULLS positioning
+SELECT * FROM users ORDER BY phone NULLS FIRST;
+SELECT * FROM users ORDER BY phone DESC NULLS LAST;
+```
+
+## Complex Sorting
+
+```sql
+SELECT * FROM users
+ORDER BY
+    CASE status
+        WHEN 'premium' THEN 1
+        WHEN 'active' THEN 2
+        ELSE 3
+    END,
+    username ASC;
+```
+
+# Limit and Offset
+
+## LIMIT/OFFSET
+
+```sql
+SELECT * FROM users LIMIT 10;
+SELECT * FROM users LIMIT 10 OFFSET 20;
+SELECT * FROM users ORDER BY id DESC LIMIT 5;
+
+-- Pagination
+SELECT * FROM users LIMIT 20 OFFSET 40;
+```
+
+## FETCH (SQL standard)
+
+```sql
+SELECT * FROM users FETCH FIRST 10 ROWS ONLY;
+SELECT * FROM users OFFSET 10 ROWS FETCH NEXT 10 ROWS ONLY;
+```
+
+# Aggregate Functions
+
+## COUNT/SUM/AVG/MIN/MAX
+
+```sql
+SELECT COUNT(*) FROM users;
+SELECT COUNT(DISTINCT country) FROM users;
+SELECT SUM(amount) FROM orders;
+SELECT AVG(price) FROM products;
+SELECT MIN(created_at) FROM users;
+SELECT MAX(salary) FROM employees;
+```
+
+## GROUP BY
+
+```sql
+SELECT country, COUNT(*) AS user_count
+FROM users
+GROUP BY country;
+
+SELECT department, AVG(salary) AS avg_salary
+FROM employees
+GROUP BY department
+ORDER BY avg_salary DESC;
+```
+
+## HAVING
+
+```sql
+SELECT country, COUNT(*) AS cnt
+FROM users
+GROUP BY country
+HAVING COUNT(*) > 10;
+
+SELECT category, SUM(amount) AS total
+FROM products
+GROUP BY category
+HAVING SUM(amount) > 10000;
+```
+
+## GROUP BY with Filters
+
+```sql
+SELECT
+    date_trunc('month', created_at) AS month,
+    COUNT(*) AS order_count,
+    SUM(total) AS revenue
+FROM orders
+GROUP BY date_trunc('month', created_at)
+ORDER BY month;
+```
+
+## FILTER Clause
+
+```sql
+SELECT
+    department,
+    AVG(salary) AS avg_salary,
+    AVG(salary) FILTER (WHERE status = 'fulltime') AS avg_fulltime_salary
+FROM employees
+GROUP BY department;
+```
+
+# Joins
+
+## INNER JOIN
+
+```sql
+SELECT u.username, o.order_id, o.total
+FROM users u
+INNER JOIN orders o ON u.id = o.user_id;
+
+-- Multiple joins
+SELECT u.username, o.order_id, p.product_name
+FROM users u
+INNER JOIN orders o ON u.id = o.user_id
+INNER JOIN order_items oi ON o.id = oi.order_id
+INNER JOIN products p ON oi.product_id = p.id;
+```
+
+## LEFT JOIN
+
+```sql
+SELECT u.username, o.order_id
+FROM users u
+LEFT JOIN orders o ON u.id = o.user_id;
+
+-- Users without orders
+SELECT u.username
+FROM users u
+LEFT JOIN orders o ON u.id = o.user_id
+WHERE o.id IS NULL;
+```
+
+## RIGHT JOIN
+
+```sql
+SELECT u.username, o.order_id
+FROM users u
+RIGHT JOIN orders o ON u.id = o.user_id;
+```
+
+## FULL OUTER JOIN
+
+```sql
+SELECT u.username, o.order_id
+FROM users u
+FULL OUTER JOIN orders o ON u.id = o.user_id;
+
+-- Exclude matches from both sides
+SELECT u.username, o.order_id
+FROM users u
+FULL OUTER JOIN orders o ON u.id = o.user_id
+WHERE u.id IS NULL OR o.id IS NULL;
+```
+
+## CROSS JOIN
+
+```sql
+SELECT u.username, p.product_name
+FROM users u
+CROSS JOIN products p;
+```
+
+## Self Join
+
+```sql
+SELECT
+    e.name AS employee,
+    m.name AS manager
+FROM employees e
+LEFT JOIN employees m ON e.manager_id = m.id;
+```
+
+# Subqueries
+
+## Subquery in WHERE
+
+```sql
+SELECT * FROM users WHERE id IN (
+    SELECT user_id FROM orders GROUP BY user_id HAVING COUNT(*) > 5
+);
+```
+
+## Subquery in SELECT
+
+```sql
+SELECT
+    username,
+    (SELECT COUNT(*) FROM orders WHERE user_id = users.id) AS order_count
+FROM users;
+```
+
+## Subquery in FROM
+
+```sql
+SELECT * FROM (
+    SELECT department, AVG(salary) AS avg_salary
+    FROM employees
+    GROUP BY department
+) AS dept_stats
+WHERE avg_salary > 50000;
+```
+
+## EXISTS/NOT EXISTS
+
+```sql
+SELECT * FROM products p
+WHERE EXISTS (
+    SELECT 1 FROM order_items oi WHERE oi.product_id = p.id
+);
+```
+
+## Lateral Joins
+
+```sql
+SELECT u.username, latest_order.order_id, latest_order.order_date
+FROM users u
+LEFT JOIN LATERAL (
+    SELECT order_id, order_date
+    FROM orders o
+    WHERE o.user_id = u.id
+    ORDER BY order_date DESC
+    LIMIT 1
+) latest_order ON true;
+```
+
+# Views
+
+## Creating Views
+
+```sql
+CREATE VIEW active_users AS
+SELECT id, username, email
+FROM users
+WHERE status = 'active';
+
+CREATE OR REPLACE VIEW order_summary AS
+SELECT
+    o.id AS order_id,
+    u.username,
+    COUNT(oi.id) AS item_count,
+    SUM(oi.quantity * p.price) AS total
+FROM orders o
+JOIN users u ON o.user_id = u.id
+JOIN order_items oi ON o.id = oi.order_id
+JOIN products p ON oi.product_id = p.id
+GROUP BY o.id, u.username;
+```
+
+## Using Views
+
+```sql
+SELECT * FROM active_users;
+SELECT * FROM order_summary WHERE total > 100;
+```
+
+## Materialized Views
+
+```sql
+-- Create materialized view
+CREATE MATERIALIZED VIEW monthly_sales AS
+SELECT
+    date_trunc('month', order_date) AS month,
+    SUM(total) AS revenue
+FROM orders
+GROUP BY date_trunc('month', order_date);
+
+-- Refresh
+REFRESH MATERIALIZED VIEW monthly_sales;
+REFRESH MATERIALIZED VIEW CONCURRENTLY monthly_sales;
+
+-- Query
+SELECT * FROM monthly_sales;
+```
+
+## Drop View
+
+```sql
+DROP VIEW active_users;
+DROP VIEW IF EXISTS active_users;
+DROP MATERIALIZED VIEW monthly_sales;
+```
+
+# Stored Procedures
+
+## PL/pgSQL Basics
+
+```sql
+CREATE OR REPLACE PROCEDURE update_user_status(
+    p_id INTEGER,
+    p_status VARCHAR(20)
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    UPDATE users SET status = p_status WHERE id = p_id;
+END;
+$$;
+
+-- Call procedure
+CALL update_user_status(1, 'active');
+
+-- Transaction control
+CREATE OR REPLACE PROCEDURE transfer_funds(
+    from_account INTEGER,
+    to_account INTEGER,
+    amount DECIMAL
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    UPDATE accounts SET balance = balance - amount WHERE id = from_account;
+    UPDATE accounts SET balance = balance + amount WHERE id = to_account;
+    COMMIT;
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+        RAISE;
+END;
+$$;
+```
+
+## Variables
+
+```sql
+CREATE OR REPLACE PROCEDURE example()
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    user_count INTEGER;
+    user_name VARCHAR(50);
+BEGIN
+    SELECT COUNT(*) INTO user_count FROM users;
+    SELECT username INTO user_name FROM users LIMIT 1;
+    RAISE NOTICE 'User count: %, first user: %', user_count, user_name;
+END;
+$$;
+```
+
+## Conditionals
+
+```sql
+CREATE OR REPLACE FUNCTION get_discount(price DECIMAL)
+RETURNS DECIMAL
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    IF price > 100 THEN
+        RETURN price * 0.20;
+    ELSIF price > 50 THEN
+        RETURN price * 0.10;
+    ELSE
+        RETURN 0;
+    END IF;
+END;
+$$;
+```
+
+## Loops
+
+```sql
+CREATE OR REPLACE PROCEDURE generate_numbers(count INTEGER)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    i INTEGER := 1;
+BEGIN
+    WHILE i <= count LOOP
+        RAISE NOTICE 'Number: %', i;
+        i := i + 1;
+    END LOOP;
+END;
+$$;
+
+-- FOR loop over query
+CREATE OR REPLACE PROCEDURE process_users()
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    FOR user_rec IN SELECT id, username FROM users LOOP
+        RAISE NOTICE 'Processing: %', user_rec.username;
+    END LOOP;
+END;
+$$;
+```
+
+# Functions
+
+## Basic Function
+
+```sql
+CREATE OR REPLACE FUNCTION get_user_count()
+RETURNS INTEGER
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    count INTEGER;
+BEGIN
+    SELECT COUNT(*) INTO count FROM users;
+    RETURN count;
+END;
+$$;
+
+SELECT get_user_count();
+```
+
+## Function with Parameters
+
+```sql
+CREATE OR REPLACE FUNCTION get_user_by_id(user_id INTEGER)
+RETURNS TABLE (
+    id INTEGER,
+    username VARCHAR(50),
+    email VARCHAR(100)
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT u.id, u.username, u.email
+    FROM users u
+    WHERE u.id = user_id;
+END;
+$$;
+
+SELECT * FROM get_user_by_id(1);
+```
+
+## Returns SETOF
+
+```sql
+CREATE OR REPLACE FUNCTION get_users_by_country(country_name VARCHAR)
+RETURNS SETOF users
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT * FROM users WHERE country = country_name;
+END;
+$$;
+```
+
+## RETURNS TABLE
+
+```sql
+CREATE OR REPLACE FUNCTION calculate_stats()
+RETURNS TABLE (
+    total_count BIGINT,
+    avg_value NUMERIC,
+    max_value NUMERIC
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    SELECT COUNT(*), AVG(price), MAX(price)
+    INTO total_count, avg_value, max_value
+    FROM products;
+    RETURN;
+END;
+$$;
+```
+
+## IMMUTABLE/STABLE/VOLATILE
+
+```sql
+-- Function always returns same result for same input
+CREATE OR REPLACE FUNCTION add_numbers(a INTEGER, b INTEGER)
+RETURNS INTEGER
+LANGUAGE plpgsql
+IMMUTABLE
+AS $$
+BEGIN
+    RETURN a + b;
+END;
+$$;
+
+-- Function might modify database
+CREATE OR REPLACE PROCEDURE update_user_status(
+    p_id INTEGER,
+    p_status VARCHAR(20)
+)
+RETURNS VOID
+LANGUAGE plpgsql
+VOLATILE
+AS $$
+BEGIN
+    UPDATE users SET status = p_status WHERE id = p_id;
+END;
+$$;
+```
+
+# Indexes
+
+## Creating Indexes
+
+```sql
+-- Single column
+CREATE INDEX idx_username ON users(username);
+
+-- Composite
+CREATE INDEX idx_country_status ON users(country, status);
+
+-- Unique
+CREATE UNIQUE INDEX idx_email ON users(email);
+
+-- Expression index
+CREATE INDEX idx_lower_email ON users(LOWER(email));
+
+-- Partial index
+CREATE INDEX idx_active_users ON users(last_login)
+WHERE status = 'active';
+
+-- Covering index (INCLUDE)
+CREATE INDEX idx_covering ON orders(user_id, created_at)
+INCLUDE (total, status);
+```
+
+## Index Types
+
+```sql
+-- B-tree (default)
+CREATE INDEX idx_btree ON users(username);
+
+-- Hash
+CREATE INDEX idx_hash ON users USING HASH (email);
+
+-- GiST (spatial)
+CREATE INDEX idx_location ON locations USING GIST (coordinates);
+
+-- GIN (full-text, JSON)
+CREATE INDEX idx_gin_tags ON products USING GIN (tags);
+
+-- BRIN (block range, large tables)
+CREATE INDEX idx_brin ON orders USING BRIN (created_at);
+```
+
+## Using Indexes
+
+```sql
+-- Show indexes
+\d users
+\d+ users
+
+-- Force index usage
+SELECT * FROM users FORCE INDEX (idx_username) WHERE username = 'john';
+
+-- Disable index
+ALTER INDEX idx_username DISABLE;
+ALTER INDEX idx_username ENABLE;
+```
+
+## Drop Index
+
+```sql
+DROP INDEX idx_username;
+DROP INDEX IF EXISTS idx_username;
+DROP INDEX CONCURRENTLY idx_username;  -- No lock
+```
+
+# Constraints
+
+## Primary Key
+
+```sql
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY,
+    username VARCHAR(50)
+);
+
+-- Composite primary key
+CREATE TABLE order_items (
+    order_id INTEGER,
+    product_id INTEGER,
+    PRIMARY KEY (order_id, product_id)
+);
+```
+
+## Foreign Key
+
+```sql
+CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id),
+    total DECIMAL(10, 2)
+);
+
+-- With actions
+CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id)
+        ON DELETE CASCADE
+        ON UPDATE SET NULL
+);
+```
+
+## Unique Constraint
+
+```sql
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(100) UNIQUE,
+    username VARCHAR(50),
+    UNIQUE (username)
+);
+```
+
+## NOT NULL
+
+```sql
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL
+);
+```
+
+## CHECK Constraint
+
+```sql
+CREATE TABLE products (
+    id SERIAL PRIMARY KEY,
+    price DECIMAL(10, 2) CHECK (price > 0),
+    quantity INTEGER CHECK (quantity >= 0)
+);
+
+-- Named constraint
+CREATE TABLE employees (
+    salary DECIMAL(10, 2) CONSTRAINT positive_salary CHECK (salary > 0)
+);
+
+-- Table-level check
+CREATE TABLE orders (
+    subtotal DECIMAL(10, 2),
+    tax DECIMAL(10, 2),
+    total DECIMAL(10, 2),
+    CHECK (subtotal + tax = total)
+);
+```
+
+## Exclusion Constraint
+
+```sql
+-- Prevent overlapping reservations
+CREATE TABLE room_reservations (
+    room_id INTEGER,
+    time_range TSRANGE,
+    EXCLUDE USING GIST (
+        room_id WITH =,
+        time_range WITH &&
+    )
+);
+```
+
+# Transactions
+
+## Basic Transaction
+
+```sql
+BEGIN;
+    UPDATE accounts SET balance = balance - 100 WHERE id = 1;
+    UPDATE accounts SET balance = balance + 100 WHERE id = 2;
+COMMIT;
+
+-- Or rollback on error
+BEGIN;
+    INSERT INTO orders (user_id, total) VALUES (1, 100);
+COMMIT;
+```
+
+## Savepoints
+
+```sql
+BEGIN;
+    INSERT INTO orders (user_id, total) VALUES (1, 100);
+    SAVEPOINT after_order;
+
+    INSERT INTO order_items (order_id, product_id) VALUES (1, 1);
+    -- If error:
+    ROLLBACK TO SAVEPOINT after_order;
+
+COMMIT;
+```
+
+## Isolation Levels
+
+```sql
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+
+-- At session level
+SET SESSION CHARACTERISTICS AS TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+```
+
+# JSON Data
+
+## JSON/JSONB
+
+```sql
+-- JSON (stored as text)
+-- JSONB (binary, faster, indexed)
+
+CREATE TABLE events (
+    id SERIAL PRIMARY KEY,
+    data JSONB
+);
+
+INSERT INTO events (data) VALUES
+    ('{"name": "John", "age": 30}'),
+    ('{"name": "Jane", "city": "NYC"}');
+```
+
+## JSON Operators
+
+```sql
+-- Access operators
+SELECT data->>'name' FROM events;  -- As text
+SELECT data->'name' FROM events;    -- As JSON
+
+-- Where clause
+SELECT * FROM events WHERE data->>'name' = 'John';
+SELECT * FROM events WHERE data->'age' > 25;
+
+-- Containment
+SELECT * FROM events WHERE data @> '{"name": "John"}';
+SELECT * FROM events WHERE data <@ '{"name": "John", "age": 30}';
+```
+
+## JSON Functions
+
+```sql
+-- Create JSON
+SELECT json_build_object('name', 'John', 'age', 30);
+SELECT row_to_json(users.*) FROM users WHERE id = 1;
+
+-- Parse JSON
+SELECT json_array_elements('["a", "b", "c"]');
+SELECT json_object_keys('{"name": "John", "age": 30}');
+
+-- Extract values
+SELECT json_extract_path(data, 'name') FROM events;
+SELECT json_extract_path_text(data, 'name') FROM events;
+```
+
+## GIN Index on JSONB
+
+```sql
+CREATE INDEX idx_events_data ON events USING GIN (data);
+
+-- Query using index
+SELECT * FROM events WHERE data @> '{"name": "John"}';
+SELECT * FROM events WHERE data ? 'name';  -- Has key 'name'
+SELECT * FROM events WHERE data ?| array['name', 'age'];  -- Has any key
+SELECT * FROM events WHERE data ?& array['name', 'age'];  -- Has all keys
+```
+
+# Users and Permissions
+
+## Creating Users
+
+```sql
+-- PostgreSQL 14+
+CREATE USER john WITH PASSWORD 'password123';
+CREATE USER app WITH PASSWORD 'password' VALID UNTIL '2025-12-31';
+
+-- Legacy
+CREATE ROLE john LOGIN PASSWORD 'password123';
+```
+
+## Granting Permissions
+
+```sql
+-- Grant privileges
+GRANT SELECT, INSERT, UPDATE ON ALL TABLES IN SCHEMA public TO app;
+GRANT ALL PRIVILEGES ON DATABASE myapp TO app;
+GRANT USAGE ON SCHEMA public TO app;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO app;
+
+-- Default privileges
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+GRANT SELECT ON TABLES TO app;
+```
+
+## Revoking Permissions
+
+```sql
+REVOKE INSERT ON users FROM app;
+REVOKE ALL PRIVILEGES ON DATABASE myapp FROM app;
+```
+
+## Role Membership
+
+```sql
+CREATE ROLE reader;
+GRANT reader TO app;
+
+-- Role with admin option
+GRANT reader TO admin WITH ADMIN true;
+```
+
+## Drop User/Role
+
+```sql
+DROP USER IF EXISTS john;
+DROP ROLE IF EXISTS john;
+```
+
+# PostgreSQL Specifics
+
+## Schemas
+
+```sql
+-- Default schema is 'public'
+CREATE SCHEMA myschema;
+
+CREATE TABLE myschema.users (...);
+
+-- Search path
+SHOW search_path;
+SET search_path TO myschema, public;
+```
+
+## Sequences
+
+```sql
+CREATE SEQUENCE my_sequence START 100 INCREMENT 5;
+SELECT nextval('my_sequence');
+SELECT currval('my_sequence');
+ALTER SEQUENCE my_sequence RESTART WITH 100;
+```
+
+## Window Functions
+
+```sql
+-- Running total
+SELECT
+    order_date,
+    total,
+    SUM(total) OVER (ORDER BY order_date) AS running_total
+FROM orders;
+
+-- Rank
+SELECT
+    username,
+    total,
+    RANK() OVER (ORDER BY total DESC) AS rank,
+    DENSE_RANK() OVER (ORDER BY total DESC) AS dense_rank,
+    ROW_NUMBER() OVER (ORDER BY total DESC) AS row_num
+FROM orders;
+
+-- Partition
+SELECT
+    department,
+    username,
+    salary,
+    AVG(salary) OVER (PARTITION BY department) AS dept_avg
+FROM employees;
+```
+
+## Common Table Expressions (CTE)
+
+```sql
+WITH active_users AS (
+    SELECT * FROM users WHERE status = 'active'
+),
+user_orders AS (
+    SELECT user_id, SUM(total) AS total
+    FROM orders
+    GROUP BY user_id
+)
+SELECT
+    au.username,
+    COALESCE(uo.total, 0) AS total_spent
+FROM active_users au
+LEFT JOIN user_orders uo ON au.id = uo.user_id;
+
+-- Recursive CTE
+WITH RECURSIVE subordinates AS (
+    SELECT id, username, manager_id
+    FROM employees
+    WHERE manager_id IS NULL
+
+    UNION ALL
+
+    SELECT e.id, e.username, e.manager_id
+    FROM employees e
+    JOIN subordinates s ON e.manager_id = s.id
+)
+SELECT * FROM subordinates;
+```
+
+## DISTINCT ON
+
+```sql
+-- Get first order per user
+SELECT DISTINCT ON (user_id) *
+FROM orders
+ORDER BY user_id, created_at;
+```
+
+# Performance Tuning
+
+## EXPLAIN
+
+```sql
+EXPLAIN SELECT * FROM users WHERE email = 'test@example.com';
+EXPLAIN (ANALYZE, BUFFERS, FORMAT TEXT) SELECT ...
+```
+
+## ANALYZE
+
+```sql
+ANALYZE users;
+ANALYZE VERBOSE users;
+```
+
+## VACUUM
+
+```sql
+VACUUM users;
+VACUUM FULL users;
+VACUUM ANALYZE users;
+
+-- Autovacuum
+ALTER TABLE users SET (autovacuum_vacuum_scale_factor = 0.01);
+```
+
+## Configuration
+
+```sql
+-- Show configuration
+SHOW all;
+SHOW shared_buffers;
+
+-- Set configuration
+ALTER SYSTEM SET shared_buffers = '256MB';
+SELECT pg_reload_conf();
+
+-- Session level
+SET work_mem = '64MB';
+SET LOCAL statement_timeout = '30s';
+```
+
+## pg_stat_statements
+
+```sql
+-- Enable extension
+CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
+
+-- Query statistics
+SELECT
+    query,
+    calls,
+    total_exec_time,
+    mean_exec_time,
+    rows
+FROM pg_stat_statements
+ORDER BY total_exec_time DESC
+LIMIT 10;
+```
+
+# Next Steps
+
+Now that you know PostgreSQL fundamentals:
+
+- Learn PostGIS for geospatial data
+- Explore full-text search capabilities
+- Study database replication
+- Learn about partitioning
+- Explore time-series data with TimescaleDB
+- Study database security best practices
+
+# References
+
+- [PostgreSQL Documentation](https://www.postgresql.org/docs/)
+- [PostgreSQL Tutorial](https://www.postgresqltutorial.com/)
+- [pgexercises](https://pgexercises.com/)
+- [PostgreSQL Wiki](https://wiki.postgresql.org/)
+- [Planet PostgreSQL](https://planet.postgresql.org/)

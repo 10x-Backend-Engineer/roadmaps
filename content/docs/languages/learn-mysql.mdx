@@ -1,0 +1,1432 @@
+---
+title: Learn MySQL
+description: A comprehensive MySQL course.
+---
+
+Welcome to the comprehensive MySQL course. MySQL is the world's most popular open-source relational database.
+
+# Table of contents
+
+- **Getting Started**
+  - [What is MySQL?](#what-is-mysql)
+  - [Why learn MySQL?](#why-learn-mysql)
+  - [Installation and Setup](#installation-and-setup)
+
+- **Chapter I**
+  - [Database Basics](#database-basics)
+  - [Tables](#tables)
+  - [Data Types](#data-types)
+  - [CRUD Operations](#crud-operations)
+
+- **Chapter II**
+  - [Querying Data](#querying-data)
+  - [Filtering](#filtering)
+  - [Sorting](#sorting)
+  - [Limit and Offset](#limit-and-offset)
+  - [Aggregate Functions](#aggregate-functions)
+
+- **Chapter III**
+  - [Joins](#joins)
+  - [Subqueries](#subqueries)
+  - [Views](#views)
+  - [Stored Procedures](#stored-procedures)
+  - [Triggers](#triggers)
+
+- **Chapter IV**
+  - [Indexes](#indexes)
+  - [Constraints](#constraints)
+  - [Transactions](#transactions)
+  - [Normalization](#normalization)
+
+- **Chapter V**
+  - [Users and Permissions](#users-and-permissions)
+  - [Backups and Restore](#backups-and-restore)
+  - [Performance Tuning](#performance-tuning)
+
+- **Appendix**
+  - [Next Steps](#next-steps)
+  - [References](#references)
+
+# What is MySQL?
+
+MySQL is an open-source relational database management system (RDBMS) that uses Structured Query Language (SQL) for managing data.
+
+## Key Characteristics
+
+- **Open Source**: Free to use and modify
+- **Relational**: Data stored in tables with relationships
+- **SQL**: Standard query language for data manipulation
+- **Scalable**: Handles from small to enterprise-level applications
+- **ACID Compliant**: Ensures data integrity
+- **Cross-Platform**: Runs on Windows, Linux, macOS
+
+# Why learn MySQL?
+
+## 1. Industry Standard
+
+Most used database in web applications.
+
+## 2. High Demand
+
+Database administrators and developers are in high demand.
+
+## 3. Easy to Learn
+
+Simple syntax and excellent documentation.
+
+## 4. Large Ecosystem
+
+Support tools, documentation, and community.
+
+## 5. Powers Big Names
+
+Used by Facebook, YouTube, Twitter, and more.
+
+# Installation and Setup
+
+## Installation Options
+
+### MySQL Installer (Windows)
+
+Download from [mysql.com](https://dev.mysql.com/downloads/installer/)
+
+### Homebrew (macOS)
+
+```bash
+brew install mysql
+brew services start mysql
+```
+
+### Linux (Ubuntu)
+
+```bash
+sudo apt update
+sudo apt install mysql-server
+```
+
+## Basic Commands
+
+```bash
+# Start MySQL
+mysql -u root -p
+
+# Show version
+mysql --version
+
+# Connect to database
+mysql -u username -p database_name
+```
+
+## MySQL Workbench
+
+GUI tool for database management - download from mysql.com
+
+# Database Basics
+
+## Creating Database
+
+```sql
+CREATE DATABASE myapp;
+CREATE DATABASE IF NOT EXISTS myapp;
+CREATE DATABASE myapp CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+## Using Database
+
+```sql
+USE myapp;
+```
+
+## Showing Databases
+
+```sql
+SHOW DATABASES;
+SHOW CREATE DATABASE myapp;
+```
+
+## Deleting Database
+
+```sql
+DROP DATABASE myapp;
+DROP DATABASE IF EXISTS myapp;
+```
+
+## Showing Current Database
+
+```sql
+SELECT DATABASE();
+```
+
+# Tables
+
+## Creating Tables
+
+```sql
+CREATE TABLE users (
+    id INT,
+    username VARCHAR(50),
+    email VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+## Table Structure
+
+```sql
+DESCRIBE users;
+SHOW COLUMNS FROM users;
+SHOW CREATE TABLE users;
+```
+
+## Modifying Tables
+
+```sql
+-- Add column
+ALTER TABLE users ADD COLUMN age INT;
+
+-- Add column after another
+ALTER TABLE users ADD COLUMN phone VARCHAR(20) AFTER email;
+
+-- Modify column
+ALTER TABLE users MODIFY COLUMN username VARCHAR(100);
+
+-- Rename column
+ALTER TABLE users CHANGE COLUMN old_name new_name VARCHAR(50);
+
+-- Drop column
+ALTER TABLE users DROP COLUMN age;
+
+-- Rename table
+ALTER TABLE users RENAME TO customers;
+```
+
+## Deleting Table
+
+```sql
+DROP TABLE users;
+DROP TABLE IF EXISTS users;
+```
+
+# Data Types
+
+## Numeric Types
+
+```sql
+-- Integers
+TINYINT       -- -128 to 127 (or 0-255 unsigned)
+SMALLINT      -- -32768 to 32767
+MEDIUMINT     -- -8388608 to 8388607
+INT           -- -2.1B to 2.1B
+BIGINT        -- Very large numbers
+
+-- Decimals
+DECIMAL(10, 2)  -- 10 digits, 2 after decimal
+FLOAT          -- Single precision
+DOUBLE         -- Double precision
+```
+
+## String Types
+
+```sql
+-- Fixed and variable length
+CHAR(50)       -- Fixed 50 chars, padded
+VARCHAR(255)   -- Variable up to 255 chars
+TEXT           -- Up to 65KB
+MEDIUMTEXT     -- Up to 16MB
+LONGTEXT       -- Up to 4GB
+
+-- Binary
+BINARY(50)     -- Fixed binary
+VARBINARY(255) -- Variable binary
+BLOB           -- Binary large object
+```
+
+## Date and Time
+
+```sql
+DATE           -- 'YYYY-MM-DD' (1000-01-01 to 9999-12-31)
+TIME           -- 'HH:MM:SS'
+DATETIME       -- 'YYYY-MM-DD HH:MM:SS'
+TIMESTAMP      -- Unix timestamp (1970-2038)
+YEAR           -- Year value (1901-2155)
+```
+
+## Other Types
+
+```sql
+BOOLEAN        -- TRUE or FALSE
+ENUM('a', 'b', 'c')  -- One value from list
+SET('a', 'b', 'c')   -- Zero or more values from list
+JSON           -- JSON documents (MySQL 5.7+)
+```
+
+# CRUD Operations
+
+## INSERT - Creating Data
+
+```sql
+-- Insert single row
+INSERT INTO users (id, username, email) VALUES (1, 'john', 'john@example.com');
+
+-- Insert multiple rows
+INSERT INTO users (id, username, email) VALUES
+    (2, 'jane', 'jane@example.com'),
+    (3, 'bob', 'bob@example.com');
+
+-- Insert with defaults
+INSERT INTO users (username, email) VALUES ('alice', 'alice@example.com');
+
+-- Insert from select
+INSERT INTO users (username, email) SELECT username, email FROM old_users;
+
+-- ON DUPLICATE KEY UPDATE
+INSERT INTO users (id, email) VALUES (1, 'newemail@example.com')
+ON DUPLICATE KEY UPDATE email = VALUES(email);
+
+-- INSERT IGNORE
+INSERT IGNORE INTO users (id, email) VALUES (1, 'email@example.com');
+```
+
+## SELECT - Reading Data
+
+```sql
+-- Select all columns
+SELECT * FROM users;
+
+-- Select specific columns
+SELECT id, username, email FROM users;
+
+-- Select with aliases
+SELECT username AS 'User Name', email AS 'Email Address' FROM users;
+
+-- Distinct values
+SELECT DISTINCT country FROM users;
+
+-- Expression
+SELECT username, price * quantity AS total FROM orders;
+```
+
+## UPDATE - Updating Data
+
+```sql
+-- Update single column
+UPDATE users SET email = 'newemail@example.com' WHERE id = 1;
+
+-- Update multiple columns
+UPDATE users
+SET email = 'newemail@example.com',
+    username = 'newjohn'
+WHERE id = 1;
+
+-- Update with expressions
+UPDATE products SET price = price * 0.9 WHERE category = 'sale';
+
+-- Update multiple rows
+UPDATE users SET status = 'inactive' WHERE last_login < '2024-01-01';
+
+-- Affected rows
+UPDATE users SET email = 'test@example.com' WHERE id = 1;
+SELECT ROW_COUNT();
+```
+
+## DELETE - Deleting Data
+
+```sql
+-- Delete single row
+DELETE FROM users WHERE id = 1;
+
+-- Delete multiple rows
+DELETE FROM users WHERE status = 'banned';
+
+-- Delete all rows (faster)
+TRUNCATE TABLE users;
+
+-- Delete with limit
+DELETE FROM users ORDER BY created_at ASC LIMIT 100;
+
+-- Delete with subquery
+DELETE FROM users WHERE id IN (SELECT user_id FROM banned_users);
+```
+
+# Querying Data
+
+## Basic SELECT
+
+```sql
+SELECT column1, column2 FROM table_name;
+SELECT * FROM table_name WHERE condition;
+```
+
+## WHERE Clause
+
+```sql
+SELECT * FROM users WHERE age >= 18;
+SELECT * FROM products WHERE price > 100 AND category = 'electronics';
+SELECT * FROM orders WHERE status IN ('pending', 'processing');
+SELECT * FROM users WHERE email LIKE '%@gmail.com';
+SELECT * FROM products WHERE name BETWEEN 10 AND 100;
+```
+
+## Pattern Matching
+
+```sql
+-- LIKE
+SELECT * FROM users WHERE name LIKE 'j%';        -- Starts with j
+SELECT * FROM users WHERE name LIKE '%ohn%';      -- Contains 'ohn'
+SELECT * FROM users WHERE name LIKE 'j_n';       -- j + any + n
+
+-- REGEXP
+SELECT * FROM users WHERE name REGEXP '^[aeiou]'; -- Starts with vowel
+SELECT * FROM products WHERE sku REGEXP '[0-9]{3}';
+```
+
+## NULL Handling
+
+```sql
+-- Find NULL values
+SELECT * FROM users WHERE phone IS NULL;
+
+-- Find non-NULL values
+SELECT * FROM users WHERE phone IS NOT NULL;
+
+-- COALESCE - return first non-NULL
+SELECT COALESCE(phone, email, 'No contact') AS contact FROM users;
+
+-- IFNULL
+SELECT IFNULL(phone, 'N/A') AS phone FROM users;
+```
+
+# Filtering
+
+## AND Operator
+
+```sql
+SELECT * FROM users
+WHERE age >= 18
+  AND status = 'active'
+  AND country = 'USA';
+```
+
+## OR Operator
+
+```sql
+SELECT * FROM users
+WHERE country = 'USA'
+   OR country = 'Canada';
+```
+
+## Combining AND/OR
+
+```sql
+SELECT * FROM users
+WHERE (age >= 18 AND status = 'active')
+   OR role = 'admin';
+```
+
+## NOT Operator
+
+```sql
+SELECT * FROM users WHERE NOT status = 'banned';
+SELECT * FROM products WHERE NOT category IN ('sale', 'clearance');
+```
+
+## IN Operator
+
+```sql
+SELECT * FROM users WHERE country IN ('USA', 'Canada', 'Mexico');
+
+SELECT * FROM users WHERE country NOT IN ('USA', 'Canada');
+```
+
+## BETWEEN Operator
+
+```sql
+SELECT * FROM products WHERE price BETWEEN 10 AND 100;
+SELECT * FROM orders WHERE order_date BETWEEN '2024-01-01' AND '2024-12-31';
+```
+
+# Sorting
+
+## ORDER BY
+
+```sql
+-- Ascending (default)
+SELECT * FROM users ORDER BY username ASC;
+
+-- Descending
+SELECT * FROM users ORDER BY created_at DESC;
+
+-- Multiple columns
+SELECT * FROM users ORDER BY country ASC, username ASC;
+
+-- Sort by expression
+SELECT username, LENGTH(username) AS name_length
+FROM users
+ORDER BY name_length DESC;
+```
+
+## ORDER BY with NULL
+
+```sql
+-- NULLs first
+SELECT * FROM users ORDER BY phone ASC NULLS FIRST;
+
+-- NULLs last
+SELECT * FROM users ORDER BY phone DESC NULLS LAST;
+```
+
+# Limit and Offset
+
+## LIMIT
+
+```sql
+-- First 10 rows
+SELECT * FROM users LIMIT 10;
+
+-- Top 5 expensive products
+SELECT * FROM products ORDER BY price DESC LIMIT 5;
+```
+
+## OFFSET
+
+```sql
+-- Skip first 10, get next 10
+SELECT * FROM users LIMIT 10 OFFSET 10;
+
+-- Pagination
+SELECT * FROM users LIMIT 20 OFFSET 40;  -- Page 3 (20 per page)
+```
+
+## LIMIT with WHERE
+
+```sql
+-- Second highest salary
+SELECT salary FROM employees ORDER BY salary DESC LIMIT 1 OFFSET 1;
+
+-- Third page (10 items per page)
+SELECT * FROM products LIMIT 10 OFFSET 20;
+```
+
+# Aggregate Functions
+
+## COUNT
+
+```sql
+-- Count all rows
+SELECT COUNT(*) FROM users;
+
+-- Count non-NULL values
+SELECT COUNT(phone) FROM users;
+
+-- Count distinct
+SELECT COUNT(DISTINCT country) FROM users;
+```
+
+## SUM
+
+```sql
+SELECT SUM(quantity) FROM order_items;
+SELECT SUM(amount) AS total_sales FROM orders WHERE status = 'completed';
+```
+
+## AVG
+
+```sql
+SELECT AVG(price) FROM products;
+SELECT AVG(salary) FROM employees WHERE department = 'IT';
+```
+
+## MIN/MAX
+
+```sql
+SELECT MIN(price) FROM products;
+SELECT MAX(price) AS max_price, MAX(created_at) AS latest_order FROM orders;
+```
+
+## GROUP BY
+
+```sql
+-- Count users per country
+SELECT country, COUNT(*) AS user_count
+FROM users
+GROUP BY country;
+
+-- Total sales per category
+SELECT category, SUM(amount) AS total
+FROM products
+GROUP BY category;
+
+-- Average salary by department
+SELECT department, AVG(salary) AS avg_salary
+FROM employees
+GROUP BY department;
+```
+
+## HAVING
+
+```sql
+-- Countries with more than 10 users
+SELECT country, COUNT(*) AS cnt
+FROM users
+GROUP BY country
+HAVING cnt > 10;
+
+-- Categories with total sales > 10000
+SELECT category, SUM(amount) AS total
+FROM products
+GROUP BY category
+HAVING total > 10000
+ORDER BY total DESC;
+```
+
+## Combining Aggregates
+
+```sql
+SELECT
+    department,
+    COUNT(*) AS employee_count,
+    AVG(salary) AS avg_salary,
+    MIN(salary) AS min_salary,
+    MAX(salary) AS max_salary,
+    SUM(salary) AS total_salary
+FROM employees
+GROUP BY department
+HAVING AVG(salary) > 50000
+ORDER BY avg_salary DESC;
+```
+
+# Joins
+
+## INNER JOIN
+
+```sql
+-- Basic inner join
+SELECT u.username, o.order_id, o.total
+FROM users u
+INNER JOIN orders o ON u.id = o.user_id;
+
+-- Multiple joins
+SELECT u.username, o.order_id, p.product_name, oi.quantity
+FROM users u
+INNER JOIN orders o ON u.id = o.user_id
+INNER JOIN order_items oi ON o.id = oi.order_id
+INNER JOIN products p ON oi.product_id = p.id;
+```
+
+## LEFT JOIN
+
+```sql
+-- All users with their orders (including users without orders)
+SELECT u.username, o.order_id
+FROM users u
+LEFT JOIN orders o ON u.id = o.user_id;
+
+-- Users without orders
+SELECT u.username
+FROM users u
+LEFT JOIN orders o ON u.id = o.user_id
+WHERE o.id IS NULL;
+```
+
+## RIGHT JOIN
+
+```sql
+-- All orders with user info (including orders without users)
+SELECT u.username, o.order_id
+FROM users u
+RIGHT JOIN orders o ON u.id = o.user_id;
+```
+
+## FULL OUTER JOIN
+
+```sql
+-- All users and all orders (MySQL workaround)
+SELECT u.username, o.order_id
+FROM users u
+LEFT JOIN orders o ON u.id = o.user_id
+UNION
+SELECT u.username, o.order_id
+FROM users u
+RIGHT JOIN orders o ON u.id = o.user_id;
+```
+
+## CROSS JOIN
+
+```sql
+-- Cartesian product
+SELECT u.username, p.product_name
+FROM users u
+CROSS JOIN products p;
+```
+
+## Self Join
+
+```sql
+-- Employees and their managers
+SELECT
+    e.name AS employee,
+    m.name AS manager
+FROM employees e
+LEFT JOIN employees m ON e.manager_id = m.id;
+```
+
+# Subqueries
+
+## Subquery in WHERE
+
+```sql
+-- Users who ordered more than average
+SELECT username FROM users WHERE id IN (
+    SELECT DISTINCT user_id FROM orders
+    GROUP BY user_id
+    HAVING SUM(total) > (SELECT AVG(total) FROM orders)
+);
+```
+
+## Subquery in SELECT
+
+```sql
+-- Products with order count
+SELECT
+    p.product_name,
+    (SELECT COUNT(*) FROM order_items WHERE product_id = p.id) AS order_count
+FROM products p;
+```
+
+## Subquery in FROM
+
+```sql
+SELECT department, avg_salary
+FROM (
+    SELECT department, AVG(salary) AS avg_salary
+    FROM employees
+    GROUP BY department
+) AS dept_stats
+WHERE avg_salary > 50000;
+```
+
+## EXISTS/NOT EXISTS
+
+```sql
+-- Customers who placed orders
+SELECT username FROM users u
+WHERE EXISTS (
+    SELECT 1 FROM orders o WHERE o.user_id = u.id
+);
+
+-- Products never ordered
+SELECT product_name FROM products p
+WHERE NOT EXISTS (
+    SELECT 1 FROM order_items oi WHERE oi.product_id = p.id
+);
+```
+
+## Correlated Subquery
+
+```sql
+-- Highest paid employee per department
+SELECT name, salary, department
+FROM employees e1
+WHERE salary = (
+    SELECT MAX(salary)
+    FROM employees e2
+    WHERE e2.department = e1.department
+);
+```
+
+# Views
+
+## Creating Views
+
+```sql
+-- Simple view
+CREATE VIEW active_users AS
+SELECT id, username, email
+FROM users
+WHERE status = 'active';
+
+-- Complex view
+CREATE VIEW order_summary AS
+SELECT
+    o.order_id,
+    u.username,
+    COUNT(oi.id) AS item_count,
+    SUM(oi.quantity * p.price) AS total
+FROM orders o
+JOIN users u ON o.user_id = u.id
+JOIN order_items oi ON o.id = oi.order_id
+JOIN products p ON oi.product_id = p.id
+GROUP BY o.id, u.username;
+```
+
+## Using Views
+
+```sql
+SELECT * FROM active_users;
+SELECT * FROM order_summary WHERE total > 100;
+```
+
+## Modifying Views
+
+```sql
+-- Update view definition
+CREATE OR REPLACE VIEW active_users AS
+SELECT id, username, email, created_at
+FROM users
+WHERE status = 'active';
+
+-- Drop view
+DROP VIEW active_users;
+DROP VIEW IF EXISTS active_users;
+```
+
+## View Types
+
+```sql
+-- Updatable view
+CREATE VIEW simple_users AS
+SELECT id, username, email FROM users;
+
+-- With CHECK OPTION
+CREATE VIEW premium_users AS
+SELECT * FROM users WHERE status = 'premium'
+WITH CHECK OPTION;
+
+-- Read-only view
+CREATE ALGORITHM = TEMPTABLE VIEW stats AS
+SELECT ...;
+```
+
+# Stored Procedures
+
+## Basic Procedure
+
+```sql
+DELIMITER //
+
+CREATE PROCEDURE get_user_count()
+BEGIN
+    SELECT COUNT(*) AS user_count FROM users;
+END //
+
+DELIMITER ;
+
+-- Call procedure
+CALL get_user_count();
+```
+
+## Procedure with Parameters
+
+```sql
+DELIMITER //
+
+CREATE PROCEDURE get_user_by_id(IN user_id INT)
+BEGIN
+    SELECT * FROM users WHERE id = user_id;
+END //
+
+CREATE PROCEDURE update_user_status(
+    IN p_id INT,
+    IN p_status VARCHAR(20)
+)
+BEGIN
+    UPDATE users SET status = p_status WHERE id = p_id;
+END //
+
+CREATE PROCEDURE get_sales_summary(
+    IN start_date DATE,
+    IN end_date DATE,
+    OUT total_sales DECIMAL(10,2),
+    OUT order_count INT
+)
+BEGIN
+    SELECT
+        COALESCE(SUM(total), 0),
+        COUNT(*)
+    INTO total_sales, order_count
+    FROM orders
+    WHERE order_date BETWEEN start_date AND end_date;
+END //
+
+DELIMITER ;
+```
+
+## Variables
+
+```sql
+DELIMITER //
+
+CREATE PROCEDURE example()
+BEGIN
+    DECLARE total INT DEFAULT 0;
+    DECLARE first_name VARCHAR(50);
+
+    SET total = 100;
+
+    SELECT username INTO first_name FROM users LIMIT 1;
+
+    SELECT total, first_name;
+END //
+
+DELIMITER ;
+```
+
+## Conditionals
+
+```sql
+DELIMITER //
+
+CREATE PROCEDURE get_discount(IN price DECIMAL(10,2), OUT discount DECIMAL(10,2))
+BEGIN
+    IF price > 100 THEN
+        SET discount = price * 0.20;
+    ELSEIF price > 50 THEN
+        SET discount = price * 0.10;
+    ELSE
+        SET discount = 0;
+    END IF;
+END //
+
+DELIMITER ;
+```
+
+## Loops
+
+```sql
+DELIMITER //
+
+CREATE PROCEDURE generate_numbers(IN count INT)
+BEGIN
+    DECLARE i INT DEFAULT 1;
+
+    DROP TEMPORARY TABLE IF EXISTS numbers;
+    CREATE TEMPORARY TABLE numbers (n INT);
+
+    WHILE i <= count DO
+        INSERT INTO numbers VALUES (i);
+        SET i = i + 1;
+    END WHILE;
+
+    SELECT * FROM numbers;
+END //
+
+DELIMITER ;
+```
+
+# Triggers
+
+## Basic Trigger
+
+```sql
+DELIMITER //
+
+CREATE TRIGGER before_user_insert
+BEFORE INSERT ON users
+FOR EACH ROW
+BEGIN
+    SET NEW.created_at = NOW();
+    SET NEW.status = 'active';
+END //
+
+DELIMITER ;
+```
+
+## Trigger Types
+
+```sql
+-- BEFORE INSERT
+CREATE TRIGGER trg_before_insert
+BEFORE INSERT ON users
+FOR EACH ROW
+BEGIN
+    -- Actions
+END//
+
+-- AFTER INSERT
+CREATE TRIGGER trg_after_insert
+AFTER INSERT ON orders
+FOR EACH ROW
+BEGIN
+    INSERT INTO audit_log (action, table_name, record_id)
+    VALUES ('INSERT', 'orders', NEW.id);
+END//
+
+-- BEFORE UPDATE
+CREATE TRIGGER trg_before_update
+BEFORE UPDATE ON users
+FOR EACH ROW
+BEGIN
+    IF OLD.status != NEW.status THEN
+        INSERT INTO status_history (user_id, old_status, new_status)
+        VALUES (OLD.id, OLD.status, NEW.status);
+    END IF;
+END//
+
+-- AFTER DELETE
+CREATE TRIGGER trg_after_delete
+AFTER DELETE ON users
+FOR EACH ROW
+BEGIN
+    INSERT INTO deleted_users VALUES (OLD.*);
+END//
+```
+
+## Drop Trigger
+
+```sql
+DROP TRIGGER IF EXISTS before_user_insert;
+```
+
+# Indexes
+
+## Creating Indexes
+
+```sql
+-- Single column index
+CREATE INDEX idx_username ON users(username);
+
+-- Composite index
+CREATE INDEX idx_country_status ON users(country, status);
+
+-- Unique index
+CREATE UNIQUE INDEX idx_email ON users(email);
+
+-- Full-text index
+CREATE FULLTEXT INDEX idx_bio ON users(bio);
+
+-- Spatial index (for GIS)
+CREATE SPATIAL INDEX idx_location ON locations(coordinates);
+```
+
+## Index Types
+
+```sql
+-- B-tree (default)
+CREATE INDEX idx_name ON users(name);
+
+-- Hash (MEMORY engine)
+CREATE INDEX idx_name ON users(name) USING HASH;
+```
+
+## Using Indexes
+
+```sql
+-- Show indexes
+SHOW INDEX FROM users;
+
+-- Force index
+SELECT * FROM users FORCE INDEX (idx_country_status)
+WHERE country = 'USA' AND status = 'active';
+
+-- Ignore index
+SELECT * FROM users IGNORE INDEX (idx_email) WHERE email = 'test';
+```
+
+## Drop Index
+
+```sql
+DROP INDEX idx_username ON users;
+```
+
+# Constraints
+
+## Primary Key
+
+```sql
+CREATE TABLE users (
+    id INT PRIMARY KEY,
+    username VARCHAR(50)
+);
+
+CREATE TABLE orders (
+    id INT,
+    user_id INT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+```
+
+## Foreign Key
+
+```sql
+CREATE TABLE orders (
+    id INT PRIMARY KEY,
+    user_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+        ON DELETE CASCADE
+        ON UPDATE SET NULL
+);
+```
+
+## Foreign Key Actions
+
+```sql
+-- ON DELETE
+ON DELETE CASCADE      -- Delete child rows
+ON DELETE SET NULL      -- Set FK to NULL
+ON DELETE RESTRICT      -- Prevent deletion
+ON DELETE NO ACTION     -- Same as RESTRICT
+
+-- ON UPDATE
+ON UPDATE CASCADE       -- Update child references
+ON UPDATE SET NULL     -- Set FK to NULL
+ON UPDATE RESTRICT      -- Prevent update
+```
+
+## Unique Constraint
+
+```sql
+CREATE TABLE users (
+    id INT PRIMARY KEY,
+    email VARCHAR(100) UNIQUE,
+    username VARCHAR(50),
+    UNIQUE (username)
+);
+```
+
+## NOT NULL
+
+```sql
+CREATE TABLE users (
+    id INT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL
+);
+```
+
+## CHECK Constraint
+
+```sql
+CREATE TABLE products (
+    id INT PRIMARY KEY,
+    price DECIMAL(10,2) CHECK (price > 0),
+    quantity INT CHECK (quantity >= 0)
+);
+
+-- Named constraint
+CREATE TABLE employees (
+    salary DECIMAL(10,2),
+    CONSTRAINT chk_salary CHECK (salary > 0)
+);
+```
+
+# Transactions
+
+## Basic Transaction
+
+```sql
+START TRANSACTION;
+
+UPDATE accounts SET balance = balance - 100 WHERE id = 1;
+UPDATE accounts SET balance = balance + 100 WHERE id = 2;
+
+-- Check if successful
+-- COMMIT if OK, ROLLBACK if error
+COMMIT;
+-- or
+ROLLBACK;
+```
+
+## Savepoints
+
+```sql
+START TRANSACTION;
+
+INSERT INTO orders (user_id, total) VALUES (1, 100);
+SAVEPOINT after_order;
+
+INSERT INTO order_items (order_id, product_id) VALUES (1, 1);
+-- If error with items:
+ROLLBACK TO after_order;
+
+COMMIT;
+```
+
+## ACID Properties
+
+```sql
+-- Atomicity: All or nothing
+START TRANSACTION;
+    INSERT INTO ledger VALUES (1, -100);
+    INSERT INTO ledger VALUES (2, 100);
+COMMIT;
+
+-- Consistency: Valid state
+ALTER TABLE accounts ADD CONSTRAINT positive_balance CHECK (balance >= 0);
+
+-- Isolation: Concurrent transactions
+SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+
+-- Durability: Permanent changes
+-- MySQL handles this with logs and buffers
+```
+
+# Normalization
+
+## First Normal Form (1NF)
+
+```sql
+-- Each cell has single value
+-- No repeating groups
+
+-- Bad design:
+CREATE TABLE orders (
+    id INT,
+    items VARCHAR(255)  -- 'item1,item2,item3'
+);
+
+-- Good design:
+CREATE TABLE order_items (
+    order_id INT,
+    product_id INT,
+    PRIMARY KEY (order_id, product_id)
+);
+```
+
+## Second Normal Form (2NF)
+
+```sql
+-- 1NF + No partial dependencies
+-- All non-key columns depend on entire primary key
+
+-- Bad (if composite key):
+CREATE TABLE order_items (
+    order_id INT,
+    product_id INT,
+    product_name VARCHAR(100),  -- Only depends on product_id
+    PRIMARY KEY (order_id, product_id)
+);
+
+-- Good:
+CREATE TABLE products (
+    id INT PRIMARY KEY,
+    name VARCHAR(100)
+);
+
+CREATE TABLE order_items (
+    order_id INT,
+    product_id INT,
+    PRIMARY KEY (order_id, product_id),
+    FOREIGN KEY (product_id) REFERENCES products(id)
+);
+```
+
+## Third Normal Form (3NF)
+
+```sql
+-- 2NF + No transitive dependencies
+-- Non-key columns don't depend on other non-key columns
+
+-- Bad:
+CREATE TABLE employees (
+    id INT PRIMARY KEY,
+    name VARCHAR(50),
+    department_name VARCHAR(50),
+    department_location VARCHAR(100)  -- Depends on department_name
+);
+
+-- Good:
+CREATE TABLE departments (
+    id INT PRIMARY KEY,
+    name VARCHAR(50),
+    location VARCHAR(100)
+);
+
+CREATE TABLE employees (
+    id INT PRIMARY KEY,
+    name VARCHAR(50),
+    department_id INT,
+    FOREIGN KEY (department_id) REFERENCES departments(id)
+);
+```
+
+# Users and Permissions
+
+## Creating Users
+
+```sql
+CREATE USER 'john'@'localhost' IDENTIFIED BY 'password123';
+CREATE USER 'john'@'%' IDENTIFIED BY 'password123';  -- Remote access
+CREATE USER 'app'@'localhost' IDENTIFIED BY 'password';
+```
+
+## Granting Permissions
+
+```sql
+-- All permissions on database
+GRANT ALL PRIVILEGES ON myapp.* TO 'john'@'localhost';
+
+-- Specific permissions
+GRANT SELECT, INSERT, UPDATE ON myapp.* TO 'app'@'localhost';
+GRANT SELECT ON myapp.* TO 'reader'@'localhost';
+
+-- Specific table
+GRANT ALL PRIVILEGES ON myapp.orders TO 'admin'@'localhost';
+
+-- With grant option
+GRANT ALL PRIVILEGES ON myapp.* TO 'admin'@'localhost' WITH GRANT OPTION;
+```
+
+## Revoking Permissions
+
+```sql
+REVOKE INSERT, UPDATE ON myapp.* FROM 'app'@'localhost';
+REVOKE ALL PRIVILEGES ON myapp.* FROM 'john'@'localhost';
+```
+
+## Applying Changes
+
+```sql
+FLUSH PRIVILEGES;
+```
+
+## Showing Permissions
+
+```sql
+SHOW GRANTS FOR 'john'@'localhost';
+SHOW GRANTS FOR CURRENT_USER();
+```
+
+## Dropping Users
+
+```sql
+DROP USER 'john'@'localhost';
+```
+
+# Backups and Restore
+
+## mysqldump
+
+```bash
+# Backup single database
+mysqldump -u root -p myapp > backup.sql
+
+# Backup multiple databases
+mysqldump -u root -p --databases myapp1 myapp2 > backup.sql
+
+# Backup all databases
+mysqldump -u root -p --all-databases > full_backup.sql
+
+# Backup specific tables
+mysqldump -u root -p myapp users orders > tables.sql
+
+# Backup without data (structure only)
+mysqldump -u root -p --no-data myapp > structure.sql
+
+# Backup with drop statements
+mysqldump -u root -p --add-drop-table myapp > backup.sql
+```
+
+## Restore
+
+```bash
+# Restore database
+mysql -u root -p myapp < backup.sql
+
+# Restore to different database
+mysql -u root -p newapp < backup.sql
+
+# Restore from compressed backup
+gunzip < backup.sql.gz | mysql -u root -p
+```
+
+## Physical Backup (MySQL Enterprise)
+
+```bash
+# Using MySQL Enterprise Backup
+mysqlbackup --user=root --password --backup-dir=/backup --backup-image=backup.img backup
+```
+
+## Point-in-Time Recovery
+
+```bash
+# Full backup
+mysqldump --single-transaction --master-data=2 -u root -p myapp > full_backup.sql
+
+# Binary logs to replay
+mysqlbinlog binlog.000001 binlog.000002 | mysql -u root -p myapp
+```
+
+# Performance Tuning
+
+## EXPLAIN
+
+```sql
+EXPLAIN SELECT * FROM users WHERE email = 'test@example.com';
+EXPLAIN ANALYZE SELECT ...;  -- MySQL 8.0+
+
+-- Format output
+EXPLAIN FORMAT=JSON SELECT ...;
+```
+
+## Query Optimization
+
+```sql
+-- Use indexes
+CREATE INDEX idx_email ON users(email);
+
+-- Avoid SELECT *
+SELECT id, email FROM users WHERE email = 'test';
+
+-- Use covering indexes
+CREATE INDEX idx_covering ON users(email, username);
+
+-- Avoid functions on columns
+-- Bad: WHERE YEAR(created_at) = 2024
+-- Good: WHERE created_at >= '2024-01-01' AND created_at < '2025-01-01'
+
+-- Use EXISTS instead of IN for subqueries
+SELECT * FROM users u WHERE EXISTS (
+    SELECT 1 FROM orders o WHERE o.user_id = u.id
+);
+```
+
+## Configuration Tuning
+
+```sql
+-- Key buffer size (MyISAM)
+SET GLOBAL key_buffer_size = 256*1024*1024;
+
+-- InnoDB buffer pool
+SET GLOBAL innodb_buffer_pool_size = 1024*1024*1024;
+
+-- Query cache (deprecated in 8.0)
+SET GLOBAL query_cache_type = ON;
+
+-- Temporary tables
+SET GLOBAL tmp_table_size = 64*1024*1024;
+```
+
+## Analyzing Tables
+
+```sql
+-- Analyze table for better query plans
+ANALYZE TABLE users;
+
+-- Check table
+CHECK TABLE users;
+
+-- Optimize table (defragmentation)
+OPTIMIZE TABLE users;
+
+-- Repair table
+REPAIR TABLE users;
+```
+
+# Next Steps
+
+Now that you know MySQL fundamentals:
+
+- Learn PostgreSQL for comparison
+- Study database design patterns
+- Learn MySQL Workbench advanced features
+- Explore stored functions
+- Learn replication and clustering
+- Study database security best practices
+
+# References
+
+- [MySQL Documentation](https://dev.mysql.com/doc/refman/8.0/en/)
+- [SQL Tutorial](https://www.w3schools.com/sql/)
+- [MySQL Performance Blog](https://www.percona.com/blog/category/mysql/)
+- [Use The Index, Luke](https://use-the-index-luke.com/)
