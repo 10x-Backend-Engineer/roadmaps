@@ -99,11 +99,55 @@ const sectionData: RoadmapSection[] = [
     title: "LANGUAGES",
     items: [
       {
+        tag: "Python",
+        title: "Learn Python",
+        desc: "Master Python — from basics to advanced concepts.",
+        badge: "NEW",
+        link: "/docs/languages/learn-python",
+      },
+      {
         tag: "Go",
         title: "Learn Go",
         desc: "Deep dive into Go — concurrency, performance, and idiomatic patterns.",
-        badge: "NEW",
         link: "/docs/languages/learn-go",
+      },
+      {
+        tag: "Javascript",
+        title: "Learn Javascript",
+        desc: "Master Javascript — from basics to advanced concepts.",
+        badge: "POPULAR",
+        link: "/docs/languages/learn-javascript",
+      },
+      {
+        tag: "Java",
+        title: "Learn Java",
+        desc: "Master Java — from basics to advanced concepts.",
+        link: "/docs/languages/learn-java",
+      },
+      {
+        tag: "C#",
+        title: "Learn C#",
+        desc: "Master C# — from basics to advanced concepts.",
+        link: "/docs/languages/learn-csharp",
+      },
+    ],
+  },
+  {
+    index: "06",
+    title: "Databases & ORMS",
+    items: [
+      {
+        tag: "MySQL",
+        title: "MySQL Mastery",
+        desc: "MySQL database management and optimization.",
+        link: "/docs/languages/learn-mysql",
+      },
+      {
+        tag: "PostgreSQL",
+        title: "PostgreSQL Mastery",
+        desc: "PostgreSQL database management and optimization.",
+        badge: "NEW",
+        link: "/docs/languages/learn-postgresql",
       },
     ],
   },
