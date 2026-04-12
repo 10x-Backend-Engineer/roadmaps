@@ -132,6 +132,25 @@ const sectionData: RoadmapSection[] = [
       },
     ],
   },
+  {
+    index: "06",
+    title: "Databases & ORMS",
+    items: [
+      {
+        tag: "MySQL",
+        title: "MySQL Mastery",
+        desc: "MySQL database management and optimization.",
+        link: "/docs/languages/learn-mysql",
+      },
+      {
+        tag: "PostgreSQL",
+        title: "PostgreSQL Mastery",
+        desc: "PostgreSQL database management and optimization.",
+        badge: "NEW",
+        link: "/docs/languages/learn-postgresql",
+      },
+    ],
+  },
 ];
 
 export default sectionData;
