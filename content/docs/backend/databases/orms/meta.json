@@ -1,4 +1,4 @@
 {
   "title": "ORMs",
-  "pages": ["prisma"]
+  "pages": ["prisma", "entity-framework-core"]
 }

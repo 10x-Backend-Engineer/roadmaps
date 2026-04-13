@@ -1,0 +1,1346 @@
+---
+title: Learn Entity Framework Core
+description: A comprehensive Entity Framework Core course
+---
+
+Welcome to the comprehensive Entity Framework Core course. EF Core is Microsoft's lightweight and extensible ORM for .NET.
+
+# Table of contents
+
+- **Getting Started**
+  - [What is EF Core?](#what-is-ef-core)
+  - [Why EF Core?](#why-ef-core)
+  - [Installation and Setup](#installation-and-setup)
+
+- **Chapter I**
+  - [DbContext](#dbcontext)
+  - [Models and Entities](#models-and-entities)
+  - [Configuring Models](#configuring-models)
+  - [Migrations](#migrations)
+
+- **Chapter II**
+  - [CRUD Operations](#crud-operations)
+  - [Querying Data](#querying-data)
+  - [LINQ to Entities](#linq-to-entities)
+  - [Loading Related Data](#loading-related-data)
+
+- **Chapter III**
+  - [Relationships](#relationships)
+  - [Inheritance](#inheritance)
+  - [Concurrency](#concurrency)
+  - [Transactions](#transactions)
+
+- **Chapter IV**
+  - [Performance](#performance)
+  - [Stored Procedures and Raw SQL](#stored-procedures-and-raw-sql)
+  - [Global Query Filters](#global-query-filters)
+  - [Shadow Properties](#shadow-properties)
+
+- **Chapter V**
+  - [Best Practices](#best-practices)
+  - [Testing](#testing)
+  - [Advanced Patterns](#advanced-patterns)
+
+- **Appendix**
+  - [Next Steps](#next-steps)
+  - [References](#references)
+
+# What is EF Core?
+
+Entity Framework Core is a lightweight, extensible, open-source, and cross-platform version of Entity Framework.
+
+## Key Characteristics
+
+- **Cross-Platform**: Works on Windows, Linux, and macOS
+- **Code First**: Define models in code, generate database
+- **Database First**: Generate models from existing database
+- **LINQ to Entities**: Query using LINQ
+- **Change Tracking**: Automatic tracking of entity changes
+- **Migrations**: Version control for database schema
+
+# Why EF Core?
+
+## 1. Productivity
+
+Focus on business logic, not database schema.
+
+## 2. Database Agnostic
+
+Switch databases with minimal code changes.
+
+## 3. Type Safety
+
+Compile-time checking of queries.
+
+## 4. Testing
+
+Easy to mock for unit testing.
+
+# Installation and Setup
+
+## NuGet Packages
+
+```bash
+dotnet add package Microsoft.EntityFrameworkCore
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add package Microsoft.EntityFrameworkCore.Sqlite
+dotnet add package Microsoft.EntityFrameworkCore.PostgreSQL
+dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet add package Microsoft.EntityFrameworkCore.InMemory
+```
+
+## Basic Setup
+
+```csharp
+// Install dotnet-ef tool
+dotnet tool install --global dotnet-ef
+
+// Create project
+dotnet new console -n MyApp
+cd MyApp
+
+// Add packages
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add package Microsoft.EntityFrameworkCore.Design
+```
+
+# DbContext
+
+## Defining DbContext
+
+```csharp
+using Microsoft.EntityFrameworkCore;
+
+public class AppDbContext : DbContext
+{
+    public DbSet<User> Users { get; set; } = null!;
+    public DbSet<Order> Orders { get; set; } = null!;
+
+    protected override void OnConfiguring(DbContextOptionsBuilder options)
+    {
+        options.UseSqlServer("ConnectionString");
+    }
+}
+```
+
+## DbContext Options
+
+```csharp
+public class AppDbContext : DbContext
+{
+    private readonly string _connectionString;
+
+    public AppDbContext(string connectionString)
+    {
+        _connectionString = connectionString;
+    }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder options)
+    {
+        options.UseSqlServer(_connectionString);
+    }
+}
+
+// Or using DI
+public class AppDbContext : DbContext
+{
+    public AppDbContext(DbContextOptions<AppDbContext> options)
+        : base(options)
+    {
+    }
+}
+
+// In Program.cs
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+```
+
+## Connection Strings
+
+```json
+// appsettings.json
+{
+  "ConnectionStrings": {
+    "Default": "Server=localhost;Database=MyApp;Trusted_Connection=True;"
+  }
+}
+```
+
+# Models and Entities
+
+## Basic Entity
+
+```csharp
+public class User
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public DateTime CreatedAt { get; set; }
+    public bool IsActive { get; set; }
+}
+```
+
+## Primary Keys
+
+```csharp
+public class User
+{
+    public int Id { get; set; }  // Convention: Id or <TypeName>Id
+}
+
+// Custom key
+public class Order
+{
+    [Key]
+    public int OrderId { get; set; }
+}
+
+// Composite key
+public class OrderItem
+{
+    public int OrderId { get; set; }
+    public int ProductId { get; set; }
+
+    [Key, Column(Order = 1)]
+    public int Id1 { get; set; }
+
+    [Key, Column(Order = 2)]
+    public int Id2 { get; set; }
+}
+```
+
+## Required and Optional Properties
+
+```csharp
+public class User
+{
+    public int Id { get; set; }
+
+    [Required]
+    public string Name { get; set; } = string.Empty;
+
+    public string? Nickname { get; set; }  // Nullable = optional
+}
+```
+
+## Property Types
+
+```csharp
+public class Product
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public decimal Price { get; set; }
+    public int Stock { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }  // Nullable
+    public bool IsDeleted { get; set; }
+    public byte[] RowVersion { get; set; } = null!;
+}
+```
+
+## Computed Properties
+
+```csharp
+public class Order
+{
+    public int Id { get; set; }
+    public decimal Subtotal { get; set; }
+    public decimal Tax { get; set; }
+
+    [NotMapped]
+    public decimal Total => Subtotal + Tax;
+}
+```
+
+# Configuring Models
+
+## Fluent API
+
+```csharp
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    modelBuilder.Entity<User>(entity =>
+    {
+        entity.ToTable("Users");  // Custom table name
+        entity.HasKey(u => u.Id);
+        entity.Property(u => u.Name).HasMaxLength(100);
+        entity.Property(u => u.Email).IsRequired();
+        entity.HasIndex(u => u.Email).IsUnique();
+    });
+}
+```
+
+## Column Configuration
+
+```csharp
+modelBuilder.Entity<User>(entity =>
+{
+    entity.Property(u => u.Name)
+        .HasColumnName("UserName")
+        .HasColumnType("varchar(100)")
+        .IsRequired()
+        .HasDefaultValue("Anonymous")
+        .HasComment("User's display name");
+});
+```
+
+## Relationships
+
+```csharp
+modelBuilder.Entity<Order>(entity =>
+{
+    entity.HasOne(o => o.User)
+        .WithMany(u => u.Orders)
+        .HasForeignKey(o => o.UserId)
+        .OnDelete(DeleteBehavior.Restrict);
+});
+```
+
+## Indexes
+
+```csharp
+modelBuilder.Entity<User>(entity =>
+{
+    entity.HasIndex(u => u.Email).IsUnique();
+    entity.HasIndex(u => new { u.LastName, u.FirstName });
+    entity.HasIndex(u => u.CreatedAt);
+});
+```
+
+## Data Annotations
+
+```csharp
+[Table("Users")]
+public class User
+{
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    [MaxLength(100)]
+    public string Name { get; set; } = string.Empty;
+
+    [EmailAddress]
+    public string Email { get; set; } = string.Empty;
+
+    [NotMapped]
+    public int Age { get; set; }
+}
+```
+
+# Migrations
+
+## Creating Migrations
+
+```bash
+# Install tool if not already
+dotnet tool install --global dotnet-ef
+
+# Create initial migration
+dotnet ef migrations add InitialCreate
+
+# Create named migration
+dotnet ef migrations add AddUsersTable
+
+# Remove last migration
+dotnet ef migrations remove
+```
+
+## Applying Migrations
+
+```bash
+# Apply all pending migrations
+dotnet ef database update
+
+# Apply specific migration
+dotnet ef database update AddUsersTable
+
+# Create script
+dotnet ef migrations script -o migration.sql
+
+# Script from specific migration
+dotnet ef migrations script AddUsersTable -o script.sql
+```
+
+## Migration Classes
+
+```csharp
+// Auto-generated
+public partial class InitialCreate : Migration
+{
+    protected override void Up(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.CreateTable(
+            name: "Users",
+            columns: table => new
+            {
+                Id = table.Column<int>(type: "int", nullable: false),
+                Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                Email = table.Column<string>(type: "nvarchar(max)", nullable: false)
+            },
+            constraints: table =>
+            {
+                table.PrimaryKey("PK_Users", x => x.Id);
+            });
+    }
+
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.DropTable(name: "Users");
+    }
+}
+```
+
+## Seeding Data
+
+```csharp
+protected override void Up(MigrationBuilder migrationBuilder)
+{
+    migrationBuilder.InsertData(
+        table: "Users",
+        columns: new[] { "Name", "Email" },
+        values: new object[] { "Admin", "admin@example.com" });
+}
+
+// Or using Fluent API
+modelBuilder.Entity<User>().HasData(
+    new User { Id = 1, Name = "Admin", Email = "admin@example.com" }
+);
+```
+
+# CRUD Operations
+
+## Create
+
+```csharp
+// Add single entity
+var user = new User { Name = "John", Email = "john@example.com" };
+context.Users.Add(user);
+await context.SaveChangesAsync();
+
+// Add multiple
+var users = new[]
+{
+    new User { Name = "John", Email = "john@example.com" },
+    new User { Name = "Jane", Email = "jane@example.com" }
+};
+context.Users.AddRange(users);
+await context.SaveChangesAsync();
+
+// Add and return
+var user = new User { Name = "John", Email = "john@example.com" };
+context.Users.Add(user);
+await context.SaveChangesAsync();
+var id = user.Id;
+```
+
+## Read
+
+```csharp
+// Get by primary key
+var user = await context.Users.FindAsync(1);
+
+// First or default
+var user = await context.Users.FirstOrDefaultAsync(u => u.Email == "john@example.com");
+
+// Single
+var user = await context.Users.SingleAsync(u => u.Id == 1);
+
+// All
+var users = await context.Users.ToListAsync();
+
+// Query
+var activeUsers = await context.Users
+    .Where(u => u.IsActive)
+    .OrderBy(u => u.Name)
+    .ToListAsync();
+```
+
+## Update
+
+```csharp
+var user = await context.Users.FindAsync(1);
+user.Name = "Updated Name";
+await context.SaveChangesAsync();
+
+// Batch update (EF Core 7+)
+await context.Users
+    .Where(u => u.IsActive)
+    .ExecuteUpdateAsync(s => s.SetProperty(u => u.UpdatedAt, DateTime.UtcNow));
+```
+
+## Delete
+
+```csharp
+var user = await context.Users.FindAsync(1);
+context.Users.Remove(user);
+await context.SaveChangesAsync();
+
+// Batch delete (EF Core 7+)
+await context.Users
+    .Where(u => u.IsDeleted)
+    .ExecuteDeleteAsync();
+```
+
+# Querying Data
+
+## Basic Queries
+
+```csharp
+// All users
+var users = context.Users.ToList();
+
+// Where clause
+var activeUsers = context.Users
+    .Where(u => u.IsActive && u.Name.Contains("John"))
+    .ToListAsync();
+
+// Projections
+var names = context.Users
+    .Select(u => u.Name)
+    .ToListAsync();
+
+var dtos = context.Users
+    .Select(u => new UserDto { Id = u.Id, Name = u.Name })
+    .ToListAsync();
+```
+
+## Pagination
+
+```csharp
+int page = 2;
+int pageSize = 10;
+
+var users = await context.Users
+    .OrderBy(u => u.Name)
+    .Skip((page - 1) * pageSize)
+    .Take(pageSize)
+    .ToListAsync();
+```
+
+## Aggregation
+
+```csharp
+var count = await context.Users.CountAsync();
+var count = await context.Users.CountAsync(u => u.IsActive);
+var min = await context.Users.MinAsync(u => u.CreatedAt);
+var max = await context.Users.MaxAsync(u => u.CreatedAt);
+var avg = await context.Orders.AverageAsync(o => o.Total);
+var sum = await context.Orders.SumAsync(o => o.Total);
+```
+
+## Distinct
+
+```csharp
+var countries = await context.Users
+    .Select(u => u.Country)
+    .Distinct()
+    .ToListAsync();
+```
+
+## Any and All
+
+```csharp
+var hasUsers = await context.Users.AnyAsync();
+var hasJohn = await context.Users.AnyAsync(u => u.Name == "John");
+var allActive = await context.Users.AllAsync(u => u.IsActive);
+```
+
+# LINQ to Entities
+
+## Supported Operations
+
+```csharp
+// Filtering
+.Where(x => x > 5)
+.Where(x => x == "value")
+.Where(x => list.Contains(x.Id))
+
+// Ordering
+.OrderBy(x => x.Name)
+.OrderByDescending(x => x.Date)
+.ThenBy(x => x.Name)
+.ThenByDescending(x => x.Date)
+
+// Projection
+.Select(x => x.Name)
+.Select(x => new { x.Id, x.Name })
+
+// Grouping
+.GroupBy(x => x.Category)
+.Select(g => new { Category = g.Key, Count = g.Count() })
+```
+
+## Client vs Server Evaluation
+
+```csharp
+// Evaluated on client (downloads all data first)
+var result = context.Users
+    .Select(u => new { Initials = u.Name.Substring(0, 2) }) // May fail for short names
+    .ToList();
+
+// Evaluated on server (preferred)
+var result = context.Users
+    .Select(u => u.Name)
+    .ToList()
+    .Select(name => new { Initials = name.Substring(0, 2) }) // In-memory
+    .ToList();
+```
+
+## Compiled Queries
+
+```csharp
+private static readonly Func<AppDbContext, int, Task<User?>>
+    GetUserById = EF.CompileAsyncQuery((AppDbContext ctx, int id) =>
+        ctx.Users.FirstOrDefault(u => u.Id == id));
+
+// Usage
+var user = await GetUserById(context, 1);
+```
+
+# Loading Related Data
+
+## Eager Loading
+
+```csharp
+// Include single navigation
+var users = await context.Users
+    .Include(u => u.Orders)
+    .ToListAsync();
+
+// Include multiple
+var users = await context.Users
+    .Include(u => u.Orders)
+    .ThenInclude(o => o.Items)
+    .ToListAsync();
+
+// Include with filter
+var users = await context.Users
+    .Include(u => u.Orders.Where(o => o.Status == "Active"))
+    .ToListAsync();
+```
+
+## Explicit Loading
+
+```csharp
+var user = await context.Users.FindAsync(1);
+
+// Load navigation property
+await context.Entry(user)
+    .Collection(u => u.Orders)
+    .LoadAsync();
+
+// Load with filter
+await context.Entry(user)
+    .Collection(u => u.Orders)
+    .Query()
+    .Where(o => o.Status == "Active")
+    .LoadAsync();
+
+// Load single navigation
+await context.Entry(user)
+    .Reference(u => u.Manager)
+    .LoadAsync();
+```
+
+## Lazy Loading (EF Core 6+)
+
+```csharp
+// Requires proxy package
+dotnet add package Microsoft.EntityFrameworkCore.Proxies
+
+// Enable in DbContext
+protected override void OnConfiguring(DbContextOptionsBuilder options)
+{
+    options.UseLazyLoadingProxies().UseSqlServer(connectionString);
+}
+
+// Or use interceptors
+```
+
+## Split Queries (EF Core 5+)
+
+```csharp
+var users = await context.Users
+    .Include(u => u.Orders)
+    .AsSplitQuery()
+    .ToListAsync();
+```
+
+# Relationships
+
+## One-to-Many
+
+```csharp
+public class Blog
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public List<Post> Posts { get; set; } = new();
+}
+
+public class Post
+{
+    public int Id { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public int BlogId { get; set; }
+    public Blog Blog { get; set; } = null!;
+}
+```
+
+## One-to-One
+
+```csharp
+public class User
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public UserProfile Profile { get; set; } = null!;
+}
+
+public class UserProfile
+{
+    public int Id { get; set; }
+    public string Bio { get; set; } = string.Empty;
+    public int UserId { get; set; }
+    public User User { get; set; } = null!;
+}
+```
+
+## Many-to-Many
+
+```csharp
+public class Student
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public List<Course> Courses { get; set; } = new();
+}
+
+public class Course
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public List<Student> Students { get; set; } = new();
+}
+
+// EF Core creates join table automatically
+```
+
+## Self-Referencing
+
+```csharp
+public class Employee
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public int? ManagerId { get; set; }
+    public Employee? Manager { get; set; }
+    public List<Employee> DirectReports { get; set; } = new();
+}
+```
+
+## Configuring Relationships
+
+```csharp
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    modelBuilder.Entity<Order>(entity =>
+    {
+        entity.HasOne(o => o.User)
+            .WithMany(u => u.Orders)
+            .HasForeignKey(o => o.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+    });
+}
+```
+
+# Inheritance
+
+## TPH (Table Per Hierarchy) - Default
+
+```csharp
+public abstract class BillingDetails { }
+public class CreditCard : BillingDetails { }
+public class BankAccount : BillingDetails { }
+
+// All in one table with discriminator column
+```
+
+## TPT (Table Per Type)
+
+```csharp
+[Table("CreditCards")]
+public class CreditCard : BillingDetails { }
+
+[Table("BankAccounts")]
+public class BankAccount : BillingDetails { }
+
+// Separate tables with foreign keys
+```
+
+## TPC (Table Per Concrete Type)
+
+```csharp
+modelBuilder.Entity<BillingDetails>(entity =>
+{
+    entity.ToTable("BillingDetails");
+    entity.HasDiscriminator();
+
+    modelBuilder.Entity<CreditCard>()
+        .ToTable("CreditCards");
+
+    modelBuilder.Entity<BankAccount>()
+        .ToTable("BankAccounts");
+});
+```
+
+# Concurrency
+
+## Concurrency Token
+
+```csharp
+public class Product
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+
+    [Timestamp]
+    public byte[] RowVersion { get; set; } = null!;
+}
+
+// Fluent API
+modelBuilder.Entity<Product>(entity =>
+{
+    entity.Property(p => p.RowVersion)
+        .IsRowVersion()
+        .IsConcurrencyToken();
+});
+```
+
+## Handling Conflicts
+
+```csharp
+try
+{
+    await context.SaveChangesAsync();
+}
+catch (DbUpdateConcurrencyException ex)
+{
+    var entry = ex.Entries.Single();
+    var clientValues = (Product)entry.Entity;
+    var databaseValues = await entry.GetDatabaseValuesAsync();
+
+    // Handle conflict
+    // Option 1: Reload and retry
+    await entry.ReloadAsync();
+
+    // Option 2: Use database values
+    var dbName = databaseValues.GetValue<string>("Name");
+}
+```
+
+## Optimistic Concurrency
+
+```csharp
+public class Product
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public int Version { get; set; }
+}
+
+modelBuilder.Entity<Product>(entity =>
+{
+    entity.Property(p => p.Version)
+        .IsConcurrencyToken();
+});
+```
+
+# Transactions
+
+## Basic Transaction
+
+```csharp
+using var transaction = await context.Database.BeginTransactionAsync();
+
+try
+{
+    var user = new User { Name = "John" };
+    context.Users.Add(user);
+    await context.SaveChangesAsync();
+
+    var order = new Order { UserId = user.Id, Total = 100 };
+    context.Orders.Add(order);
+    await context.SaveChangesAsync();
+
+    await transaction.CommitAsync();
+}
+catch
+{
+    await transaction.RollbackAsync();
+    throw;
+}
+```
+
+## Transaction with Isolation Level
+
+```csharp
+await using var transaction = await context.Database.BeginTransactionAsync(
+    System.Data.IsolationLevel.Serializable);
+```
+
+## Explicit Transaction
+
+```csharp
+await context.Database.BeginTransactionAsync();
+
+try
+{
+    // Operations
+    await context.SaveChangesAsync();
+    await transaction.CommitAsync();
+}
+finally
+{
+    await context.Database.RollbackTransactionAsync();
+}
+```
+
+## SavePoints
+
+```csharp
+await using var transaction = await context.Database.BeginTransactionAsync();
+
+try
+{
+    context.Orders.Add(new Order { Total = 100 });
+    await context.SaveChangesAsync();
+
+    await transaction.CreateSavepointAsync("AfterOrder");
+
+    context.Orders.Add(new Order { Total = 200 });
+    await context.SaveChangesAsync();
+
+    // Undo second order
+    await transaction.RollbackToSavepointAsync("AfterOrder");
+
+    await transaction.CommitAsync();
+}
+catch
+{
+    await transaction.RollbackAsync();
+}
+```
+
+# Performance
+
+## No-Tracking Queries
+
+```csharp
+// Read-only queries (faster)
+var users = await context.Users
+    .AsNoTracking()
+    .ToListAsync();
+
+// AsNoTrackingWithIdentityResolution for related data
+var users = await context.Users
+    .Include(u => u.Orders)
+    .AsNoTrackingWithIdentityResolution()
+    .ToListAsync();
+```
+
+## Compiled Models (EF Core 6+)
+
+```csharp
+// Auto-compiled in EF Core 6+
+var users = await context.Users
+    .Where(u => u.IsActive)
+    .ToListAsync();
+```
+
+## Batch Operations
+
+```csharp
+// EF Core 7+ - ExecuteUpdate/ExecuteDelete
+await context.Users
+    .Where(u => u.IsDeleted)
+    .ExecuteDeleteAsync();
+
+await context.Users
+    .Where(u => u.IsActive)
+    .ExecuteUpdateAsync(s => s.SetProperty(u => u.UpdatedAt, DateTime.UtcNow));
+```
+
+## Query Tags
+
+```csharp
+var users = await context.Users
+    .TagWith("Get all active users")
+    .Where(u => u.IsActive)
+    .TagWith("Filter by active status")
+    .ToListAsync();
+```
+
+## Indexes
+
+```csharp
+modelBuilder.Entity<User>(entity =>
+{
+    entity.HasIndex(u => u.Email);
+    entity.HasIndex(u => new { u.Country, u.City });
+});
+```
+
+# Stored Procedures and Raw SQL
+
+## Raw SQL Queries
+
+```csharp
+var users = await context.Users
+    .FromSqlRaw("SELECT * FROM Users WHERE IsActive = 1")
+    .ToListAsync();
+
+// With parameters
+var user = await context.Users
+    .FromSqlRaw("SELECT * FROM Users WHERE Id = {0}", id)
+    .FirstOrDefaultAsync();
+
+// Interpolated (safe)
+var users = await context.Users
+    .FromSqlInterpolated($"SELECT * FROM Users WHERE Country = {country}")
+    .ToListAsync();
+```
+
+## Executing Commands
+
+```csharp
+await context.Database.ExecuteSqlRawAsync("DELETE FROM Users WHERE IsDeleted = 1");
+await context.Database.ExecuteSqlInterpolatedAsync($"DELETE FROM Users WHERE Id = {id}");
+```
+
+## Mapping to Entities
+
+```csharp
+var users = await context.Users
+    .FromSqlRaw("SELECT * FROM Users")
+    .Include(u => u.Orders)
+    .AsNoTracking()
+    .ToListAsync();
+```
+
+# Global Query Filters
+
+## Soft Delete Filter
+
+```csharp
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDeleted);
+}
+
+// Disable filter when needed
+var allUsers = await context.Users
+    .IgnoreQueryFilters()
+    .ToListAsync();
+```
+
+## Multi-Tenant Filter
+
+```csharp
+public class Blog
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public int TenantId { get; set; }
+}
+
+modelBuilder.Entity<Blog>().HasQueryFilter(b => b.TenantId == _currentTenantId);
+```
+
+# Shadow Properties
+
+## Defining
+
+```csharp
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    modelBuilder.Entity<User>()
+        .Property<DateTime>("CreatedAt")
+        .HasDefaultValueSql("GETUTCDATE()");
+
+    modelBuilder.Entity<User>()
+        .Property<string>("CreatedBy")
+        .HasMaxLength(100);
+}
+```
+
+## Setting Values
+
+```csharp
+context.Entry(user).Property("CreatedAt").CurrentValue = DateTime.UtcNow;
+context.Entry(user).Property("CreatedBy").CurrentValue = "system";
+
+// In SaveChanges
+public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+{
+    var entries = ChangeTracker.Entries()
+        .Where(e => e.State == EntityState.Added);
+
+    foreach (var entry in entries)
+    {
+        entry.Property("CreatedAt").CurrentValue = DateTime.UtcNow;
+    }
+
+    return base.SaveChangesAsync(cancellationToken);
+}
+```
+
+# Best Practices
+
+## DbContext Lifetime
+
+```csharp
+// Scoped (recommended for web apps)
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
+// Using in controller
+public class UserController
+{
+    private readonly AppDbContext _context;
+
+    public UserController(AppDbContext context)
+    {
+        _context = context;
+    }
+}
+```
+
+## Async All the Way
+
+```csharp
+// Always use async in ASP.NET Core
+public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+{
+    return await context.Users.ToListAsync();
+}
+```
+
+## Dispose Properly
+
+```csharp
+// Don't dispose manually when using DI
+public class UnitOfWork : IDisposable
+{
+    private readonly AppDbContext _context;
+
+    public UnitOfWork(AppDbContext context)
+    {
+        _context = context;
+    }
+
+    public void Dispose()
+    {
+        _context.Dispose();
+    }
+}
+```
+
+## Avoid Lazy Loading in Web Apps
+
+```csharp
+// Always use eager loading in web apps
+var users = await context.Users
+    .Include(u => u.Orders)
+    .ThenInclude(o => o.Items)
+    .ToListAsync();
+```
+
+# Testing
+
+## In-Memory Database
+
+```csharp
+dotnet add package Microsoft.EntityFrameworkCore.InMemory
+
+var options = new DbContextOptionsBuilder<AppDbContext>()
+    .UseInMemoryDatabase("TestDb")
+    .Options;
+
+using var context = new TestDbContext(options);
+```
+
+## Testing with Test Doubles
+
+```csharp
+public interface IUserRepository
+{
+    Task<User?> GetByIdAsync(int id);
+    Task<IEnumerable<User>> GetAllAsync();
+}
+
+public class UserRepository : IUserRepository
+{
+    private readonly AppDbContext _context;
+
+    public UserRepository(AppDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<User?> GetByIdAsync(int id)
+    {
+        return await _context.Users.FindAsync(id);
+    }
+}
+```
+
+## Test Setup
+
+```csharp
+public class UserRepositoryTests
+{
+    private AppDbContext CreateContext()
+    {
+        var options = new DbContextOptionsBuilder<AppDbContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
+
+        return new AppDbContext(options);
+    }
+
+    [Fact]
+    public async Task GetById_ReturnsUser()
+    {
+        using var context = CreateContext();
+        context.Users.Add(new User { Name = "Test", Email = "test@test.com" });
+        await context.SaveChangesAsync();
+
+        var repository = new UserRepository(context);
+        var user = await repository.GetByIdAsync(1);
+
+        Assert.NotNull(user);
+        Assert.Equal("Test", user.Name);
+    }
+}
+```
+
+# Advanced Patterns
+
+## Repository Pattern
+
+```csharp
+public interface IRepository<T> where T : class
+{
+    Task<T?> GetByIdAsync(int id);
+    Task<IEnumerable<T>> GetAllAsync();
+    Task AddAsync(T entity);
+    void Update(T entity);
+    void Delete(T entity);
+}
+
+public class Repository<T> : IRepository<T> where T : class
+{
+    protected readonly AppDbContext _context;
+    protected readonly DbSet<T> _dbSet;
+
+    public Repository(AppDbContext context)
+    {
+        _context = context;
+        _dbSet = context.Set<T>();
+    }
+
+    public virtual async Task<T?> GetByIdAsync(int id)
+    {
+        return await _dbSet.FindAsync(id);
+    }
+
+    public virtual async Task<IEnumerable<T>> GetAllAsync()
+    {
+        return await _dbSet.ToListAsync();
+    }
+
+    public virtual async Task AddAsync(T entity)
+    {
+        await _dbSet.AddAsync(entity);
+        await _context.SaveChangesAsync();
+    }
+}
+```
+
+## Unit of Work
+
+```csharp
+public interface IUnitOfWork
+{
+    IRepository<User> Users { get; }
+    IRepository<Order> Orders { get; }
+    Task<int> SaveChangesAsync();
+}
+
+public class UnitOfWork : IUnitOfWork
+{
+    private readonly AppDbContext _context;
+
+    public IRepository<User> Users { get; }
+    public IRepository<Order> Orders { get; }
+
+    public UnitOfWork(AppDbContext context)
+    {
+        _context = context;
+        Users = new Repository<User>(context);
+        Orders = new Repository<Order>(context);
+    }
+
+    public async Task<int> SaveChangesAsync()
+    {
+        return await _context.SaveChangesAsync();
+    }
+}
+```
+
+## Specification Pattern
+
+```csharp
+public interface ISpecification<T>
+{
+    Expression<Func<T, bool>> Criteria { get; }
+    List<Expression<Func<T, object>>> Includes { get; }
+    Expression<Func<T, object>>? OrderBy { get; }
+    Expression<Func<T, object>>? OrderByDescending { get; }
+}
+
+public class SpecificationEvaluator<T> where T : class
+{
+    public static IQueryable<T> GetQuery(IQueryable<T> query, ISpecification<T> spec)
+    {
+        if (spec.Criteria != null)
+            query = query.Where(spec.Criteria);
+
+        if (spec.OrderBy != null)
+            query = query.OrderBy(spec.OrderBy);
+
+        return query;
+    }
+}
+```
+
+# Next Steps
+
+Now that you know EF Core fundamentals:
+
+- Learn about EF Core Power Tools
+- Explore advanced migrations patterns
+- Study query optimization techniques
+- Learn about database-specific features
+- Explore real-world application architectures
+
+# References
+
+- [EF Core Documentation](https://docs.microsoft.com/en-us/ef/core/)
+- [EF Core Tutorial](https://www.entityframeworktutorial.net/)
+- [Learn Entity Framework Core](https://www.learnentityframeworkcore.com/)
+- [Microsoft Learn](https://learn.microsoft.com/en-us/training/paths/entity-framework-core/)
