@@ -1,0 +1,1098 @@
+---
+title: Learn SQLAlchemy
+description: A comprehensive SQLAlchemy Guide
+---
+
+Welcome to the comprehensive SQLAlchemy course. SQLAlchemy is Python's most popular SQL toolkit and ORM.
+
+# Table of contents
+
+- **Getting Started**
+  - [What is SQLAlchemy?](#what-is-sqlalchemy)
+  - [Why SQLAlchemy?](#why-sqlalchemy)
+  - [Installation and Setup](#installation-and-setup)
+
+- **Chapter I**
+  - [Engine and Connection](#engine-and-connection)
+  - [Tables and Metadata](#tables-and-metadata)
+  - [Models and Declarative](#models-and-declarative)
+  - [Sessions](#sessions)
+
+- **Chapter II**
+  - [CRUD Operations](#crud-operations)
+  - [Querying](#querying)
+  - [Filtering](#filtering)
+  - [Joins and Relationships](#joins-and-relationships)
+
+- **Chapter III**
+  - [ORM Mappings](#orm-mappings)
+  - [Inheritance](#inheritance)
+  - [Async Support](#async-support)
+  - [Transactions](#transactions)
+
+- **Chapter IV**
+  - [Raw SQL](#raw-sql)
+  - [Migrations with Alembic](#migrations-with-alembic)
+  - [Performance](#performance)
+  - [Caching](#caching)
+
+- **Chapter V**
+  - [Testing](#testing)
+  - [Patterns and Best Practices](#patterns-and-best-practices)
+  - [Common Patterns](#common-patterns)
+
+- **Appendix**
+  - [Next Steps](#next-steps)
+  - [References](#references)
+
+# What is SQLAlchemy?
+
+SQLAlchemy is a Python SQL toolkit and Object-Relational Mapper that provides flexibility and power for database operations.
+
+## Key Components
+
+- **Core**: SQL expression language and Engine
+- **ORM**: Object Relational Mapper built on Core
+- **Alembic**: Database migration tool
+
+## Philosophy
+
+SQLAlchemy treats SQL as a relational algebra engine, not just a string-based query language.
+
+# Why SQLAlchemy?
+
+## 1. Database Agnostic
+
+Write code once, run on PostgreSQL, MySQL, SQLite, etc.
+
+## 2. Pythonic
+
+Pythonic API that feels natural in Python.
+
+## 3. Flexible
+
+Use as little or as much of the ORM as you need.
+
+## 4. Production Ready
+
+Used by major companies worldwide.
+
+## 5. Well Documented
+
+Excellent documentation and community.
+
+# Installation and Setup
+
+## Installation
+
+```bash
+pip install sqlalchemy
+pip install alembic
+pip install psycopg2-binary  # PostgreSQL
+pip install pymysql          # MySQL
+pip install pysqlite3       # SQLite
+```
+
+## Basic Setup
+
+```python
+from sqlalchemy import create_engine
+
+# SQLite
+engine = create_engine("sqlite:///mydb.db")
+
+# PostgreSQL
+engine = create_engine(
+    "postgresql://user:password@localhost:5432/mydb"
+)
+
+# MySQL
+engine = create_engine(
+    "mysql+pymysql://user:password@localhost:3306/mydb"
+)
+
+# With connection pool
+engine = create_engine(
+    "postgresql://user:password@localhost/mydb",
+    pool_size=5,
+    max_overflow=10,
+    pool_pre_ping=True
+)
+```
+
+# Engine and Connection
+
+## Engine
+
+```python
+from sqlalchemy import create_engine
+
+engine = create_engine("sqlite:///mydb.db", echo=True)
+
+# echo=True prints SQL to stdout
+```
+
+## Connection
+
+```python
+# Using engine
+with engine.connect() as connection:
+    result = connection.execute(text("SELECT * FROM users"))
+    for row in result:
+        print(row)
+```
+
+## Working with Transactions
+
+```python
+with engine.connect() as connection:
+    with connection.begin():
+        connection.execute(text("INSERT INTO users VALUES (:name)"), {"name": "John"})
+        connection.execute(text("INSERT INTO users VALUES (:name)"), {"name": "Jane"})
+```
+
+# Tables and Metadata
+
+## Defining Tables
+
+```python
+from sqlalchemy import Table, Column, Integer, String, MetaData
+
+metadata = MetaData()
+
+users = Table(
+    "users",
+    metadata,
+    Column("id", Integer, primary_key=True),
+    Column("name", String(100), nullable=False),
+    Column("email", String(100), unique=True),
+    Column("age", Integer),
+    Column("created_at", DateTime, default=datetime.utcnow)
+)
+```
+
+## Column Types
+
+```python
+from sqlalchemy import (
+    Integer, String, Boolean, Float, DateTime,
+    Date, Time, LargeBinary, JSON, Enum, ARRAY,
+    Text, Numeric, Interval
+)
+
+Column("id", Integer, primary_key=True)
+Column("name", String(50))
+Column("active", Boolean, default=True)
+Column("price", Numeric(10, 2))
+Column("data", JSON)
+Column("tags", ARRAY(String))
+```
+
+## Constraints
+
+```python
+from sqlalchemy import PrimaryKeyConstraint, UniqueConstraint, CheckConstraint
+
+users = Table(
+    "users",
+    metadata,
+    Column("id", Integer),
+    Column("email", String(100)),
+    Column("age", Integer),
+    PrimaryKeyConstraint("id"),
+    UniqueConstraint("email"),
+    CheckConstraint("age >= 0")
+)
+```
+
+## Indexes
+
+```python
+Column("email", String(100), index=True)
+
+# Or explicit
+from sqlalchemy import Index
+Index("idx_name_email", "name", "email")
+```
+
+# Models and Declarative
+
+## Declarative Base
+
+```python
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy import String, Integer, Boolean, DateTime
+from datetime import datetime
+
+class Base(DeclarativeBase):
+    pass
+
+class User(Base):
+    __tablename__ = "users"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String(100))
+    email: Mapped[str] = mapped_column(String(100), unique=True)
+    age: Mapped[int] = mapped_column(default=0)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, default=datetime.utcnow
+    )
+```
+
+## Creating Tables
+
+```python
+# Create all tables
+Base.metadata.create_all(engine)
+
+# Drop all tables
+Base.metadata.drop_all(engine)
+
+# Create specific table
+users_table.create(engine, checkfirst=True)
+```
+
+## Type Annotations
+
+```python
+from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import String, Integer
+
+# Python 3.9+ with generic types
+from __future__ import annotations
+```
+
+# Sessions
+
+## Creating Sessions
+
+```python
+from sqlalchemy.orm import Session, sessionmaker
+
+# Create session factory
+SessionLocal = sessionmaker(bind=engine)
+
+# Create session
+with SessionLocal() as session:
+    # use session
+    pass
+
+# Or manually
+session = SessionLocal()
+try:
+    # use session
+    session.commit()
+except:
+    session.rollback()
+finally:
+    session.close()
+```
+
+## Session Operations
+
+```python
+session.add(user)           # Add single
+session.add_all([user1, user2])  # Add multiple
+session.commit()            # Commit transaction
+session.rollback()          # Rollback
+session.close()            # Close session
+session.flush()            # Flush to DB
+```
+
+## Querying with Session
+
+```python
+session.query(User).all()                    # All users
+session.query(User).filter(User.id == 1)   # Filter
+session.query(User).first()                 # First result
+session.query(User).one()                  # Exactly one
+session.query(User).one_or_none()          # One or none
+```
+
+# CRUD Operations
+
+## Create
+
+```python
+# Create new user
+user = User(name="John", email="john@example.com")
+session.add(user)
+session.commit()
+
+# Multiple
+users = [User(name="John"), User(name="Jane")]
+session.add_all(users)
+session.commit()
+
+# Get generated ID
+session.add(user)
+session.flush()  # Flush to get ID without commit
+print(user.id)
+```
+
+## Read
+
+```python
+# Get by primary key
+user = session.get(User, 1)
+
+# Query
+user = session.query(User).filter(User.id == 1).first()
+user = session.query(User).filter_by(id=1).first()
+```
+
+## Update
+
+```python
+user = session.get(User, 1)
+user.name = "Updated Name"
+session.commit()
+
+# Bulk update (SQLAlchemy 1.4+)
+from sqlalchemy import update
+stmt = update(User).where(User.id == 1).values(name="New Name")
+session.execute(stmt)
+session.commit()
+```
+
+## Delete
+
+```python
+user = session.get(User, 1)
+session.delete(user)
+session.commit()
+
+# Bulk delete
+from sqlalchemy import delete
+stmt = delete(User).where(User.is_active == False)
+session.execute(stmt)
+session.commit()
+```
+
+# Querying
+
+## Basic Queries
+
+```python
+# All users
+session.query(User).all()
+
+# First result
+session.query(User).first()
+
+# Single result
+session.query(User).filter(User.id == 1).one()
+
+# Count
+session.query(User).count()
+session.query(func.count(User.id)).scalar()
+```
+
+## Selecting Columns
+
+```python
+from sqlalchemy import select
+
+stmt = select(User.name, User.email)
+result = session.execute(stmt)
+for name, email in result:
+    print(name, email)
+
+# Using scalars
+stmt = select(User.name).where(User.id == 1)
+name = session.execute(stmt).scalar_one()
+```
+
+## Ordering
+
+```python
+session.query(User).order_by(User.name)
+session.query(User).order_by(User.name.desc())
+session.query(User).order_by(User.name.asc())
+session.query(User).order_by(User.created_at.desc(), User.name)
+```
+
+## Limiting
+
+```python
+session.query(User).limit(10).all()
+session.query(User).offset(20).limit(10).all()
+session.query(User).slice(0, 10).all()
+```
+
+# Filtering
+
+## Filter Operators
+
+```python
+# Equality
+session.query(User).filter(User.id == 1)
+session.query(User).filter(User.id == None)  # NULL check
+
+# Comparison
+session.query(User).filter(User.age > 18)
+session.query(User).filter(User.age >= 18)
+session.query(User).filter(User.age < 65)
+session.query(User).filter(User.age <= 65)
+session.query(User).filter(User.age.between(18, 65))
+
+# IN
+session.query(User).filter(User.id.in_([1, 2, 3]))
+session.query(User).filter(~User.id.in_([4, 5, 6]))
+
+# LIKE
+session.query(User).filter(User.name.like('%John%'))
+session.query(User).filter(User.name.ilike('%john%'))  # Case insensitive
+
+# String functions
+session.query(User).filter(User.name.startswith('J'))
+session.query(User).filter(User.name.endswith('n'))
+session.query(User).filter(User.name.contains('ohn'))
+```
+
+## Boolean Operations
+
+```python
+# AND
+session.query(User).filter(and_(User.age > 18, User.is_active == True))
+session.query(User).filter(User.age > 18, User.is_active == True)  # Implicit
+session.query(User).filter(and_(
+    User.age > 18,
+    or_(User.is_active == True, User.name == "Admin")
+))
+
+# OR
+session.query(User).filter(or_(User.id == 1, User.id == 2))
+
+# NOT
+session.query(User).filter(~User.is_active)
+session.query(User).filter(User.is_active == False)
+```
+
+## NULL Handling
+
+```python
+session.query(User).filter(User.phone.is_(None))
+session.query(User).filter(User.phone.isnot(None))
+session.query(User).filter(User.phone.is_distinct_from(None))
+```
+
+## Text Expressions
+
+```python
+from sqlalchemy import text
+
+session.query(User).filter(text("id < 10"))
+session.query(User).filter(text("name LIKE :name")).params(name="%John%")
+```
+
+# Joins and Relationships
+
+## Defining Relationships
+
+```python
+from sqlalchemy.orm import relationship, Mapped, mapped_column
+from sqlalchemy import String, Integer, ForeignKey
+from datetime import datetime
+
+class User(Base):
+    __tablename__ = "users"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String(100))
+
+    # One-to-many relationship
+    orders: Mapped[List["Order"]] = relationship(
+        "Order", back_populates="user", cascade="all, delete-orphan"
+    )
+
+class Order(Base):
+    __tablename__ = "orders"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    total: Mapped[float] = mapped_column(default=0)
+
+    user: Mapped["User"] = relationship("User", back_populates="orders")
+```
+
+## Types of Relationships
+
+```python
+# One-to-One
+class User(Base):
+    __tablename__ = "users"
+    profile: Mapped["Profile"] = relationship(
+        "Profile", back_populates="user", uselist=False
+    )
+
+# Many-to-Many
+tags = Table(
+    "article_tags", Base.metadata,
+    Column("article_id", ForeignKey("articles.id"), primary_key=True),
+    Column("tag_id", ForeignKey("tags.id"), primary_key=True)
+)
+
+class Article(Base):
+    __tablename__ = "articles"
+    tags: Mapped[List["Tag"]] = relationship("Tag", secondary=tags)
+
+class Tag(Base):
+    __tablename__ = "tags"
+```
+
+## Querying with Joins
+
+```python
+# Simple join
+for user, order in session.query(User, Order).filter(User.id == Order.user_id):
+    print(user.name, order.total)
+
+# Using relationship
+session.query(User).join(Order).filter(Order.total > 100)
+
+# Explicit join
+session.query(User).join(Order, User.id == Order.user_id)
+
+# Outer join
+session.query(User).outerjoin(Order)
+```
+
+## Eager Loading
+
+```python
+from sqlalchemy.orm import selectinload, joinedload, subqueryload
+
+# joinedload - uses LEFT OUTER JOIN
+session.query(User).options(joinedload(User.orders)).all()
+
+# selectinload - uses separate IN query
+session.query(User).options(selectinload(User.orders)).all()
+
+# subqueryload - uses subquery
+session.query(User).options(subqueryload(User.orders)).all()
+```
+
+# ORM Mappings
+
+## Back Populates
+
+```python
+class Parent(Base):
+    __tablename__ = "parent"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    children: Mapped[List["Child"]] = relationship("Child", back_populates="parent")
+
+class Child(Base):
+    __tablename__ = "child"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    parent_id: Mapped[int] = mapped_column(ForeignKey("parent.id"))
+    parent: Mapped["Parent"] = relationship("Child", back_populates="parent")
+```
+
+## Back Reference
+
+```python
+class User(Base):
+    __tablename__ = "users"
+    orders: Mapped[List["Order"]] = relationship(
+        back_populates="user",
+        cascade="all, delete-orphan"
+    )
+
+class Order(Base):
+    __tablename__ = "orders"
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    user: Mapped["User"] = relationship(back_populates="orders")
+```
+
+## Lazy Loading
+
+```python
+# Default is 'select' (lazy)
+orders: Mapped[List["Order"]] = relationship("Order", lazy="select")
+
+# Options
+orders: Mapped[List["Order"]] = relationship("Order", lazy="joined")  # Eager
+orders: Mapped[List["Order"]] = relationship("Order", lazy="subquery")
+orders: Mapped[List["Order"]] = relationship("Order", lazy="selectin")
+orders: Mapped[List["Order"]] = relationship("Order", lazy="raise")
+orders: Mapped[List["Order"]] = relationship("Order", lazy="raise_on_default")
+orders: Mapped[List["Order"]] = relationship("Order", lazy="noload")  # Never
+```
+
+## Cascade Options
+
+```python
+orders: Mapped[List["Order"]] = relationship(
+    "Order",
+    cascade="all, delete-orphan",  # Common setting
+    # cascade="save-update, merge"  # Only these
+)
+```
+
+# Inheritance
+
+## Single Table Inheritance
+
+```python
+class Employee(Base):
+    __tablename__ = "employees"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column()
+    employee_type: Mapped[str] = mapped_column()  # Discriminator
+
+    __mapper_args__ = {
+        "polymorphic_on": "employee_type",
+        "polymorphic_identity": "employee"
+    }
+
+class Manager(Employee):
+    __mapper_args__ = {"polymorphic_identity": "manager"}
+    department_size: Mapped[int] = mapped_column()
+
+class Engineer(Employee):
+    __mapper_args__ = {"polymorphic_identity": "engineer"}
+    programming_language: Mapped[str] = mapped_column()
+```
+
+## Concrete Table Inheritance
+
+```python
+class Employee(Base):
+    __tablename__ = "employees"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column()
+
+class Manager(Employee):
+    __tablename__ = "managers"
+    __mapper_args__ = {"concrete": True}
+    id: Mapped[int] = mapped_column(ForeignKey("employees.id"), primary_key=True)
+    department_size: Mapped[int] = mapped_column()
+```
+
+# Async Support
+
+## Async Engine
+
+```python
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
+
+engine = create_async_engine("sqlite+aiosqlite:///mydb.db")
+
+async_session = async_sessionmaker(
+    engine,
+    class_=AsyncSession,
+    expire_on_commit=False
+)
+
+# Or with PostgreSQL
+engine = create_async_engine(
+    "postgresql+asyncpg://user:pass@localhost/db"
+)
+```
+
+## Async Session
+
+```python
+async with async_session() as session:
+    async with session.begin():
+        user = User(name="John", email="john@example.com")
+        session.add(user)
+
+# Or
+session = async_session()
+try:
+    result = await session.execute(select(User))
+    users = result.scalars().all()
+finally:
+    await session.close()
+```
+
+## Async Queries
+
+```python
+async with async_session() as session:
+    # Query
+    result = await session.execute(select(User).where(User.id == 1))
+    user = result.scalar_one_or_none()
+
+    # Async iteration
+    result = await session.stream(select(User))
+    async for user in result.scalars():
+        print(user.name)
+```
+
+# Transactions
+
+## Basic Transaction
+
+```python
+with engine.connect() as conn:
+    with conn.begin():
+        conn.execute(text("INSERT INTO users VALUES (:name)"), {"name": "John"})
+```
+
+## Session Transaction
+
+```python
+# Each commit is its own transaction
+session.add(user)
+session.commit()  # Commits transaction
+
+# Multiple operations in one transaction
+try:
+    session.add(user1)
+    session.add(user2)
+    session.flush()  # Execute without commit
+
+    session.add(order)
+    session.commit()
+except:
+    session.rollback()
+    raise
+```
+
+## Savepoints
+
+```python
+session.begin_nested()  # Creates savepoint
+session.rollback_to_savepoint()  # Rollback to savepoint
+session.commit()  # Commits savepoint transaction
+```
+
+# Raw SQL
+
+## text()
+
+```python
+from sqlalchemy import text
+
+result = session.execute(text("SELECT * FROM users WHERE id = :id"), {"id": 1})
+for row in result:
+    print(row)
+```
+
+## Executing Raw SQL
+
+```python
+# Select
+result = session.execute(text("SELECT * FROM users"))
+for row in result:
+    print(row)
+
+# Insert
+session.execute(text("INSERT INTO users (name) VALUES (:name)"), {"name": "John"})
+
+# Update
+session.execute(
+    text("UPDATE users SET name = :name WHERE id = :id"),
+    {"name": "Jane", "id": 1}
+)
+
+# Delete
+session.execute(text("DELETE FROM users WHERE id = :id"), {"id": 1})
+```
+
+## SELECT with Core
+
+```python
+from sqlalchemy import select
+
+stmt = select(users).where(users.c.id == 1)
+result = session.execute(stmt)
+```
+
+# Migrations with Alembic
+
+## Installation
+
+```bash
+pip install alembic
+alembic init alembic
+```
+
+## Configuration
+
+```python
+# alembic.ini
+sqlalchemy.url = postgresql://user:pass@localhost/mydb
+
+# alembic/env.py
+from yourapp.database import Base
+target_metadata = Base.metadata
+```
+
+## Creating Migrations
+
+```bash
+alembic revision --autogenerate -m "Add users table"
+alembic upgrade head
+alembic downgrade -1
+alembic history
+```
+
+## Migration Example
+
+```python
+# revisions/abc123.py
+from alembic import op
+import sqlalchemy as sa
+
+revision = 'abc123'
+down_revision = 'previous_revision'
+alembic_version.table_name = 'alembic_version'
+
+def upgrade():
+    op.create_table(
+        'users',
+        sa.Column('id', sa.Integer(), nullable=False),
+        sa.Column('name', sa.String(100), nullable=False),
+        sa.PrimaryKeyConstraint('id')
+    )
+
+def downgrade():
+    op.drop_table('users')
+```
+
+# Performance
+
+## Query Logging
+
+```python
+engine = create_engine("sqlite:///mydb.db", echo=True)
+```
+
+## Bulk Operations
+
+```python
+# Bulk insert
+session.bulk_insert_mappings(User, [
+    {"name": "John", "email": "john@example.com"},
+    {"name": "Jane", "email": "jane@example.com"}
+])
+
+# Bulk update
+session.bulk_update_mappings(User, [
+    {"id": 1, "name": "Updated"},
+    {"id": 2, "name": "Updated 2"}
+])
+
+# Core insert
+from sqlalchemy import insert
+stmt = insert(users).values([
+    {"name": "John"},
+    {"name": "Jane"}
+])
+session.execute(stmt)
+```
+
+## Batch Inserts
+
+```python
+from sqlalchemy.dialects.postgresql import insert
+
+stmt = insert(users).values([
+    {"name": "John", "email": "john@example.com"},
+    {"name": "Jane", "email": "jane@example.com"}
+])
+stmt = stmt.on_conflict_do_nothing(index_elements=["email"])
+session.execute(stmt)
+```
+
+## N+1 Prevention
+
+```python
+# Always use eager loading for known relationships
+session.query(User).options(selectinload(User.orders))
+
+# Or configure in relationship
+class User(Base):
+    orders: Mapped[List["Order"]] = relationship(lazy="selectin")
+```
+
+# Caching
+
+## Query Caching
+
+```python
+from sqlalchemy.orm import query
+
+# Query cache is built-in for compiled queries
+result = session.query(User).filter(User.id == 1).all()
+```
+
+## Second Level Cache
+
+```python
+# Using dogpile.cache
+from sqlalchemy.ext.baked import baked
+
+bakery = baked(session)
+bakery += lambda s: s.query(User)
+result = bakery.one()
+```
+
+# Testing
+
+## In-Memory SQLite
+
+```python
+import pytest
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+@pytest.fixture
+def engine():
+    engine = create_engine("sqlite:///:memory:")
+    Base.metadata.create_all(engine)
+    return engine
+
+@pytest.fixture
+def session(engine):
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    yield session
+    session.close()
+
+def test_create_user(session):
+    user = User(name="John", email="john@example.com")
+    session.add(user)
+    session.commit()
+
+    assert user.id is not None
+    assert session.query(User).count() == 1
+```
+
+## Fixtures with pytest-asyncio
+
+```python
+import pytest
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
+
+@pytest.fixture
+async def async_session():
+    engine = create_async_engine("sqlite+aiosqlite:///:memory:")
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+
+    async_session = async_sessionmaker(
+        engine, class_=AsyncSession, expire_on_commit=False
+    )
+
+    async with async_session() as session:
+        yield session
+```
+
+# Patterns and Best Practices
+
+## Repository Pattern
+
+```python
+class UserRepository:
+    def __init__(self, session):
+        self.session = session
+
+    def get_by_id(self, id):
+        return self.session.get(User, id)
+
+    def get_by_email(self, email):
+        return self.session.query(User).filter(User.email == email).first()
+
+    def get_all(self):
+        return self.session.query(User).all()
+
+    def add(self, user):
+        self.session.add(user)
+        self.session.commit()
+        return user
+
+    def delete(self, user):
+        self.session.delete(user)
+        self.session.commit()
+```
+
+## Unit of Work
+
+```python
+class UnitOfWork:
+    def __init__(self):
+        self.session = None
+
+    def __enter__(self):
+        self.session = Session()
+        self.users = UserRepository(self.session)
+        return self
+
+    def __exit__(self, *args):
+        self.session.close()
+
+    def commit(self):
+        self.session.commit()
+
+    def rollback(self):
+        self.session.rollback()
+
+# Usage
+with UnitOfWork() as uow:
+    uow.users.add(User(name="John"))
+    uow.commit()
+```
+
+# Common Patterns
+
+## Soft Delete
+
+```python
+from sqlalchemy import event
+
+class SoftDeleteMixin:
+    deleted_at: Mapped[datetime] = mapped_column(nullable=True)
+
+    @classmethod
+    def get_active(cls, session):
+        return session.query(cls).filter(cls.deleted_at.is_(None))
+
+class User(Base, SoftDeleteMixin):
+    __tablename__ = "users"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column()
+```
+
+## Timestamp Mixin
+
+```python
+class TimestampMixin:
+    created_at: Mapped[datetime] = mapped_column(default=datetime.utcnow)
+    updated_at: Mapped[datetime] = mapped_column(
+        default=datetime.utcnow, onupdate=datetime.utcnow
+    )
+```
+
+## Pagination
+
+```python
+def paginate(query, page=1, per_page=20):
+    return query.offset((page - 1) * per_page).limit(per_page)
+
+users = paginate(session.query(User).filter(User.is_active), page=2)
+```
+
+# Next Steps
+
+Now that you know SQLAlchemy fundamentals:
+
+- Learn about more advanced ORM features
+- Explore async patterns for web frameworks
+- Study performance optimization
+- Learn Alembic for production migrations
+- Explore integration with FastAPI, Django, Flask
+
+# References
+
+- [SQLAlchemy Documentation](https://docs.sqlalchemy.org/)
+- [SQLAlchemy Tutorial](https://docs.sqlalchemy.org/tutorial/)
+- [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/)
+- [Alembic Documentation](https://alembic.sqlalchemy.org/)
+- [FastAPI SQLAlchemy](https://fastapi.tiangolo.com/tutorial/sql-databases/)

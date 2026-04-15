@@ -1,0 +1,1238 @@
+---
+title: Learn Django ORM
+description: A comprehensive Guide to Django ORM
+---
+
+Welcome to the comprehensive Django ORM course. Django's ORM is one of the most popular ORM frameworks for Python.
+
+# Table of contents
+
+- **Getting Started**
+  - [What is Django ORM?](#what-is-django-orm)
+  - [Why Django ORM?](#why-django-orm)
+  - [Setup and Configuration](#setup-and-configuration)
+
+- **Chapter I**
+  - [Models](#models)
+  - [Fields](#fields)
+  - [Meta Options](#meta-options)
+  - [Model Relationships](#model-relationships)
+
+- **Chapter II**
+  - [Creating Objects](#creating-objects)
+  - [Querying Objects](#querying-objects)
+  - [Filtering](#filtering)
+  - [Q Objects](#q-objects)
+
+- **Chapter III**
+  - [Related Names and Lookups](#related-names-and-lookups)
+  - [Aggregations](#aggregations)
+  - [Annotations](#annotations)
+  - [Prefetch and Select](#prefetch-and-select)
+
+- **Chapter IV**
+  - [Migrations](#migrations)
+  - [Transactions](#transactions)
+  - [Managers](#managers)
+  - [Custom Fields](#custom-fields)
+
+- **Chapter V**
+  - [Performance](#performance)
+  - [Testing](#testing)
+  - [Best Practices](#best-practices)
+  - [Advanced Patterns](#advanced-patterns)
+
+- **Appendix**
+  - [Next Steps](#next-steps)
+  - [References](#references)
+
+# What is Django ORM?
+
+Django's Object-Relational Mapper (ORM) is a powerful database abstraction layer that allows developers to work with databases using Python objects.
+
+## Key Characteristics
+
+- **Pythonic**: Pure Python API
+- **Lazy Evaluation**: Queries are deferred until accessed
+- **Database Agnostic**: Works with PostgreSQL, MySQL, SQLite, Oracle
+- **Migration System**: Version control for database schema
+- **Powerful Query API**: Complex queries made simple
+
+# Why Django ORM?
+
+## 1. No SQL Required
+
+Work entirely in Python without writing SQL.
+
+## 2. Database Portability
+
+Switch databases with minimal code changes.
+
+## 3. Admin Interface
+
+Auto-generated admin interface from models.
+
+## 4. Migrations
+
+Built-in migration system for schema evolution.
+
+## 5. Security
+
+Built-in protection against SQL injection.
+
+# Setup and Configuration
+
+## Basic Setup
+
+```python
+# settings.py
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'mydb',
+        'USER': 'user',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
+
+# Multiple databases
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'main_db',
+        'USER': 'user',
+        'PASSWORD': 'password',
+    },
+    'analytics': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'analytics_db',
+        'USER': 'analytics_user',
+        'PASSWORD': 'password',
+    }
+}
+```
+
+## Using SQLite
+
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+```
+
+# Models
+
+## Basic Model
+
+```python
+from django.db import models
+
+class User(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    age = models.IntegerField(null=True, blank=True)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['-created_at']
+```
+
+## Model Fields
+
+### CharField
+
+```python
+name = models.CharField(max_length=100)
+# max_length is required
+
+slug = models.SlugField(max_length=100, unique=True)
+username = models.CharField(max_length=50, unique=True)
+```
+
+### TextField
+
+```python
+bio = models.TextField()  # Unlimited text
+content = models.TextField(blank=True)
+```
+
+### Number Fields
+
+```python
+age = models.IntegerField()
+price = models.DecimalField(max_digits=10, decimal_places=2)
+rating = models.FloatField()
+percentage = models.PositiveIntegerField()  # >= 0
+balance = models.BigIntegerField()
+```
+
+### Date/Time Fields
+
+```python
+created_at = models.DateTimeField(auto_now_add=True)
+updated_at = models.DateTimeField(auto_now=True)
+birth_date = models.DateField()
+start_time = models.TimeField()
+```
+
+### Boolean Fields
+
+```python
+is_active = models.BooleanField(default=True)
+is_verified = models.BooleanField(default=False)
+has_permission = models.NullBooleanField()  # True, False, None
+```
+
+### Other Fields
+
+```python
+image = models.ImageField(upload_to='images/')
+file = models.FileField(upload_to='files/')
+uuid = models.UUIDField(default=uuid.uuid4)
+json_data = models.JSONField(default=dict)
+```
+
+# Fields
+
+## Field Options
+
+```python
+class User(models.Model):
+    name = models.CharField(
+        max_length=100,
+        null=True,          # Database: NULL
+        blank=True,         # Form validation: can be empty
+        default='Anonymous',
+        choices=[('M', 'Male'), ('F', 'Female')],
+        unique=True,
+        db_index=True,
+        error_messages={
+            'null': 'This field cannot be null.',
+            'blank': 'This field cannot be blank.',
+        }
+    )
+```
+
+## Field Types Reference
+
+| Field           | Description    | Parameters                 |
+| --------------- | -------------- | -------------------------- |
+| CharField       | Short text     | max_length                 |
+| TextField       | Long text      | -                          |
+| IntegerField    | Integer        | -                          |
+| BigIntegerField | Large integer  | -                          |
+| DecimalField    | Decimal        | max_digits, decimal_places |
+| FloatField      | Floating point | -                          |
+| BooleanField    | True/False     | -                          |
+| DateField       | Date           | -                          |
+| DateTimeField   | Date and time  | -                          |
+| TimeField       | Time           | -                          |
+| EmailField      | Email          | max_length                 |
+| URLField        | URL            | max_length                 |
+| SlugField       | URL-friendly   | max_length                 |
+| UUIDField       | UUID           | -                          |
+| JSONField       | JSON           | -                          |
+| ImageField      | Image file     | upload_to                  |
+| FileField       | File           | upload_to                  |
+
+## Relational Fields
+
+```python
+# One-to-One
+profile = models.OneToOneField(User, on_delete=models.CASCADE)
+
+# Foreign Key
+author = models.ForeignKey(User, on_delete=models.CASCADE)
+# on_delete: CASCADE, PROTECT, SET_NULL, SET_DEFAULT, DO_NOTHING
+
+# Many-to-Many
+tags = models.ManyToManyField(Tag)
+
+# Many-to-Many with through
+enrollments = models.ManyToManyField(Course, through='Enrollment')
+```
+
+# Meta Options
+
+```python
+class Meta:
+    # Table name (default: app_model)
+    db_table = 'custom_table_name'
+
+    # Ordering
+    ordering = ['-created_at', 'name']
+    # Negative for descending
+
+    # Indexes
+    indexes = [
+        models.Index(fields=['-created_at', 'name']),
+        models.Index(fields=['email']),
+    ]
+
+    # Constraints
+    constraints = [
+        models.UniqueConstraint(
+            fields=['first_name', 'last_name'],
+            name='unique_full_name'
+        ),
+        models.CheckConstraint(
+            check=models.Q(age__gte=0),
+            name='positive_age'
+        ),
+    ]
+
+    # Permissions
+    permissions = [
+        ('can_publish', 'Can publish posts'),
+    ]
+
+    # Verbose names
+    verbose_name = 'User'
+    verbose_name_plural = 'Users'
+
+    # Abstract model
+    abstract = True
+```
+
+# Model Relationships
+
+## One-to-One
+
+```python
+class User(models.Model):
+    name = models.CharField(max_length=100)
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField()
+    website = models.URLField(blank=True)
+```
+
+## Foreign Key (One-to-Many)
+
+```python
+class Author(models.Model):
+    name = models.CharField(max_length=100)
+
+class Book(models.Model):
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    title = models.CharField(max_length=200)
+    # Access: book.author.name
+    # Reverse: author.book_set.all()
+```
+
+## Many-to-Many
+
+```python
+class Student(models.Model):
+    name = models.CharField(max_length=100)
+
+class Course(models.Model):
+    students = models.ManyToManyField(Student)
+    # Access: course.students.all()
+    # Reverse: student.course_set.all()
+
+# With extra fields on relationship
+class Enrollment(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    enrolled_at = models.DateField()
+    grade = models.CharField(max_length=2)
+
+class Course(models.Model):
+    students = models.ManyToManyField(Student, through='Enrollment')
+```
+
+## Self-Referential
+
+```python
+class Employee(models.Model):
+    name = models.CharField(max_length=100)
+    manager = models.ForeignKey('self', on_delete=models.SET_NULL, null=True)
+```
+
+# Creating Objects
+
+## Creating via Model
+
+```python
+# Create and save
+user = User(name='John', email='john@example.com')
+user.save()
+
+# Create with related object
+author = Author.objects.create(name='Jane')
+
+# Bulk create
+users = [
+    User(name='John', email='john1@example.com'),
+    User(name='Jane', email='john2@example.com'),
+]
+User.objects.bulk_create(users)
+
+# bulk_create with update_conflicts
+User.objects.bulk_create(users, update_conflicts=True,
+    unique_fields=['email'],
+    update_fields=['name'])
+```
+
+## Getting Objects
+
+```python
+# Get by primary key
+user = User.objects.get(pk=1)
+user = User.objects.get(id=1)
+
+# Get with exception handling
+from django.core.exceptions import ObjectDoesNotExist
+try:
+    user = User.objects.get(pk=1)
+except ObjectDoesNotExist:
+    pass
+```
+
+## Updating Objects
+
+```python
+# Update single object
+user = User.objects.get(pk=1)
+user.name = 'Updated Name'
+user.save()
+
+# Update single field (efficient)
+User.objects.filter(pk=1).update(name='Updated Name')
+
+# Bulk update
+User.objects.filter(is_active=False).update(status='inactive')
+
+# Update with F expressions
+from django.db.models import F
+User.objects.all().update(counter=F('counter') + 1)
+```
+
+## Deleting Objects
+
+```python
+# Delete single object
+user = User.objects.get(pk=1)
+user.delete()
+
+# Bulk delete
+User.objects.filter(is_active=False).delete()
+
+# Delete all
+User.objects.all().delete()
+```
+
+# Querying Objects
+
+## QuerySet Basics
+
+```python
+# All objects
+User.objects.all()
+
+# Count
+User.objects.count()
+User.objects.filter(is_active=True).count()
+
+# Exists
+User.objects.filter(email='john@example.com').exists()
+
+# First and Last
+User.objects.first()
+User.objects.last()
+
+# Slicing
+User.objects.all()[:10]  # First 10
+User.objects.all()[5:15]  # 6-15
+```
+
+## Values and ValuesList
+
+```python
+# Values - returns dictionaries
+User.objects.values('name', 'email')
+
+# ValuesList - returns tuples
+User.objects.values_list('name', 'email')
+
+# Flat - returns single values
+User.objects.values_list('name', flat=True)
+```
+
+## Ordering
+
+```python
+# Ascending
+User.objects.order_by('name')
+
+# Descending
+User.objects.order_by('-name')
+
+# Multiple fields
+User.objects.order_by('-created_at', 'name')
+
+# Random
+from django.db.models import Random
+User.objects.order_by(Random())
+
+# Default ordering in Meta
+class Meta:
+    ordering = ['-created_at']
+```
+
+# Filtering
+
+## Basic Filters
+
+```python
+# Exact match
+User.objects.filter(name='John')
+User.objects.get(name__exact='John')
+
+# Case insensitive
+User.objects.filter(name__iexact='john')
+
+# Contains
+User.objects.filter(name__contains='ohn')
+
+# Case insensitive contains
+User.objects.filter(name__icontains='ohn')
+
+# Starts with / Ends with
+User.objects.filter(name__startswith='J')
+User.objects.filter(name__endswith='n')
+
+# In list
+User.objects.filter(id__in=[1, 2, 3])
+
+# Range
+from datetime import date
+User.objects.filter(created_at__range=[start_date, end_date])
+```
+
+## Lookups Reference
+
+| Lookup      | Description                           |
+| ----------- | ------------------------------------- |
+| exact       | Exact match                           |
+| iexact      | Exact match (case insensitive)        |
+| contains    | Contains (case sensitive)             |
+| icontains   | Contains (case insensitive)           |
+| startswith  | Starts with                           |
+| istartswith | Starts with (case insensitive)        |
+| endswith    | Ends with                             |
+| iendswith   | Ends with (case insensitive)          |
+| in          | In list                               |
+| gt          | Greater than                          |
+| gte         | Greater than or equal                 |
+| lt          | Less than                             |
+| lte         | Less than or equal                    |
+| range       | In range                              |
+| isnull      | Is NULL                               |
+| regex       | Regular expression                    |
+| iregex      | Regular expression (case insensitive) |
+
+## Date Lookups
+
+```python
+# Date field lookups
+Post.objects.filter(created_at__date=date.today())
+Post.objects.filter(created_at__year=2024)
+Post.objects.filter(created_at__month=12)
+Post.objects.filter(created_at__day=25)
+Post.objects.filter(created_at__week=10)
+Post.objects.filter(created_at__week_day=1)  # Sunday=1
+Post.objects.filter(created_at__quarter=1)
+Post.objects.filter(created_at__time=time(12, 0))
+Post.objects.filter(created_at__hour=14)
+Post.objects.filter(created_at__minute=30)
+```
+
+## NULL Handling
+
+```python
+# Is NULL
+User.objects.filter(phone__isnull=True)
+
+# Is NOT NULL
+User.objects.filter(phone__isnull=False)
+```
+
+# Q Objects
+
+## Basic Q Objects
+
+```python
+from django.db.models import Q
+
+# OR
+User.objects.filter(Q(name='John') | Q(name='Jane'))
+
+# AND
+User.objects.filter(Q(name='John') & Q(is_active=True))
+
+# NOT
+User.objects.filter(~Q(name='John'))
+
+# Complex
+User.objects.filter(
+    Q(name__startswith='J') |
+    (Q(is_active=True) & Q(age__gte=18))
+)
+```
+
+## Q Objects in Views
+
+```python
+# Search functionality
+query = request.GET.get('q')
+if query:
+    users = User.objects.filter(
+        Q(name__icontains=query) |
+        Q(email__icontains=query)
+    )
+```
+
+# Related Names and Lookups
+
+## Reverse Lookups
+
+```python
+# Foreign Key reverse
+author = Author.objects.get(pk=1)
+author.book_set.all()  # All books by author
+
+# Custom related_name
+class Book(models.Model):
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='books')
+author.books.all()  # Custom name
+```
+
+## Across Relationships
+
+```python
+# Through related objects
+Author.objects.filter(book__title__contains='Python')
+
+# Multiple relationships
+Book.objects.filter(author__name__startswith='J')
+
+# Deep relationships
+Publisher.objects.filter(book__author__name='Jane')
+```
+
+## Select Related
+
+```python
+# ForeignKey and OneToOne
+Book.objects.select_related('author').get(pk=1)
+# Single query instead of two
+
+# Multiple levels
+Book.objects.select_related('author', 'publisher').get(pk=1)
+
+# Reverse FK
+Author.objects.select_related('profile').filter(book__title='Django')
+```
+
+## Prefetch Related
+
+```python
+# ManyToMany and reverse FK
+Author.objects.prefetch_related('books').get(pk=1)
+
+# Prefetch with filter
+from django.db.models import Prefetch
+Author.objects.prefetch_related(
+    Prefetch('books', queryset=Book.objects.filter(published=True))
+)
+
+# Prefetch multiple
+Author.objects.prefetch_related('books', 'courses')
+```
+
+# Aggregations
+
+## Basic Aggregation
+
+```python
+from django.db.models import Count, Sum, Avg, Min, Max
+
+# Count
+User.objects.count()
+User.objects.filter(is_active=True).count()
+
+# Aggregate
+from django.db.models import Avg
+Book.objects.aggregate(avg_price=Avg('price'))
+# Returns: {'avg_price': 25.50}
+
+# Multiple aggregations
+Book.objects.aggregate(
+    total=Sum('price'),
+    avg=Avg('price'),
+    min=Min('price'),
+    max=Max('price')
+)
+```
+
+## Group By
+
+```python
+# Group by single field
+from django.db.models import Count
+Author.objects.annotate(book_count=Count('book'))
+# Each author with count of books
+
+# Group by multiple fields
+Publisher.objects.annotate(
+    author_count=Count('book__author'),
+    book_count=Count('book')
+)
+```
+
+## Filter in Aggregation
+
+```python
+# Count with filter
+Author.objects.annotate(
+    published_count=Count('book', filter=Q(book__published=True))
+)
+
+# Conditional aggregation
+Book.objects.aggregate(
+    total_price=Sum('price', filter=Q(published=True))
+)
+```
+
+# Annotations
+
+## Basic Annotations
+
+```python
+from django.db.models import Count, Value
+
+# Simple annotation
+User.objects.annotate(name_copy=Value('copy'))
+
+# From related
+Author.objects.annotate(book_count=Count('book'))
+```
+
+## Complex Annotations
+
+```python
+from django.db.models import F, Sum, Case, When, IntegerField
+
+Book.objects.annotate(
+    discounted_price=Case(
+        When(genre='fiction', then=F('price') * 0.9),
+        When(genre='nonfiction', then=F('price') * 0.85),
+        default=F('price'),
+        output_field=IntegerField()
+    )
+)
+```
+
+## Window Functions
+
+```python
+from django.db.models import F, RowNumber, Window
+
+Author.objects.annotate(
+    row_number=Window(expression=RowNumber(), order_by=F('name').asc())
+)
+```
+
+# Prefetch and Select
+
+## select_related
+
+```python
+# ForeignKey and OneToOne
+Book.objects.select_related('author', 'publisher')
+
+# Chained
+Book.objects.select_related('author__profile')
+```
+
+## prefetch_related
+
+```python
+# ManyToMany and reverse FK
+Author.objects.prefetch_related('books', 'courses')
+
+# Custom queryset
+from django.db.models import Prefetch
+Author.objects.prefetch_related(
+    Prefetch('books', queryset=Book.objects.filter(published=True))
+)
+```
+
+## When to Use Each
+
+```python
+# select_related: ForeignKey, OneToOne
+# Single SQL JOIN query
+
+# prefetch_related: ManyToMany, reverse FK
+# Two queries (main + related)
+```
+
+# Migrations
+
+## Creating Migrations
+
+```bash
+# Create migrations
+python manage.py makemigrations
+
+# Named migration
+python manage.py makemigrations --name add_email_field
+
+# Specific app
+python manage.py makemigrations myapp
+```
+
+## Applying Migrations
+
+```bash
+# Apply all
+python manage.py migrate
+
+# Specific app
+python manage.py migrate myapp
+
+# Specific migration
+python manage.py migrate myapp 0001_initial
+
+# Check status
+python manage.py showmigrations
+```
+
+## Migration Operations
+
+```python
+# Add field
+migrations.AddField(
+    model_name='user',
+    name='phone',
+    field=models.CharField(max_length=20, blank=True),
+)
+
+# Remove field
+migrations.RemoveField(
+    model_name='user',
+    name='phone',
+)
+
+# Alter field
+migrations.AlterField(
+    model_name='user',
+    name='email',
+    field=models.EmailField(max_length=255),
+)
+
+# Rename field
+migrations.RenameField(
+    model_name='user',
+    old_name='name',
+    new_name='full_name',
+)
+```
+
+## Data Migrations
+
+```python
+# migrations/0002_update_users.py
+from django.db import migrations
+
+def update_users(apps, schema_editor):
+    User = apps.get_model('myapp', 'User')
+    for user in User.objects.all():
+        user.name = user.name.upper()
+        user.save()
+
+def reverse_update(apps, schema_editor):
+    User = apps.get_model('myapp', 'User')
+    for user in User.objects.all():
+        user.name = user.name.lower()
+        user.save()
+
+class Migration(migrations.Migration):
+    dependencies = [('myapp', '0001_initial')]
+    operations = [
+        migrations.RunPython(update_users, reverse_update)
+    ]
+```
+
+# Transactions
+
+## Basic Transaction
+
+```python
+from django.db import transaction
+
+@transaction.atomic
+def transfer_funds(from_account, to_account, amount):
+    from_account.balance -= amount
+    from_account.save()
+    to_account.balance += amount
+    to_account.save()
+```
+
+## Transaction Options
+
+```python
+# Atomic block
+with transaction.atomic():
+    # Operations
+
+# Using savepoint
+with transaction.atomic():
+    user.save()
+    save_id = transaction.savepoint()
+    try:
+        order.save()
+    except:
+        transaction.savepoint_rollback(save_id)
+```
+
+## Non-atomic with Auto-commit
+
+```python
+# Disable auto-commit
+with transaction.autocommit():
+    # Must handle transaction manually
+```
+
+# Managers
+
+## Custom Manager
+
+```python
+class ActiveManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(is_active=True)
+
+class User(models.Model):
+    objects = models.Manager()  # Default
+    active_objects = ActiveManager()  # Custom
+```
+
+## Manager Methods
+
+```python
+class PublishedManager(models.Manager):
+    def published(self):
+        return self.filter(status='published')
+
+    def draft(self):
+        return self.filter(status='draft')
+
+class Post(models.Model):
+    title = models.CharField(max_length=200)
+    status = models.CharField(max_length=10, default='draft')
+
+    objects = models.Manager()
+    published = PublishedManager()
+```
+
+## Using Managers
+
+```python
+# Default
+User.objects.all()
+
+# Custom
+User.active_objects.all()
+Post.published.all()
+```
+
+# Custom Fields
+
+## Custom Field Example
+
+```python
+from django.db import models
+
+class UpperCharField(models.CharField):
+    def get_prep_value(self, value):
+        return value.upper() if value else value
+
+class User(models.Model):
+    name = UpperCharField(max_length=100)
+```
+
+## Database-Computed Field
+
+```python
+from django.db import models
+from django.db.models import Expression, CharField
+
+class ConcatExpression(Expression):
+    def __init__(self, *fields, **kwargs):
+        super().__init__(output_field=CharField(), **kwargs)
+        self.fields = fields
+
+    def as_sql(self, compiler, connection):
+        fields_sql = ' || '.join(
+            compiler.compile(field) for field in self.fields
+        )
+        return fields_sql, []
+
+class User(models.Model):
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+
+    @property
+    def full_name(self):
+        return f"{self.first_name} {self.last_name}"
+```
+
+# Performance
+
+## Query Optimization
+
+```python
+# Use select_related for FK
+Book.objects.select_related('author').get(pk=1)
+
+# Use prefetch_related for M2M
+Author.objects.prefetch_related('books').get(pk=1)
+
+# Only needed fields
+User.objects.values('name', 'email')
+
+# Avoid len() on QuerySet
+User.objects.count()  # Better than len(User.objects.all())
+
+# only() and defer()
+User.objects.only('name', 'email')  # Only these fields
+User.objects.defer('bio', 'avatar')  # Exclude these fields
+```
+
+## Bulk Operations
+
+```python
+# Bulk create
+User.objects.bulk_create([User(name='John'), User(name='Jane')])
+
+# Bulk update
+for user in users:
+    user.name = user.name.upper()
+User.objects.bulk_update(users, ['name'])
+
+# Bulk delete
+User.objects.filter(is_active=False).delete()
+```
+
+## Caching
+
+```python
+# QuerySet caching
+qs = User.objects.filter(is_active=True)
+# Not executed until accessed
+users = list(qs)  # Now cached
+
+# Cache framework
+from django.core.cache import cache
+cache.get_or_set('users', User.objects.all(), 60 * 15)
+```
+
+# Testing
+
+## Test Setup
+
+```python
+from django.test import TestCase
+from myapp.models import User
+
+class UserModelTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = User.objects.create(
+            name='Test User',
+            email='test@example.com'
+        )
+
+    def test_user_creation(self):
+        self.assertEqual(self.user.name, 'Test User')
+
+    def test_user_str(self):
+        self.assertEqual(str(self.user), 'Test User')
+```
+
+## Testing Queries
+
+```python
+from django.test import TestCase
+
+class UserQueryTest(TestCase):
+    def setUp(self):
+        User.objects.create(name='John', is_active=True)
+        User.objects.create(name='Jane', is_active=False)
+
+    def test_filter_active(self):
+        active = User.objects.filter(is_active=True)
+        self.assertEqual(active.count(), 1)
+
+    def test_filter_inactive(self):
+        inactive = User.objects.filter(is_active=False)
+        self.assertEqual(inactive.count(), 1)
+```
+
+## Using Fixtures
+
+```python
+# fixtures/users.json
+[
+    {
+        "model": "myapp.user",
+        "pk": 1,
+        "fields": {
+            "name": "John",
+            "email": "john@example.com"
+        }
+    }
+]
+
+# In tests
+class UserTestCase(TestCase):
+    fixtures = ['users.json']
+```
+
+# Best Practices
+
+## Model Design
+
+```python
+# Use natural keys when possible
+class User(models.Model):
+    email = models.EmailField(unique=True)
+
+# Use UUIDs for external references
+import uuid
+class Order(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+
+# Abstract models for shared fields
+class TimestampedModel(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+class Post(TimestampedModel):
+    title = models.CharField(max_length=200)
+```
+
+## Query Efficiency
+
+```python
+# Good
+users = User.objects.filter(is_active=True).only('id', 'name')
+
+# Bad
+users = User.objects.filter(is_active=True)  # Fetches all fields
+
+# Use annotate for computed values
+Author.objects.annotate(book_count=Count('book'))
+
+# Avoid annotations in filters
+# Instead of annotate then filter, filter then annotate
+```
+
+## Index Usage
+
+```python
+class Meta:
+    indexes = [
+        models.Index(fields=['-created_at', 'name']),
+    ]
+
+    # For unique fields
+    email = models.EmailField(unique=True)  # Auto-indexed
+```
+
+# Advanced Patterns
+
+## Soft Delete
+
+```python
+class SoftDeleteManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(deleted_at__isnull=True)
+
+class SoftDeleteModel(models.Model):
+    deleted_at = models.DateTimeField(null=True, blank=True)
+
+    objects = SoftDeleteManager()
+    all_objects = models.Manager()
+
+    def soft_delete(self):
+        self.deleted_at = timezone.now()
+        self.save()
+
+    def restore(self):
+        self.deleted_at = None
+        self.save()
+
+class User(SoftDeleteModel):
+    name = models.CharField(max_length=100)
+```
+
+## Tenant Pattern
+
+```python
+class TenantModel(models.Model):
+    tenant = models.ForeignKey('Tenant', on_delete=models.CASCADE)
+
+    class Meta:
+        abstract = True
+
+class User(TenantModel):
+    name = models.CharField(max_length=100)
+
+# QuerySet
+class TenantQuerySet(models.QuerySet):
+    def for_tenant(self, tenant):
+        return self.filter(tenant=tenant)
+
+class TenantManager(models.Manager):
+    def get_queryset(self):
+        return TenantQuerySet(self.model, using=self._db)
+
+class User(TenantModel):
+    objects = TenantManager()
+```
+
+# Next Steps
+
+Now that you know Django ORM fundamentals:
+
+- Learn Django REST Framework for APIs
+- Explore database optimization techniques
+- Study Django admin customization
+- Learn about database migrations in production
+- Explore Django signals for model events
+
+# References
+
+- [Django Documentation](https://docs.djangoproject.com/)
+- [Django ORM Documentation](https://docs.djangoproject.com/en/4.2/topics/db/)
+- [Django QuerySet API](https://docs.djangoproject.com/en/4.2/ref/models/querysets/)
+- [Django Migrations](https://docs.djangoproject.com/en/4.2/topics/migrations/)
