@@ -1,4 +1,10 @@
 {
   "title": "ORMs",
-  "pages": ["prisma", "entity-framework-core"]
+  "pages": [
+    "prisma",
+    "entity-framework-core",
+    "django-orm",
+    "hibernate-jpa",
+    "sqlalchemy"
+  ]
 }

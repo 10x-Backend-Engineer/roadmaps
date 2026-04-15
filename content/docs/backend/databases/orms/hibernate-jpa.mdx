@@ -1,0 +1,1271 @@
+---
+title: Learn Hibernate and JPA
+description: A comprehensive Hibernate and JPA course
+---
+
+Welcome to the comprehensive Hibernate and JPA course. Hibernate is the most popular ORM implementation for Java.
+
+# Table of contents
+
+- **Getting Started**
+  - [What is JPA and Hibernate?](#what-is-jpa-and-hibernate)
+  - [Why Hibernate?](#why-hibernate)
+  - [Installation and Setup](#installation-and-setup)
+
+- **Chapter I**
+  - [Entities](#entities)
+  - [Primary Keys](#primary-keys)
+  - [Basic Mappings](#basic-mappings)
+  - [Entity Manager](#entity-manager)
+
+- **Chapter II**
+  - [CRUD Operations](#crud-operations)
+  - [JPQL](#jpql)
+  - [Criteria API](#criteria-api)
+  - [Native Queries](#native-queries)
+
+- **Chapter III**
+  - [Relationships](#relationships)
+  - [Cascade Types](#cascade-types)
+  - [Fetching Strategies](#fetching-strategies)
+  - [Inheritance Mapping](#inheritance-mapping)
+
+- **Chapter IV**
+  - [Transactions](#transactions)
+  - [Locking](#locking)
+  - [Entity Lifecycle](#entity-lifecycle)
+  - [Callbacks and Listeners](#callbacks-and-listeners)
+
+- **Chapter V**
+  - [Performance](#performance)
+  - [Caching](#caching)
+  - [Spring Data JPA](#spring-data-jpa)
+  - [Best Practices](#best-practices)
+
+- **Appendix**
+  - [Next Steps](#next-steps)
+  - [References](#references)
+
+# What is JPA and Hibernate?
+
+## JPA (Java Persistence API)
+
+JPA is a specification (interface) for ORM in Java. It defines a set of interfaces and annotations.
+
+## Hibernate
+
+Hibernate is the most popular implementation of the JPA specification. It provides additional features beyond JPA.
+
+## Key Differences
+
+| Feature     | JPA               | Hibernate                 |
+| ----------- | ----------------- | ------------------------- |
+| Type        | Specification     | Implementation            |
+| Annotations | javax.persistence | org.hibernate.annotations |
+| Portability | Database agnostic | Additional features       |
+
+# Why Hibernate?
+
+## 1. Industry Standard
+
+Most Java enterprise applications use Hibernate.
+
+## 2. Productivity
+
+Focus on business logic, not SQL.
+
+## 3. Database Agnostic
+
+Switch databases easily.
+
+## 4. Performance
+
+Built-in caching and optimizations.
+
+## 5. Community
+
+Strong support and documentation.
+
+# Installation and Setup
+
+## Maven Dependencies
+
+```xml
+<!-- JPA API -->
+<dependency>
+    <groupId>jakarta.persistence</groupId>
+    <artifactId>jakarta.persistence-api</artifactId>
+    <version>3.1.0</version>
+</dependency>
+
+<!-- Hibernate Core -->
+<dependency>
+    <groupId>org.hibernate.orm</groupId>
+    <artifactId>hibernate-core</artifactId>
+    <version>6.2.0</version>
+</dependency>
+
+<!-- Hibernate for Jakarta EE -->
+<dependency>
+    <groupId>org.hibernate.orm</groupId>
+    <artifactId>hibernate-core</artifactId>
+    <version>6.2.0</version>
+    <classifier>jakarta</classifier>
+</dependency>
+
+<!-- Database Driver -->
+<dependency>
+    <groupId>org.postgresql</groupId>
+    <artifactId>postgresql</artifactId>
+    <version>42.6.0</version>
+</dependency>
+```
+
+## persistence.xml
+
+```xml
+<!-- META-INF/persistence.xml -->
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             version="3.0">
+
+    <persistence-unit name="myapp" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <class>com.example.entity.User</class>
+        <class>com.example.entity.Order</class>
+
+        <properties>
+            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="jakarta.persistence.jdbc.url"
+                     value="jdbc:postgresql://localhost:5432/mydb"/>
+            <property name="jakarta.persistence.jdbc.user" value="user"/>
+            <property name="jakarta.persistence.jdbc.password" value="password"/>
+
+            <property name="hibernate.dialect"
+                     value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>
+```
+
+## Programmatic Setup
+
+```java
+EntityManagerFactory emf = Persistence.createEntityManagerFactory("myapp");
+EntityManager em = emf.createEntityManager();
+```
+
+# Entities
+
+## @Entity and @Table
+
+```java
+@Entity
+@Table(name = "users")
+public class User {
+    // Fields and methods
+}
+```
+
+## @Id and @GeneratedValue
+
+```java
+@Entity
+@Table(name = "users")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "user_name", length = 100, nullable = false)
+    private String name;
+}
+```
+
+## Field vs Property Access
+
+```java
+// Field access (default with @Id on field)
+@Entity
+public class User {
+    @Id
+    @GeneratedValue
+    private Long id;
+}
+
+// Property access (with @Id on getter)
+@Entity
+public class User {
+    private Long id;
+
+    @Id
+    @GeneratedValue
+    public Long getId() { return id; }
+}
+```
+
+# Primary Keys
+
+## Auto-Generated
+
+```java
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+private Long id;
+
+// Or using GenerationType.SEQUENCE
+@Id
+@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+@SequenceGenerator(name = "user_seq", sequenceName = "user_id_seq")
+private Long id;
+```
+
+## Assigned Keys
+
+```java
+@Id
+private String isbn;
+```
+
+## Composite Keys
+
+```java
+// Using @IdClass
+@IdClass(OrderItemId.class)
+@Entity
+@Table(name = "order_items")
+public class OrderItem {
+    @Id
+    private Long orderId;
+
+    @Id
+    private Long productId;
+
+    private int quantity;
+}
+
+public class OrderItemId implements Serializable {
+    private Long orderId;
+    private Long productId;
+    // equals, hashCode
+}
+
+// Using @EmbeddedId
+@Embeddable
+public class OrderItemId implements Serializable {
+    private Long orderId;
+    private Long productId;
+}
+
+@Entity
+public class OrderItem {
+    @EmbeddedId
+    private OrderItemId id;
+    private int quantity;
+}
+```
+
+# Basic Mappings
+
+## @Column
+
+```java
+@Column(name = "email", length = 255, nullable = false, unique = true)
+private String email;
+
+@Column(columnDefinition = "VARCHAR(100) DEFAULT 'Unknown'")
+private String nickname;
+```
+
+## @Temporal
+
+```java
+@Temporal(TemporalType.DATE)
+private Date birthDate;
+
+@Temporal(TemporalType.TIME)
+private Date alarmTime;
+
+@Temporal(TemporalType.TIMESTAMP)
+private Date createdAt;
+```
+
+## @Enumerated
+
+```java
+public enum Status { ACTIVE, INACTIVE, PENDING }
+
+@Enumerated(EnumType.STRING)  // Or ORDINAL
+private Status status;
+```
+
+## @Lob
+
+```java
+@Lob
+private String description;  // CLOB
+
+@Lob
+private byte[] imageData;  // BLOB
+```
+
+## @Transient
+
+```java
+@Transient
+private int age;  // Not persisted
+```
+
+## @Formula
+
+```java
+@Formula("price * quantity")
+private double total;
+```
+
+# Entity Manager
+
+## Obtaining EntityManager
+
+```java
+// Container-managed (CDI)
+@PersistenceContext
+private EntityManager em;
+
+// Application-managed
+EntityManagerFactory emf = Persistence.createEntityManagerFactory("myapp");
+EntityManager em = emf.createEntityManager();
+```
+
+## Basic Operations
+
+```java
+// Find
+User user = em.find(User.class, 1L);
+
+// Persist
+em.persist(user);
+
+// Merge
+em.merge(user);
+
+// Remove
+em.remove(user);
+
+// Refresh
+em.refresh(user);
+
+// Detach
+em.detach(user);
+```
+
+## EntityTransaction
+
+```java
+EntityTransaction tx = em.getTransaction();
+tx.begin();
+try {
+    // Operations
+    em.persist(new User("John"));
+    tx.commit();
+} catch (Exception e) {
+    tx.rollback();
+    throw e;
+}
+```
+
+# CRUD Operations
+
+## Create
+
+```java
+User user = new User();
+user.setName("John");
+user.setEmail("john@example.com");
+
+em.persist(user);  // Returns void
+// Or
+User saved = em.merge(user);  // Returns merged entity
+```
+
+## Read
+
+```java
+// By primary key
+User user = em.find(User.class, 1L);
+
+// By reference (doesn't hit DB until used)
+User userRef = em.getReference(User.class, 1L);
+```
+
+## Update
+
+```java
+// If managed, changes auto-saved on flush
+User user = em.find(User.class, 1L);
+user.setName("Updated Name");
+// No explicit update needed
+
+// Merge detached entity
+em.merge(detachedUser);
+```
+
+## Delete
+
+```java
+User user = em.find(User.class, 1L);
+em.remove(user);
+```
+
+# JPQL
+
+## Basic Queries
+
+```java
+// Get all
+TypedQuery<User> query = em.createQuery("SELECT u FROM User u", User.class);
+List<User> users = query.getResultList();
+
+// With WHERE
+TypedQuery<User> query = em.createQuery(
+    "SELECT u FROM User u WHERE u.active = true AND u.name LIKE :name",
+    User.class);
+query.setParameter("name", "John%");
+List<User> users = query.getResultList();
+
+// Single result
+Query query = em.createQuery("SELECT COUNT(u) FROM User u");
+Long count = (Long) query.getSingleResult();
+```
+
+## Projections
+
+```java
+// Single column
+TypedQuery<String> query = em.createQuery(
+    "SELECT u.name FROM User u", String.class);
+
+// Multiple columns - Object[]
+TypedQuery<Object[]> query = em.createQuery(
+    "SELECT u.name, u.email FROM User u", Object[].class);
+List<Object[]> results = query.getResultList();
+
+// Constructor expression
+TypedQuery<UserDTO> query = em.createQuery(
+    "SELECT new com.example.UserDTO(u.name, u.email) FROM User u",
+    UserDTO.class);
+```
+
+## JOINs
+
+```java
+// Implicit join (creates Cartesian product)
+List<User> users = em.createQuery(
+    "SELECT u FROM User u WHERE u.address.city = 'NYC'",
+    User.class).getResultList();
+
+// Explicit join
+List<User> users = em.createQuery(
+    "SELECT DISTINCT u FROM User u JOIN u.orders o WHERE o.total > 100",
+    User.class).getResultList();
+
+// LEFT JOIN
+List<User> users = em.createQuery(
+    "SELECT u FROM User u LEFT JOIN u.profile p WHERE p IS NULL",
+    User.class).getResultList();
+```
+
+## Aggregate Functions
+
+```java
+SELECT COUNT(u) FROM User u
+SELECT AVG(o.total) FROM Order o
+SELECT SUM(o.total) FROM Order o
+SELECT MIN(u.createdAt) FROM User u
+SELECT MAX(u.createdAt) FROM User u
+SELECT COUNT(DISTINCT u.country) FROM User u
+```
+
+## GROUP BY and HAVING
+
+```java
+TypedQuery<Object[]> query = em.createQuery(
+    "SELECT u.country, COUNT(u) FROM User u GROUP BY u.country HAVING COUNT(u) > 10",
+    Object[].class);
+```
+
+## Subqueries
+
+```java
+// In WHERE
+SELECT u FROM User u WHERE u.orders.size > 5
+
+// Correlated subquery
+SELECT u FROM User u WHERE EXISTS (
+    SELECT o FROM Order o WHERE o.user = u AND o.total > 1000
+)
+```
+
+## Case Expressions
+
+```java
+SELECT CASE u.status
+    WHEN 'ACTIVE' THEN 'Enabled'
+    ELSE 'Disabled'
+END FROM User u
+
+SELECT CASE
+    WHEN u.orders.size = 0 THEN 'No orders'
+    WHEN u.orders.size < 5 THEN 'Few orders'
+    ELSE 'Many orders'
+END FROM User u
+```
+
+# Criteria API
+
+## Basic Queries
+
+```java
+CriteriaBuilder cb = em.getCriteriaBuilder();
+CriteriaQuery<User> cq = cb.createQuery(User.class);
+Root<User> user = cq.from(User.class);
+cq.select(user);
+List<User> users = em.createQuery(cq).getResultList();
+```
+
+## WHERE Clause
+
+```java
+CriteriaBuilder cb = em.getCriteriaBuilder();
+CriteriaQuery<User> cq = cb.createQuery(User.class);
+Root<User> user = cq.from(User.class);
+
+cq.where(
+    cb.and(
+        cb.equal(user.get("active"), true),
+        cb.like(user.get("name"), "John%")
+    )
+);
+
+List<User> users = em.createQuery(cq).getResultList();
+```
+
+## Predicates
+
+```java
+// Equal
+cb.equal(user.get("name"), "John");
+
+// Not equal
+cb.notEqual(user.get("status"), "INACTIVE");
+
+// Greater than
+cb.gt(user.get("age"), 18);
+
+// Like
+cb.like(user.get("name"), "%John%");
+
+// In
+cb.in(user.get("status")).value("ACTIVE").value("PENDING");
+
+// Between
+cb.between(user.get("createdAt"), startDate, endDate);
+
+// Is null
+cb.isNull(user.get("profile"));
+
+// Is empty
+cb.isEmpty(user.get("orders"));
+```
+
+## Projections
+
+```java
+CriteriaQuery<String> cq = cb.createQuery(String.class);
+Root<User> user = cq.from(User.class);
+cq.select(user.get("name"));
+List<String> names = em.createQuery(cq).getResultList();
+
+// Multiple columns
+CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
+Root<User> user = cq.from(User.class);
+cq.multiselect(user.get("name"), user.get("email"));
+List<Object[]> results = em.createQuery(cq).getResultList();
+```
+
+## Joins
+
+```java
+CriteriaQuery<User> cq = cb.createQuery(User.class);
+Root<User> user = cq.from(User.class);
+Join<User, Order> orders = user.join("orders");
+cq.where(cb.gt(orders.get("total"), 1000));
+cq.distinct(true);
+```
+
+## ORDER BY
+
+```java
+cq.orderBy(
+    cb.asc(user.get("name")),
+    cb.desc(user.get("createdAt"))
+);
+```
+
+## Group By
+
+```java
+CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
+Root<User> user = cq.from(User.class);
+Join<User, String> country = user.get("country");
+cq.multiselect(country, cb.count(user));
+cq.groupBy(country);
+cq.having(cb.gt(cb.count(user), 10));
+```
+
+## Metamodel
+
+```java
+CriteriaQuery<User> cq = cb.createQuery(User.class);
+Root<User> user = cq.from(User.class);
+cq.where(cb.equal(user.get(User_.name), "John"));
+```
+
+# Native Queries
+
+## Basic Native Query
+
+```java
+Query query = em.createNativeQuery(
+    "SELECT * FROM users WHERE active = true", User.class);
+List<User> users = query.getResultList();
+```
+
+## With Parameters
+
+```java
+Query query = em.createNativeQuery(
+    "SELECT * FROM users WHERE id = ?", User.class);
+query.setParameter(1, 1L);
+
+Query query = em.createNativeQuery(
+    "SELECT * FROM users WHERE name = :name", User.class);
+query.setParameter("name", "John");
+```
+
+## Scalar Results
+
+```java
+Query query = em.createNativeQuery(
+    "SELECT COUNT(*) FROM users");
+Number count = (Number) query.getSingleResult();
+```
+
+## Named Native Queries
+
+```java
+@NamedNativeQueries({
+    @NamedNativeQuery(
+        name = "User.findByEmail",
+        query = "SELECT * FROM users WHERE email = :email",
+        resultClass = User.class
+    )
+})
+@Entity
+public class User { }
+
+Query query = em.createNamedQuery("User.findByEmail");
+query.setParameter("email", "john@example.com");
+```
+
+## Result Set Mapping
+
+```java
+@SqlResultSetMapping(
+    name = "UserResult",
+    entities = @EntityResult(entityClass = User.class)
+)
+@Entity
+public class User { }
+
+// Or with column mapping
+@SqlResultSetMapping(
+    name = "UserNameResult",
+    columns = @ColumnResult(name = "user_name")
+)
+```
+
+# Relationships
+
+## @OneToOne
+
+```java
+@Entity
+public class User {
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @OneToOne
+    @JoinColumn(name = "profile_id")
+    private UserProfile profile;
+}
+
+// Bidirectional
+@Entity
+public class UserProfile {
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @OneToOne(mappedBy = "profile")
+    private User user;
+}
+```
+
+## @OneToMany
+
+```java
+@Entity
+public class User {
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Order> orders = new ArrayList<>();
+}
+
+// Unidirectional (uses join table)
+@OneToMany
+@JoinColumn(name = "user_id")  // Foreign key in Order table
+private List<Order> orders;
+```
+
+## @ManyToOne
+
+```java
+@Entity
+public class Order {
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+}
+```
+
+## @ManyToMany
+
+```java
+@Entity
+public class Student {
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @ManyToMany
+    @JoinTable(
+        name = "student_course",
+        joinColumns = @JoinColumn(name = "student_id"),
+        inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
+    private List<Course> courses = new ArrayList<>();
+}
+
+@Entity
+public class Course {
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @ManyToMany(mappedBy = "courses")
+    private List<Student> students = new ArrayList<>();
+}
+```
+
+# Cascade Types
+
+## Cascade Options
+
+```java
+@OneToMany(cascade = CascadeType.ALL)  // All operations
+@OneToMany(cascade = CascadeType.PERSIST)  // Only persist
+@OneToMany(cascade = CascadeType.MERGE)  // Only merge
+@OneToMany(cascade = CascadeType.REMOVE)  // Only remove
+@OneToMany(cascade = CascadeType.REFRESH)  // Only refresh
+@OneToMany(cascade = CascadeType.DETACH)  // Only detach
+```
+
+## Example
+
+```java
+@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+private List<Order> orders = new ArrayList<>();
+
+// When persisting user, orders are also persisted
+User user = new User();
+user.addOrder(new Order());
+em.persist(user);
+
+// When removing user, orders are also removed
+em.remove(user);
+```
+
+# Fetching Strategies
+
+## Eager vs Lazy
+
+```java
+@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)  // Default
+private List<Order> orders;
+
+@OneToOne(fetch = FetchType.EAGER)  // Not recommended
+private UserProfile profile;
+```
+
+## @Fetch(FetchMode)
+
+```java
+@OneToMany(mappedBy = "user")
+@Fetch(FetchMode.SUBSELECT)  // SUBSELECT, SELECT, JOIN
+private List<Order> orders;
+```
+
+## Entity Graph
+
+```java
+@NamedEntityGraph(
+    name = "User.withOrders",
+    attributeNodes = @NamedAttributeNode("orders")
+)
+@Entity
+public class User { }
+
+// Usage
+EntityGraph<?> graph = em.getEntityGraph("User.withOrders");
+List<User> users = em.createQuery("SELECT u FROM User u")
+    .setHint("jakarta.persistence.fetchgraph", graph)
+    .getResultList();
+
+// Dynamic entity graph
+EntityGraph<User> graph = em.createEntityGraph(User.class);
+graph.addAttributeNodes("orders");
+```
+
+# Inheritance Mapping
+
+## @Inheritance
+
+```java
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)  // Default
+@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Entity
+public class BillingDetails { }
+```
+
+## Single Table (Default)
+
+```java
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Entity
+public abstract class BillingDetails {
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
+    private BillingType type;
+}
+
+@Entity
+public class CreditCard extends BillingDetails {
+    private String cardNumber;
+}
+
+@Entity
+public class BankAccount extends BillingDetails {
+    private String accountNumber;
+}
+```
+
+## Joined Table
+
+```java
+@Inheritance(strategy = InheritanceType.JOINED)
+@Entity
+public abstract class BillingDetails {
+    @Id
+    @GeneratedValue
+    private Long id;
+}
+
+@Entity
+public class CreditCard extends BillingDetails {
+    private String cardNumber;
+}
+```
+
+# Transactions
+
+## Container-Managed (CDI)
+
+```java
+@Stateless
+public class UserService {
+    @PersistenceContext
+    private EntityManager em;
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void saveUser(User user) {
+        em.persist(user);
+    }
+}
+```
+
+## Application-Managed
+
+```java
+EntityManagerFactory emf = Persistence.createEntityManagerFactory("myapp");
+EntityManager em = emf.createEntityManager();
+
+em.getTransaction().begin();
+try {
+    em.persist(new User("John"));
+    em.getTransaction().commit();
+} catch (Exception e) {
+    em.getTransaction().rollback();
+    throw e;
+}
+```
+
+## REQUIRED vs REQUIRES_NEW
+
+```java
+@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)  // New transaction
+public void newTransaction() {
+    // Runs in separate transaction
+}
+```
+
+# Locking
+
+## Optimistic Locking
+
+```java
+@Version
+private Long version;
+
+// On conflict, throws OptimisticLockException
+```
+
+## Pessimistic Locking
+
+```java
+// Lock mode types
+User user = em.find(User.class, 1L,
+    LockModeType.PESSIMISTIC_WRITE);  // Exclusive lock
+// Or PESSIMISTIC_READ
+
+// Using query
+TypedQuery<User> query = em.createQuery("SELECT u FROM User u", User.class);
+query.setLockMode(LockModeType.PESSIMISTIC_WRITE);
+```
+
+## Lock Modes
+
+| Mode                       | Description                   |
+| -------------------------- | ----------------------------- |
+| PESSIMISTIC_READ           | Shared lock, prevents updates |
+| PESSIMISTIC_WRITE          | Exclusive lock                |
+| OPTIMISTIC                 | Version check on commit       |
+| OPTIMISTIC_FORCE_INCREMENT | Force version increment       |
+
+# Entity Lifecycle
+
+## States
+
+```
+new -> (persist) -> managed
+     -> (merge)  -> managed
+
+managed -> (remove) -> removed
+        -> (clear/detach) -> detached
+
+detached -> (merge) -> managed
+         -> (remove) -> removed
+```
+
+## Lifecycle Callbacks
+
+```java
+@Entity
+public class User {
+    @PrePersist
+    public void beforeInsert() {
+        createdAt = LocalDateTime.now();
+    }
+
+    @PostPersist
+    public void afterInsert() {
+        System.out.println("User created: " + id);
+    }
+
+    @PreUpdate
+    public void beforeUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PostUpdate
+    public void afterUpdate() {
+        System.out.println("User updated: " + id);
+    }
+
+    @PreRemove
+    public void beforeDelete() {
+        System.out.println("Deleting user");
+    }
+
+    @PostRemove
+    public void afterDelete() {
+        System.out.println("User deleted");
+    }
+
+    @PostLoad
+    public void afterLoad() {
+        System.out.println("User loaded");
+    }
+}
+```
+
+# Callbacks and Listeners
+
+## Entity Listeners
+
+```java
+public class AuditListener {
+    @PrePersist
+    public void prePersist(Object entity) {
+        if (entity instanceof Auditable) {
+            ((Auditable) entity).setCreatedAt(Instant.now());
+        }
+    }
+}
+
+@Entity
+@EntityListeners(AuditListener.class)
+public class User implements Auditable {
+    private Instant createdAt;
+}
+```
+
+## Interface-based Callbacks
+
+```java
+public interface Auditable {
+    Instant getCreatedAt();
+    void setCreatedAt(Instant createdAt);
+}
+```
+
+# Performance
+
+## Batch Insert/Update
+
+```java
+// properties
+<property name="hibernate.jdbc.batch_size" value="50"/>
+<property name="hibernate.order_inserts" value="true"/>
+<property name="hibernate.order_updates" value="true"/>
+
+// Code
+for (int i = 0; i < users.size(); i++) {
+    em.persist(users.get(i));
+    if (i % 50 == 0) {
+        em.flush();
+        em.clear();
+    }
+}
+```
+
+## @BatchSize
+
+```java
+@OneToMany(mappedBy = "user")
+@BatchSize(size = 25)
+private List<Order> orders;
+```
+
+## Statistics
+
+```java
+<property name="hibernate.generate_statistics" value="true"/>
+
+SessionFactory sf = emf.unwrap(SessionFactory.class);
+Statistics stats = sf.getStatistics();
+stats.setStatisticsEnabled(true);
+```
+
+# Caching
+
+## First-Level Cache
+
+```java
+// Enabled by default, scoped to EntityManager
+User u1 = em.find(User.class, 1L);  // DB query
+User u2 = em.find(User.class, 1L);  // Cache hit
+```
+
+## Second-Level Cache
+
+```java
+// Enable in properties
+<property name="hibernate.cache.use_second_level_cache" value="true"/>
+<property name="hibernate.cache.region.factory_class"
+          value="org.hibernate.cache.jcache.JCacheRegionFactory"/>
+
+// Annotate entities
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Entity
+public class User { }
+
+// Or collection
+@OneToMany(mappedBy = "user")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+private List<Order> orders;
+```
+
+## Query Cache
+
+```java
+<property name="hibernate.cache.use_query_cache" value="true"/>
+
+Query query = em.createQuery("SELECT u FROM User u WHERE u.active = true");
+query.setHint("jakarta.persistence.cache.store", "CACHE");
+```
+
+# Spring Data JPA
+
+## Repository
+
+```java
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByEmail(String email);
+
+    List<User> findByActiveTrue();
+
+    @Query("SELECT u FROM User u WHERE u.name LIKE %:name%")
+    List<User> searchByName(@Param("name") String name);
+
+    @Modifying
+    @Query("UPDATE User u SET u.active = false WHERE u.lastLogin < :date")
+    int deactivateUsers(LocalDateTime date);
+}
+```
+
+## Custom Repository
+
+```java
+public interface UserRepositoryCustom {
+    List<User> findUsersWithOrders();
+}
+
+public class UserRepositoryImpl implements UserRepositoryCustom {
+    @PersistenceContext
+    private EntityManager em;
+
+    public List<User> findUsersWithOrders() {
+        // Custom implementation
+    }
+}
+
+public interface UserRepository
+    extends JpaRepository<User, Long>, UserRepositoryCustom { }
+```
+
+## JPA Specifications
+
+```java
+public class UserSpecifications {
+    public static Specification<User> hasName(String name) {
+        return (root, query, cb) ->
+            cb.like(root.get("name"), "%" + name + "%");
+    }
+
+    public static Specification<User> isActive() {
+        return (root, query, cb) -> cb.isTrue(root.get("active"));
+    }
+}
+
+// Usage
+List<User> users = userRepository.findAll(
+    UserSpecifications.hasName("John")
+        .and(UserSpecifications.isActive())
+);
+```
+
+# Best Practices
+
+## Use Derived Queries Wisely
+
+```java
+// Avoid complex queries with method names
+// Use @Query for complex cases
+```
+
+## Use Projections
+
+```java
+// For read-only DTOs
+@Query("SELECT new UserDTO(u.name, u.email) FROM User u")
+List<UserDTO> findAllUserDTOs();
+```
+
+## Avoid N+1 Queries
+
+```java
+// Use JOIN FETCH
+@Query("SELECT u FROM User u LEFT JOIN FETCH u.orders")
+List<User> findAllWithOrders();
+
+// Or use EntityGraph
+@NamedEntityGraph(name = "User.withOrders",
+    attributeNodes = @NamedAttributeNode("orders"))
+```
+
+## Close EntityManager
+
+```java
+try {
+    EntityManager em = emf.createEntityManager();
+    // Use em
+} finally {
+    em.close();
+}
+
+// Or use @PersistenceContext with CDI (container manages lifecycle)
+```
+
+# Next Steps
+
+Now that you know Hibernate fundamentals:
+
+- Learn Spring Data JPA for simplified data access
+- Explore QueryDSL for type-safe queries
+- Study database-specific features
+- Learn about data audit with Envers
+- Explore performance tuning techniques
+
+# References
+
+- [Hibernate Documentation](https://docs.jboss.org/hibernate/orm/current/userguide/html_single/)
+- [JPA Specification](https://jakarta.ee/specifications/persistence/3.0/)
+- [Baeldung Hibernate Tutorial](https://www.baeldung.com/hibernate-5)
+- [Spring Data JPA Guide](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/)
